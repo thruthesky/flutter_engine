@@ -36,10 +36,11 @@ class EnginfModel extends ChangeNotifier {
     try {
       result = callableResult.data;
     } catch (e) {
-      throw 'error on allableResult.data in callFunctions()';
+      throw 'Error at allableResult.data EnginfModel::callFunctions()';
     }
 
     // print('=====> callableResult.data: <${result.runtimeType}> $result');
+    /// Result must be an Object. Not a string or number. So, it throws if it is a String.
     if (result is String) {
       throw result;
     } else {
@@ -122,5 +123,9 @@ class EnginfModel extends ChangeNotifier {
     return EnginfUser.fromMap(
       await callFunction({'route': 'user.data', 'data': user.uid}),
     );
+  }
+
+  Future categoryCreate(data) {
+    return callFunction({'route': 'category.create', 'data': data});
   }
 }
