@@ -4,6 +4,7 @@ import 'package:clientf/enginf_clientf_service/enginf.model.dart';
 EnginfModel f = EnginfModel();
 
 int failure = 0;
+String uid;
 equal(a, b) {
   if (a == b) {
     trace('===> OK');
@@ -59,6 +60,7 @@ testEnginfUser() async {
     String email = '$id@myemail.com';
     trace('email: $email');
     var user = await f.register({'email': email, 'password': '12345a'});
+    uid = user.uid;
     equal(user.email, email);
   } catch (e) {
     failed('Expect success. but Exception on register: $e');
