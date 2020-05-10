@@ -1,4 +1,7 @@
+import 'package:clientf/enginf_clientf_service/enginf.category.model.dart';
+import 'package:clientf/enginf_clientf_service/enginf.category_list.model.dart';
 import 'package:clientf/enginf_clientf_service/enginf.defines.dart';
+import 'package:clientf/enginf_clientf_service/enginf.error.model.dart';
 import 'package:clientf/enginf_clientf_service/enginf.user.model.dart';
 import 'package:cloud_functions/cloud_functions.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -36,13 +39,14 @@ class EnginfModel extends ChangeNotifier {
     try {
       result = callableResult.data;
     } catch (e) {
+      /// Error happened when calling Callable funtions. This should never happens.
       throw 'Error at allableResult.data EnginfModel::callFunctions()';
     }
 
-    // print('=====> callableResult.data: <${result.runtimeType}> $result');
-    /// Result must be an Object. Not a string or number. So, it throws if it is a String.
-    if (result is String) {
-      throw result;
+    /// The return value from callable function is always an object(Map or List). Not a String or Number.
+    /// When there is error on callable funtion, the returned object has `error` property with `true`.
+    if (result is Map && result['error'] == true) {
+      throw EnginError.fromMap(result);
     } else {
       return result;
     }
@@ -112,6 +116,7 @@ class EnginfModel extends ChangeNotifier {
     );
     await user.reload();
     user = await _auth.currentUser();
+    notifyListeners();
     return EnginfUser.fromMap(update);
   }
 
@@ -120,12 +125,30 @@ class EnginfModel extends ChangeNotifier {
   Future<EnginfUser> profile() async {
     if (notLoggedIn || user?.uid == null) throw LOGIN_FIRST;
     // print(user.uid);
-    return EnginfUser.fromMap(
-      await callFunction({'route': 'user.data', 'data': user.uid}),
-    );
+    final profile =
+        await callFunction({'route': 'user.data', 'data': user.uid});
+    print('profile: ');
+    print(profile);
+    return EnginfUser.fromMap(profile);
   }
 
   Future categoryCreate(data) {
     return callFunction({'route': 'category.create', 'data': data});
+  }
+
+
+  Future categoryUpdate(data) {
+    return callFunction({'route': 'category.update', 'data': data});
+  }
+
+
+  Future<EnginCategory> categoryData(String id) async {
+    var re = await callFunction({'route': 'category.data', 'data': id});
+    return EnginCategory.fromEnginData(re);
+  }
+
+  Future<EnginCategoryList> categoryList() async {
+    return EnginCategoryList.fromEnginData(
+        await callFunction({'route': 'category.list'}));
   }
 }
