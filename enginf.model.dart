@@ -151,8 +151,14 @@ class EnginfModel extends ChangeNotifier {
         await callFunction({'route': 'category.list'}));
   }
 
-  Future postCreate(data) {
-    return callFunction({'route': 'post.create', 'data': data});
+  Future<EnginPost> postCreate(data) async {
+    final post = await callFunction({'route': 'post.create', 'data': data});
+    return EnginPost.fromEnginData(post);
+  }
+
+  Future<EnginPost> postUpdate(data) async {
+    final post = await callFunction({'route': 'post.update', 'data': data});
+    return EnginPost.fromEnginData(post);
   }
 
   /// @return List<EnginPost> of posts

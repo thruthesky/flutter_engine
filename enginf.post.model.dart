@@ -5,7 +5,9 @@ class EnginPost {
   int created;
   int updated;
   String uid;
+  String id;
   EnginPost({
+    this.id,
     this.uid,
     this.categories,
     this.title,
@@ -15,6 +17,7 @@ class EnginPost {
   });
   factory EnginPost.fromEnginData(Map<dynamic, dynamic> data) {
     return EnginPost(
+      id: data['id'],
       categories: data['categories'],
       title: data['title'],
       content: data['content'],
@@ -26,6 +29,6 @@ class EnginPost {
 
   @override
   String toString() {
-    return "$categories, $uid, $title, $content $created $updated";
+    return "id: $id, uid: $uid, categories: $categories, title: $title, content: $content, created: $created, updated: $updated";
   }
 }
