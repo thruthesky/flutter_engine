@@ -2,6 +2,7 @@ import 'package:clientf/enginf_clientf_service/enginf.category.model.dart';
 import 'package:clientf/enginf_clientf_service/enginf.category_list.model.dart';
 import 'package:clientf/enginf_clientf_service/enginf.defines.dart';
 import 'package:clientf/enginf_clientf_service/enginf.error.model.dart';
+import 'package:clientf/enginf_clientf_service/enginf.post.model.dart';
 import 'package:clientf/enginf_clientf_service/enginf.user.model.dart';
 import 'package:cloud_functions/cloud_functions.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -136,11 +137,9 @@ class EnginfModel extends ChangeNotifier {
     return callFunction({'route': 'category.create', 'data': data});
   }
 
-
   Future categoryUpdate(data) {
     return callFunction({'route': 'category.update', 'data': data});
   }
-
 
   Future<EnginCategory> categoryData(String id) async {
     var re = await callFunction({'route': 'category.data', 'data': id});
@@ -152,8 +151,19 @@ class EnginfModel extends ChangeNotifier {
         await callFunction({'route': 'category.list'}));
   }
 
-
   Future postCreate(data) {
     return callFunction({'route': 'post.create', 'data': data});
+  }
+
+  /// @return List<EnginPost> of posts
+  ///   If there is no posts, then empty array will be returned.
+  Future<List<EnginPost>> postList(data) async {
+    final List posts = await callFunction({'route': 'post.list', 'data': data});
+
+    List<EnginPost> ret = [];
+    for (var e in posts) {
+      ret.add(EnginPost.fromEnginData(e));
+    }
+    return ret;
   }
 }
