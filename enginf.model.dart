@@ -161,6 +161,11 @@ class EnginfModel extends ChangeNotifier {
     return EnginPost.fromEnginData(post);
   }
 
+  Future<EnginPost> postDelete(String id) async {
+    final post = await callFunction({'route': 'post.delete', 'data': id});
+    return EnginPost.fromEnginData(post);
+  }
+
   /// @return List<EnginPost> of posts
   ///   If there is no posts, then empty array will be returned.
   Future<List<EnginPost>> postList(data) async {
