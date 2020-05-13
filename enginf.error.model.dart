@@ -1,14 +1,14 @@
-class EnginError {
+class EngineError {
   bool error;
   String code;
   String message;
-  EnginError({
+  EngineError({
     this.error,
     this.code,
     this.message,
   });
-  factory EnginError.fromMap(Map<dynamic, dynamic> data) {
-    return EnginError(
+  factory EngineError.fromMap(Map<dynamic, dynamic> data) {
+    return EngineError(
       error: data['error'],
       code: data['code'],
       message: data['message'],

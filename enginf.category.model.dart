@@ -1,14 +1,14 @@
-class EnginCategory {
+class EngineCategory {
   String id;
   String title;
   String description;
-  EnginCategory({
+  EngineCategory({
     this.id,
     this.title,
     this.description,
   });
-  factory EnginCategory.fromEnginData(Map<dynamic, dynamic> data) {
-    return EnginCategory(
+  factory EngineCategory.fromEnginData(Map<dynamic, dynamic> data) {
+    return EngineCategory(
       id: data['id'],
       title: data['title'],
       description: data['description'],

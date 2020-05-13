@@ -1,9 +1,7 @@
 import 'package:clientf/enginf_clientf_service/enginf.defines.dart';
 import 'package:clientf/enginf_clientf_service/enginf.model.dart';
-import 'package:cloud_functions/cloud_functions.dart';
-import 'package:flutter/services.dart';
 
-EnginfModel ft = EnginfModel();
+EngineModel ft = EngineModel();
 
 int failure = 0;
 String uid;
@@ -45,7 +43,7 @@ testError() async {
 }
 
 testRouter() async {
-  EnginfModel engin = EnginfModel();
+  EngineModel engin = EngineModel();
   try {
     await engin.callFunction({'route': 'wrong-class'});
   } catch (e) {
@@ -59,7 +57,7 @@ testRouter() async {
   }
 }
 
-testEnginfUser() async {
+testEngineUser() async {
   var now = new DateTime.now();
 
   var id = 'userid' +

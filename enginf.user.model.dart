@@ -1,18 +1,18 @@
-class EnginfUser {
+class EngineUser {
   String email;
   String displayName;
   String phoneNumber;
   String photoURL;
   String birthday;
-  EnginfUser({
+  EngineUser({
     this.email,
     this.displayName,
     this.phoneNumber,
     this.photoURL,
     this.birthday,
   });
-  factory EnginfUser.fromMap(Map<dynamic, dynamic> data) {
-    return EnginfUser(
+  factory EngineUser.fromMap(Map<dynamic, dynamic> data) {
+    return EngineUser(
       email: data['email'],
       displayName: data['displayName'],
       phoneNumber: data['phoneNumber'],

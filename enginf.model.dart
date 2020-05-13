@@ -1,5 +1,6 @@
 import 'package:clientf/enginf_clientf_service/enginf.category.model.dart';
 import 'package:clientf/enginf_clientf_service/enginf.category_list.model.dart';
+import 'package:clientf/enginf_clientf_service/enginf.comment.model.dart';
 import 'package:clientf/enginf_clientf_service/enginf.defines.dart';
 import 'package:clientf/enginf_clientf_service/enginf.error.model.dart';
 import 'package:clientf/enginf_clientf_service/enginf.post.model.dart';
@@ -9,13 +10,13 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-class EnginfModel extends ChangeNotifier {
+class EngineModel extends ChangeNotifier {
   /// If user is null when no user is logged in.
   FirebaseUser user;
 
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
-  EnginfModel() {
+  EngineModel() {
     /// User login/logout change listener initialization.
     /// Whenever auth changes, it will notify listens.
 
@@ -41,13 +42,13 @@ class EnginfModel extends ChangeNotifier {
       result = callableResult.data;
     } catch (e) {
       /// Error happened when calling Callable funtions. This should never happens.
-      throw 'Error at allableResult.data EnginfModel::callFunctions()';
+      throw 'Error at allableResult.data EngineModel::callFunctions()';
     }
 
     /// The return value from callable function is always an object(Map or List). Not a String or Number.
     /// When there is error on callable funtion, the returned object has `error` property with `true`.
     if (result is Map && result['error'] == true) {
-      throw EnginError.fromMap(result);
+      throw EngineError.fromMap(result);
     } else {
       return result;
     }
@@ -110,7 +111,7 @@ class EnginfModel extends ChangeNotifier {
 
   /// Updates user data
   /// It can update not only `displayName` and `photoUrl` but also `phoneNumber` and all of other things.
-  Future<EnginfUser> update(data) async {
+  Future<EngineUser> update(data) async {
     data['uid'] = user.uid;
     var update = await callFunction(
       {'route': 'user.update', 'data': data},
@@ -118,19 +119,19 @@ class EnginfModel extends ChangeNotifier {
     await user.reload();
     user = await _auth.currentUser();
     notifyListeners();
-    return EnginfUser.fromMap(update);
+    return EngineUser.fromMap(update);
   }
 
-  /// Gets user profile data from Firestore  & return user data as `EnginfUser` helper class.
+  /// Gets user profile data from Firestore  & return user data as `EngineUser` helper class.
   /// @warning It does `NOT notifyListeners()` and does `NOT update user`.
-  Future<EnginfUser> profile() async {
+  Future<EngineUser> profile() async {
     if (notLoggedIn || user?.uid == null) throw LOGIN_FIRST;
     // print(user.uid);
     final profile =
         await callFunction({'route': 'user.data', 'data': user.uid});
     print('profile: ');
     print(profile);
-    return EnginfUser.fromMap(profile);
+    return EngineUser.fromMap(profile);
   }
 
   Future categoryCreate(data) {
@@ -141,40 +142,48 @@ class EnginfModel extends ChangeNotifier {
     return callFunction({'route': 'category.update', 'data': data});
   }
 
-  Future<EnginCategory> categoryData(String id) async {
+  Future<EngineCategory> categoryData(String id) async {
     var re = await callFunction({'route': 'category.data', 'data': id});
-    return EnginCategory.fromEnginData(re);
+    return EngineCategory.fromEnginData(re);
   }
 
-  Future<EnginCategoryList> categoryList() async {
-    return EnginCategoryList.fromEnginData(
+  Future<EngineCategoryList> categoryList() async {
+    return EngineCategoryList.fromEnginData(
         await callFunction({'route': 'category.list'}));
   }
 
-  Future<EnginPost> postCreate(data) async {
+  Future<EnginePost> postCreate(data) async {
     final post = await callFunction({'route': 'post.create', 'data': data});
-    return EnginPost.fromEnginData(post);
+    return EnginePost.fromEnginData(post);
   }
 
-  Future<EnginPost> postUpdate(data) async {
+  Future<EnginePost> postUpdate(data) async {
     final post = await callFunction({'route': 'post.update', 'data': data});
-    return EnginPost.fromEnginData(post);
+    return EnginePost.fromEnginData(post);
   }
 
-  Future<EnginPost> postDelete(String id) async {
+  Future<EnginePost> postDelete(String id) async {
     final post = await callFunction({'route': 'post.delete', 'data': id});
-    return EnginPost.fromEnginData(post);
+    return EnginePost.fromEnginData(post);
   }
 
-  /// @return List<EnginPost> of posts
+  /// @return List<EnginePost> of posts
   ///   If there is no posts, then empty array will be returned.
-  Future<List<EnginPost>> postList(data) async {
+  Future<List<EnginePost>> postList(data) async {
     final List posts = await callFunction({'route': 'post.list', 'data': data});
 
-    List<EnginPost> ret = [];
+    List<EnginePost> ret = [];
     for (var e in posts) {
-      ret.add(EnginPost.fromEnginData(e));
+      ret.add(EnginePost.fromEnginData(e));
     }
     return ret;
   }
+
+
+  Future<EngineComment> commentCreate(data) async {
+    final comment = await callFunction({'route': 'comment.create', 'data': data});
+    return EngineComment.fromEnginData(comment);
+  }
+
+
 }

@@ -1,37 +1,42 @@
-class EnginPost {
+import 'package:clientf/enginf_clientf_service/enginf.comment.model.dart';
+
+class EnginePost {
   List<dynamic> categories;
   String title;
   String content;
-  int created;
-  int updated;
-  int deleted;
+  int createdAt;
+  int updatedAt;
+  int deletedAt;
   String uid;
   String id;
-  EnginPost({
+  List<dynamic> comments;
+  EnginePost({
     this.id,
     this.uid,
     this.categories,
     this.title,
     this.content,
-    this.created,
-    this.updated,
-    this.deleted,
+    this.createdAt,
+    this.updatedAt,
+    this.deletedAt,
+    this.comments,
   });
-  factory EnginPost.fromEnginData(Map<dynamic, dynamic> data) {
-    return EnginPost(
+  factory EnginePost.fromEnginData(Map<dynamic, dynamic> data) {
+    return EnginePost(
       id: data['id'],
       categories: data['categories'],
       title: data['title'],
       content: data['content'],
       uid: data['uid'],
-      created: data['created'],
-      updated: data['updated'],
-      deleted: data['deleted'],
+      createdAt: data['createdAt'],
+      updatedAt: data['updatedAt'],
+      deletedAt: data['deletedAt'],
+      comments: data['comments'],
     );
   }
 
   @override
   String toString() {
-    return "id: $id, uid: $uid, categories: $categories, title: $title, content: $content, created: $created, updated: $updated, deleted: $deleted";
+    return "id: $id, uid: $uid, categories: $categories, title: $title, content: $content, createdAt: $createdAt, updated: $updatedAt, deleted: $deletedAt, comments: $comments";
   }
 }
