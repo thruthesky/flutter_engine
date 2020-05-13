@@ -1,4 +1,3 @@
-import 'package:clientf/enginf_clientf_service/enginf.comment.model.dart';
 
 class EnginePost {
   List<dynamic> categories;
@@ -31,7 +30,7 @@ class EnginePost {
       createdAt: data['createdAt'],
       updatedAt: data['updatedAt'],
       deletedAt: data['deletedAt'],
-      comments: data['comments'],
+      comments: new List<dynamic>.from(data['comments'] ?? []),
     );
   }
 

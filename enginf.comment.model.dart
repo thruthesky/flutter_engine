@@ -7,6 +7,7 @@ class EngineComment {
   String id;
   String postId;
   String parentId;
+  int depth;
   EngineComment({
     this.id,
     this.uid,
@@ -16,6 +17,7 @@ class EngineComment {
     this.createdAt,
     this.updatedAt,
     this.deletedAt,
+    this.depth,
   });
   factory EngineComment.fromEnginData(Map<dynamic, dynamic> data) {
     return EngineComment(
@@ -27,6 +29,7 @@ class EngineComment {
       createdAt: data['createdAt'],
       updatedAt: data['updatedAt'],
       deletedAt: data['deletedAt'],
+      depth: data['depth'] ?? 0,
     );
   }
 

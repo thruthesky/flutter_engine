@@ -179,11 +179,11 @@ class EngineModel extends ChangeNotifier {
     return ret;
   }
 
-
-  Future<EngineComment> commentCreate(data) async {
-    final comment = await callFunction({'route': 'comment.create', 'data': data});
-    return EngineComment.fromEnginData(comment);
+  /// @중요 postCreate(), postUpdate() 와는 달리 자동으로 EngineComment 로 변환하지 않는다.
+  Future<Map<dynamic, dynamic>> commentCreate(data) async {
+    final comment =
+        await callFunction({'route': 'comment.create', 'data': data});
+    return comment;
+    // return EngineComment.fromEnginData(comment);
   }
-
-
 }
