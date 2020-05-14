@@ -16,10 +16,12 @@ class EngineForumModel extends ChangeNotifier {
   bool loading = false;
   bool noMorePosts = false;
 
+  bool disposed = false;
+
   final scrollController =
       ScrollController(initialScrollOffset: 0.0, keepScrollOffset: true);
 
-  EngineForumModel() {}
+  EngineForumModel();
 
   init({String id}) {
     this.id = id;
@@ -28,6 +30,14 @@ class EngineForumModel extends ChangeNotifier {
     loadPage();
 
     scrollController.addListener(_scrollListener);
+  }
+
+  notifiyUpdates() {
+    if (disposed) {
+      print('model disposed: do not notify');
+    } else {
+      notifyListeners();
+    }
   }
 
   loadPage() async {
@@ -57,14 +67,14 @@ class EngineForumModel extends ChangeNotifier {
 
       posts.addAll(_re);
 
-      print('notifyListeners();');
-      notifyListeners();
+      notifiyUpdates();
 
       // for (var _p in _re) {
       //   print(_p.title);
       // }
     } catch (e) {
       print(e);
+
       ///
       AppService.alert(null, t(e));
     }
@@ -88,7 +98,7 @@ class EngineForumModel extends ChangeNotifier {
     loadPage();
 
     loading = true;
-    notifyListeners();
+    notifiyUpdates();
   }
 
   updatePost(EnginePost post) {
@@ -96,7 +106,7 @@ class EngineForumModel extends ChangeNotifier {
     int i = posts.indexWhere((p) => p.id == post.id);
     posts.removeAt(i);
     posts.insert(i, post);
-    notifyListeners();
+    notifiyUpdates();
   }
 
   addComment(comment, String postId, String parentId) {
@@ -129,6 +139,6 @@ class EngineForumModel extends ChangeNotifier {
     // for (var c in post.comments) { // test print
     //   print('content: ${c['content']}');
     // }
-    notifyListeners();
+    notifiyUpdates();
   }
 }
