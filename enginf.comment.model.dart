@@ -35,6 +35,6 @@ class EngineComment {
 
   @override
   String toString() {
-    return "id: $id, uid: $uid, postId: $postId, parentId: $parentId, content: $content, createdAt: $createdAt, updated: $updatedAt, deleted: $deletedAt";
+    return "id: $id, uid: $uid, postId: $postId, parentId: $parentId, content: $content, createdAt: $createdAt, updatedAt: $updatedAt, deletedAt: $deletedAt, dpeth: $depth";
   }
 }

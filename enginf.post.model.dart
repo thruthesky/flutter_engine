@@ -36,6 +36,6 @@ class EnginePost {
 
   @override
   String toString() {
-    return "id: $id, uid: $uid, categories: $categories, title: $title, content: $content, createdAt: $createdAt, updated: $updatedAt, deleted: $deletedAt, comments: $comments";
+    return "id: $id, uid: $uid, categories: $categories, title: $title, content: $content, createdAt: $createdAt, updatedAt: $updatedAt, deletedAt: $deletedAt, comments: $comments";
   }
 }

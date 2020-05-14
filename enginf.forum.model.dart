@@ -126,13 +126,12 @@ class EngineForumModel extends ChangeNotifier {
             'addComment() critical error. finding comment. This should never happened');
         return;
       }
-
-      /// TODO: depth 가 null 인 경우가 있다. 서버에서 depth 값은 무조건 포함되저 전달되어야 하는데, 어디선가 누락되었다.
-      /// 항상 depth 가 값을 가지도록 서버에서 고칠 수 있도록 한다.
-      comment['depth'] = (comments[i]['depth'] ?? 0) + 1;
+      print('Parent: comment[i] - still no depth? - ${comments[i]}');
+      comment['depth'] = comments[i]['depth'] + 1;
       comments.insert(i + 1, comment);
     } else {
       comments.insert(0, comment);
+      print('----> no depth here??');
       print(comments);
     }
 
