@@ -65,6 +65,7 @@ class EngineForumModel extends ChangeNotifier {
       // }
     } catch (e) {
       print(e);
+      ///
       AppService.alert(null, t(e));
     }
   }
@@ -90,6 +91,14 @@ class EngineForumModel extends ChangeNotifier {
     notifyListeners();
   }
 
+  updatePost(EnginePost post) {
+    if (post == null) return;
+    int i = posts.indexWhere((p) => p.id == post.id);
+    posts.removeAt(i);
+    posts.insert(i, post);
+    notifyListeners();
+  }
+
   addComment(comment, String postId, String parentId) {
     var post =
         posts.firstWhere((post) => post.id == postId, orElse: () => null);
@@ -107,7 +116,8 @@ class EngineForumModel extends ChangeNotifier {
             'addComment() critical error. finding comment. This should never happened');
         return;
       }
-      /// TODO: depth 가 null 인 경우가 있다. 서버에서 depth 값은 무조건 포함되저 전달되는데, 어디선가 누락되었다.
+
+      /// TODO: depth 가 null 인 경우가 있다. 서버에서 depth 값은 무조건 포함되저 전달되어야 하는데, 어디선가 누락되었다.
       /// 항상 depth 가 값을 가지도록 서버에서 고칠 수 있도록 한다.
       comment['depth'] = (comments[i]['depth'] ?? 0) + 1;
       comments.insert(i + 1, comment);

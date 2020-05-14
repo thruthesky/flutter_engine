@@ -180,10 +180,32 @@ class EngineModel extends ChangeNotifier {
   }
 
   /// @중요 postCreate(), postUpdate() 와는 달리 자동으로 EngineComment 로 변환하지 않는다.
+  /// @사유 게시글 목록과는 다르게, 코멘트 목록은 바로 랜더링되지 않고, 게시글 읽기를 할 때 랜더링된다.
+  ///   즉, 미리 랜더링 준비를 하면 클라이언트에 무리를 줄 수 있다. 필요(랜더링)할 때, 그 때 준비해서 해당 작업을 하면 된다.
+  ///   코멘트를 백엔드로 가져 올 때, 랜더링 준비를 하지 않으므로, 여기서도 하지 않는다.
+  /// [data.postId] 는 게시글 아이디. 필수.
+  /// [data.content] 는 코멘트 내용. 선택
+  /// [data.parentId] 는 코멘트의 코멘트를 작성하는 경우, 부모 코멘트의 ID. 게시글 바로 밑에 코멘트를 다는 경우는 선택 사항.
   Future<Map<dynamic, dynamic>> commentCreate(data) async {
     final comment =
         await callFunction({'route': 'comment.create', 'data': data});
     return comment;
     // return EngineComment.fromEnginData(comment);
+  }
+
+  /// @참고 commentCreate() 의 설명을 참고.
+  /// [data.id] 에는 코멘트 ID. 필수.
+  /// [data.content] 에는 코멘트 내용. 선택.
+  /// 그외 추가로 아무 값이나 넣을 수 있음.
+  Future<Map<dynamic, dynamic>> commentUpdate(data) async {
+    final comment =
+        await callFunction({'route': 'comment.update', 'data': data});
+    return comment;
+    // return EngineComment.fromEnginData(comment);
+  }
+
+  Future commentDelete(String id) async {
+    final deleted = await callFunction({'route': 'comment.delete', 'data': id});
+    return deleted;
   }
 }
