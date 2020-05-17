@@ -142,11 +142,15 @@ class EngineForumModel extends ChangeNotifier {
     if (notify) notifiyUpdates();
   }
 
+  /// 코멘트를 수정하고, 기존의 코멘트와 바꿔치기 한다.
+  /// 
+  /// [comment] 업데이트된 코멘트
   /// TODO: 에러 핸들링. 정상적인 이용에서는 에러가 없지어야 하지만, 혹시라도 ... 코멘트가 없을 수 있다.
   updateComment(EngineComment comment, EnginePost post) {
-    int i = post.comments.firstWhere((element) => element.id == comment.id);
+    int i = post.comments.indexWhere((element) => element.id == comment.id);
     post.comments.removeAt(i);
     post.comments.insert(i, comment);
+    notifyListeners();
   }
 }
 
