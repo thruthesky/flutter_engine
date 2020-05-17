@@ -126,13 +126,6 @@ class EngineForumModel extends ChangeNotifier {
   addComment(EngineComment comment, EnginePost post, String parentId,
       {bool notify: true}) {
     if (comment == null) return;
-    // var post =
-    //     posts.firstWhere((post) => post.id == postId, orElse: () => null);
-    // if (post == null) {
-    //   print('addComment() critical error. This should never happened');
-    //   return;
-    // }
-
     var comments = post.comments;
 
     if (parentId != null) {
@@ -142,23 +135,18 @@ class EngineForumModel extends ChangeNotifier {
             'addComment() critical error. finding comment. This should never happened');
         return;
       }
-
-      /// Adding comment under another comment
-      print(
-          '--> No depth? Parent: comment[i]: ${comments[i]} /  Child: $comment');
-      // comment.depth = comments[i].depth + 1;
       comments.insert(i + 1, comment);
     } else {
       comments.insert(0, comment);
     }
-
-    // print('----> comment inserted');
-    // print(comments);
-
-    // for (var c in post.comments) { // test print
-    //   print('content: ${c['content']}');
-    // }
     if (notify) notifiyUpdates();
+  }
+
+  /// TODO: 에러 핸들링. 정상적인 이용에서는 에러가 없지어야 하지만, 혹시라도 ... 코멘트가 없을 수 있다.
+  updateComment(EngineComment comment, EnginePost post) {
+    int i = post.comments.firstWhere((element) => element.id == comment.id);
+    post.comments.removeAt(i);
+    post.comments.insert(i, comment);
   }
 }
 
