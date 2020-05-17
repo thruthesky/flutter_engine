@@ -8,7 +8,7 @@ class EngineComment {
   String postId;
   String parentId;
   int depth;
-  
+
   /// [inLoading] is used only for [post.tempComment] to indiate whether the comment in submission to backend.
   bool inLoading;
   List<dynamic> urls;
@@ -24,21 +24,22 @@ class EngineComment {
     this.depth,
     this.urls,
   }) {
-    if ( depth == null) depth = 0;
-    if ( urls == null ) urls = [];
+    if (depth == null) depth = 0;
+    if (urls == null) urls = [];
   }
   factory EngineComment.fromEnginData(Map<dynamic, dynamic> data) {
     return EngineComment(
-        id: data['id'],
-        postId: data['postId'],
-        parentId: data['parentId'],
-        content: data['content'],
-        uid: data['uid'],
-        createdAt: data['createdAt'],
-        updatedAt: data['updatedAt'],
-        deletedAt: data['deletedAt'],
-        depth: data['depth'],
-        urls: data['urls']);
+      id: data['id'],
+      postId: data['postId'],
+      parentId: data['parentId'],
+      content: data['content'],
+      uid: data['uid'],
+      createdAt: data['createdAt'],
+      updatedAt: data['updatedAt'],
+      deletedAt: data['deletedAt'],
+      depth: data['depth'],
+      urls: data['urls'] != null ? List<dynamic>.from(data['urls']) : [], // To preved 'fixed-length' error.
+    );
   }
 
   @override
