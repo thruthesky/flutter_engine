@@ -8,6 +8,7 @@ class EngineComment {
   String postId;
   String parentId;
   int depth;
+  List<dynamic> urls;
   EngineComment({
     this.id,
     this.uid,
@@ -18,23 +19,27 @@ class EngineComment {
     this.updatedAt,
     this.deletedAt,
     this.depth,
-  });
+    this.urls,
+  }) {
+    if ( depth == null) depth = 0;
+    if ( urls == null ) urls = [];
+  }
   factory EngineComment.fromEnginData(Map<dynamic, dynamic> data) {
     return EngineComment(
-      id: data['id'],
-      postId: data['postId'],
-      parentId: data['parentId'],
-      content: data['content'],
-      uid: data['uid'],
-      createdAt: data['createdAt'],
-      updatedAt: data['updatedAt'],
-      deletedAt: data['deletedAt'],
-      depth: data['depth'] ?? 0,
-    );
+        id: data['id'],
+        postId: data['postId'],
+        parentId: data['parentId'],
+        content: data['content'],
+        uid: data['uid'],
+        createdAt: data['createdAt'],
+        updatedAt: data['updatedAt'],
+        deletedAt: data['deletedAt'],
+        depth: data['depth'],
+        urls: data['urls']);
   }
 
   @override
   String toString() {
-    return "id: $id, uid: $uid, postId: $postId, parentId: $parentId, content: $content, createdAt: $createdAt, updatedAt: $updatedAt, deletedAt: $deletedAt, dpeth: $depth";
+    return "id: $id, uid: $uid, postId: $postId, parentId: $parentId, content: $content, createdAt: $createdAt, updatedAt: $updatedAt, deletedAt: $deletedAt, dpeth: $depth, urls: $urls";
   }
 }

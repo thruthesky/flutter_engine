@@ -1,3 +1,4 @@
+import 'package:clientf/enginf_clientf_service/enginf.comment.model.dart';
 
 class EnginePost {
   List<dynamic> categories;
@@ -9,6 +10,7 @@ class EnginePost {
   String uid;
   String id;
   List<dynamic> comments;
+  EngineComment tempComment;
   EnginePost({
     this.id,
     this.uid,
@@ -19,7 +21,10 @@ class EnginePost {
     this.updatedAt,
     this.deletedAt,
     this.comments,
-  });
+  }) {
+    if (comments == null) comments = [];
+   
+  }
   factory EnginePost.fromEnginData(Map<dynamic, dynamic> data) {
     return EnginePost(
       id: data['id'],
@@ -30,7 +35,7 @@ class EnginePost {
       createdAt: data['createdAt'],
       updatedAt: data['updatedAt'],
       deletedAt: data['deletedAt'],
-      comments: new List<dynamic>.from(data['comments'] ?? []),
+      comments: data['comments'],
     );
   }
 

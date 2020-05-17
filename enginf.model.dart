@@ -29,7 +29,7 @@ class EngineModel extends ChangeNotifier {
       _auth.onAuthStateChanged.listen((_user) {
         user = _user;
         notifyListeners();
-        print('EngineModel::onAuthStateChanged() $user');
+        // print('EngineModel::onAuthStateChanged() $user');
       });
     })();
   }
@@ -102,7 +102,6 @@ class EngineModel extends ChangeNotifier {
       throw e.message;
     }
   }
-
 
   /// 구글 계정으로 로그인을 한다.
   Future<FirebaseUser> loginWithGoogleAccount() async {
@@ -270,4 +269,44 @@ class EngineModel extends ChangeNotifier {
     final deleted = await callFunction({'route': 'comment.delete', 'data': id});
     return deleted;
   }
+
+
+  Future userAddUrl(String id, String url) async {
+    return await callFunction(
+        {'route': 'user.addUrl', 'id': id, 'url': url});
+  }
+  Future userRemoveUrl(String id, String url) async {
+    return await callFunction(
+        {'route': 'user.removeUrl', 'id': id, 'url': url});
+  }
+
+
+  Future categoryAddUrl(String id, String url) async {
+    return await callFunction(
+        {'route': 'category.addUrl', 'id': id, 'url': url});
+  }
+  Future categoryRemoveUrl(String id, String url) async {
+    return await callFunction(
+        {'route': 'category.removeUrl', 'id': id, 'url': url});
+  }
+
+
+  Future postAddUrl(String id, String url) async {
+    return await callFunction(
+        {'route': 'post.addUrl', 'id': id, 'url': url});
+  }
+  Future postRemoveUrl(String id, String url) async {
+    return await callFunction(
+        {'route': 'post.removeUrl', 'id': id, 'url': url});
+  }
+  
+  Future commentAddUrl(String id, String url) async {
+    return await callFunction(
+        {'route': 'comment.addUrl', 'id': id, 'url': url});
+  }
+  Future commentRemoveUrl(String id, String url) async {
+    return await callFunction(
+        {'route': 'comment.removeUrl', 'id': id, 'url': url});
+  }
+  
 }
