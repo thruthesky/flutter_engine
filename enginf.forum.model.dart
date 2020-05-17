@@ -123,7 +123,9 @@ class EngineForumModel extends ChangeNotifier {
   ///     .addComment(
   ///      commentToAdd, post, parentCommentId);
   /// ```
-  addComment(comment, EnginePost post, String parentId, {bool notify: true}) {
+  addComment(EngineComment comment, EnginePost post, String parentId,
+      {bool notify: true}) {
+    if (comment == null) return;
     // var post =
     //     posts.firstWhere((post) => post.id == postId, orElse: () => null);
     // if (post == null) {
@@ -157,11 +159,6 @@ class EngineForumModel extends ChangeNotifier {
     //   print('content: ${c['content']}');
     // }
     if (notify) notifiyUpdates();
-  }
-
-  ///
-  prepareCommentBox(EnginePost post) {
-    post.tempComment = EngineComment();
   }
 }
 

@@ -8,6 +8,9 @@ class EngineComment {
   String postId;
   String parentId;
   int depth;
+  
+  /// [inLoading] is used only for [post.tempComment] to indiate whether the comment in submission to backend.
+  bool inLoading;
   List<dynamic> urls;
   EngineComment({
     this.id,
