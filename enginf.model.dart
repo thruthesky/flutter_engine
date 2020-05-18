@@ -70,7 +70,7 @@ class EngineModel extends ChangeNotifier {
   }
 
   /// 사용자가 로그인을 했으면 참을 리턴
-  /// 
+  ///
   /// 단, Anonymous 로그인은 로그인을 하지 않은 것으로 간주한다.
   bool get loggedIn {
     return user != null && user.isAnonymous == false;
@@ -173,6 +173,8 @@ class EngineModel extends ChangeNotifier {
   /// 참고로 회원 가입/수정을 할 때에 얼마든지 값(속성)을 추가로 지정 할 수 있다(제한이 없다).
   Future<EngineUser> update(data) async {
     data['uid'] = user.uid;
+    // print('data');
+    // print(data);
     var update = await callFunction(
       {'route': 'user.update', 'data': data},
     );
@@ -180,6 +182,13 @@ class EngineModel extends ChangeNotifier {
     user = await _auth.currentUser();
     notifyListeners();
     return EngineUser.fromMap(update);
+  }
+
+  Future<void> userReload() async {
+    await user.reload();
+    user = await _auth.currentUser();
+    print('userReload: photoUrl: ${user.photoUrl}');
+    notifyListeners();
   }
 
   /// 회원 정보를 가져온다.
