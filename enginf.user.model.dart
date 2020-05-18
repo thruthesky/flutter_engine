@@ -30,6 +30,6 @@ class EngineUser {
 
   @override
   String toString() {
-    return "$email\n$displayName\n$phoneNumber\n$photoURL\n$birthday";
+    return "email: $email\ndisplayName:$displayName\nphoneNumber:$phoneNumber\nphotoURL:$photoURL\nbirthday:$birthday";
   }
 }
