@@ -14,6 +14,7 @@ import 'package:google_sign_in/google_sign_in.dart';
 /// 파이어베이스 백엔드(`Firebase Clould Functions`)와 통신을 관리하는 주요 모델
 ///
 /// ChangeNotifier 를 상속하여 State 관리에 사용 할 수 있다.
+/// 기본적으로 모든 사용자는 Anonymous 로 로그인을 한다. 사용자가 로그인을 안했거나 로그아웃을 하면 자동적으로 Anonymous 로 로그인을 한다.
 class EngineModel extends ChangeNotifier {
   /// 사용자가 로그인을 하면, 사용자 정보를 가진다. 로그인을 안한 상태이면 null.
   FirebaseUser user;
@@ -30,7 +31,13 @@ class EngineModel extends ChangeNotifier {
       _auth.onAuthStateChanged.listen((_user) {
         user = _user;
         notifyListeners();
-        // print('EngineModel::onAuthStateChanged() $user');
+        if (user == null) {
+          print('EngineModel::onAuthStateChanged() user logged out');
+          _auth.signInAnonymously();
+        } else {
+          print('EngineModel::onAuthStateChanged() user logged in: $user');
+          print('Anonymous: ${user.isAnonymous}');
+        }
       });
     })();
   }
@@ -63,8 +70,10 @@ class EngineModel extends ChangeNotifier {
   }
 
   /// 사용자가 로그인을 했으면 참을 리턴
+  /// 
+  /// 단, Anonymous 로그인은 로그인을 하지 않은 것으로 간주한다.
   bool get loggedIn {
-    return user != null;
+    return user != null && user.isAnonymous == false;
   }
 
   /// 사용자가 로그인을 안했으면 참을 리턴.
@@ -105,9 +114,14 @@ class EngineModel extends ChangeNotifier {
   }
 
   /// 구글 계정으로 로그인을 한다.
+  ///
+  /// 사용자가 취소를 누르면 null 이 리턴된다.
   Future<FirebaseUser> loginWithGoogleAccount() async {
     try {
       final GoogleSignInAccount googleUser = await _googleSignIn.signIn();
+      if (googleUser == null) {
+        return null;
+      }
       final GoogleSignInAuthentication googleAuth =
           await googleUser.authentication;
 
@@ -128,6 +142,8 @@ class EngineModel extends ChangeNotifier {
       final code = e.code.toLowerCase();
       throw code;
     } catch (e) {
+      print('loginWithGoogleAccount::');
+      print(e);
       throw e.message;
     }
   }
@@ -271,43 +287,41 @@ class EngineModel extends ChangeNotifier {
     return deleted;
   }
 
-
   Future userAddUrl(String id, String url) async {
-    return await callFunction(
-        {'route': 'user.addUrl', 'id': id, 'url': url});
+    return await callFunction({'route': 'user.addUrl', 'id': id, 'url': url});
   }
+
   Future userRemoveUrl(String id, String url) async {
     return await callFunction(
         {'route': 'user.removeUrl', 'id': id, 'url': url});
   }
 
-
   Future categoryAddUrl(String id, String url) async {
     return await callFunction(
         {'route': 'category.addUrl', 'id': id, 'url': url});
   }
+
   Future categoryRemoveUrl(String id, String url) async {
     return await callFunction(
         {'route': 'category.removeUrl', 'id': id, 'url': url});
   }
 
-
   Future postAddUrl(String id, String url) async {
-    return await callFunction(
-        {'route': 'post.addUrl', 'id': id, 'url': url});
+    return await callFunction({'route': 'post.addUrl', 'id': id, 'url': url});
   }
+
   Future postRemoveUrl(String id, String url) async {
     return await callFunction(
         {'route': 'post.removeUrl', 'id': id, 'url': url});
   }
-  
+
   Future commentAddUrl(String id, String url) async {
     return await callFunction(
         {'route': 'comment.addUrl', 'id': id, 'url': url});
   }
+
   Future commentRemoveUrl(String id, String url) async {
     return await callFunction(
         {'route': 'comment.removeUrl', 'id': id, 'url': url});
   }
-  
 }

@@ -26,3 +26,6 @@ const String INPUT_EMAIL = 'input_email';
 const String INPUT_PASSWORD = 'input_password';
 const String ERROR_USER_IS_NULL = 'user_is_null';
 const String LOGIN_FIRST = 'login_first';
+
+
+const String ALREADY_LOGIN_ON_REGISTER_PAGE = 'already_login_on_register_page';
