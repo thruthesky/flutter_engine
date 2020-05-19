@@ -1,4 +1,3 @@
-
 class EnginePost {
   List<dynamic> categories;
   String title;
@@ -36,8 +35,26 @@ class EnginePost {
       updatedAt: data['updatedAt'],
       deletedAt: data['deletedAt'],
       comments: data['comments'],
-      urls: data['urls'] != null ? List<dynamic>.from(data['urls']) : [], // To preved 'fixed-length' error.
+      urls: data['urls'] != null
+          ? List<dynamic>.from(data['urls'])
+          : [], // To preved 'fixed-length' error.
     );
+  }
+
+  /// 현재 글 속성을 입력된 글로 변경한다.
+  /// 
+  /// 글 수정 할 때 유용하게 사용 할 수 있다.
+  replaceWith(EnginePost post) {
+    id = post.id;
+    categories = post.categories;
+    title = post.title;
+    content = post.content;
+    uid = post.uid;
+    createdAt = post.createdAt;
+    updatedAt = post.updatedAt;
+    deletedAt = post.deletedAt;
+    comments = post.comments;
+    urls = post.urls ?? [];
   }
 
   @override

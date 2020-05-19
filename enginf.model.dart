@@ -34,11 +34,11 @@ class EngineModel extends ChangeNotifier {
         user = _user;
         notifyListeners();
         if (user == null) {
-          print('EngineModel::onAuthStateChanged() user logged out');
+          // print('EngineModel::onAuthStateChanged() user logged out');
           _auth.signInAnonymously();
         } else {
-          print('EngineModel::onAuthStateChanged() user logged in: $user');
-          print('Anonymous: ${user.isAnonymous}');
+          // print('EngineModel::onAuthStateChanged() user logged in: $user');
+          // print('Anonymous: ${user.isAnonymous}');
         }
       });
     })();
