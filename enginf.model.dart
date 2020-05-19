@@ -11,10 +11,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
-/// 파이어베이스 백엔드(`Firebase Clould Functions`)와 통신을 관리하는 주요 모델
+/// EngineF Model
 ///
-/// ChangeNotifier 를 상속하여 State 관리에 사용 할 수 있다.
-/// 기본적으로 모든 사용자는 Anonymous 로 로그인을 한다. 사용자가 로그인을 안했거나 로그아웃을 하면 자동적으로 Anonymous 로 로그인을 한다.
+/// EngineF Model 은 `Firebase Clould Functions EnginF 백엔드`와 와 통신을 관리하는 주요 모델
+/// `ChangeNotifier`를 상속하여 사용자 로그인/로그아웃 등의 Sate 를 관리한다.
+///
+/// * 기본적으로 모든 사용자는 Anonymous 로 로그인을 한다. 사용자가 로그인을 안했거나 로그아웃을 하면 자동적으로 Anonymous 로 로그인을 한다.
 class EngineModel extends ChangeNotifier {
   /// 사용자가 로그인을 하면, 사용자 정보를 가진다. 로그인을 안한 상태이면 null.
   FirebaseUser user;
@@ -171,7 +173,7 @@ class EngineModel extends ChangeNotifier {
   /// 기본적으로 `displayName`, `photoUrl`, `phoneNumber` 의 속성이 있는데 이 것들으 `Firebase Auth` 에 저장된다.
   /// 그 외 추가적으로 저장하는 값은 `Firestore`에 저장된다.
   /// 참고로 회원 가입/수정을 할 때에 얼마든지 값(속성)을 추가로 지정 할 수 있다(제한이 없다).
-  Future<EngineUser> update(data) async {
+  Future<EngineUser> userUpdate(data) async {
     data['uid'] = user.uid;
     // print('data');
     // print(data);
@@ -252,15 +254,27 @@ class EngineModel extends ChangeNotifier {
 
   /// 게시글 목록
   ///
-  /// 입력값은 프로토콜 문서 참고
+  /// [data] 의 값은 프로토콜 문서 참고
   Future<List<EnginePost>> postList(data) async {
-    final List posts = await callFunction({'route': 'post.list', 'data': data});
+    // final List posts = await callFunction({'route': 'post.list', 'data': data});
+    final List posts = await postDocuments(data);
+    return sanitizePosts(posts);
+  }
 
+  /// 게시글 도큐먼트를 EnginePost 로 변환한다.
+  /// 
+  /// [posts] 는 post collection 의 document 들이다.
+  List<EnginePost> sanitizePosts(List posts) {
     List<EnginePost> ret = [];
     for (var e in posts) {
       ret.add(EnginePost.fromEnginData(e));
     }
     return ret;
+  }
+
+  /// post collection 의 document 를 가져온다.
+  Future<List> postDocuments(data) async {
+    return await callFunction({'route': 'post.list', 'data': data});
   }
 
   /// 코멘트 생성
