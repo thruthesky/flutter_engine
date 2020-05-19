@@ -38,18 +38,6 @@ class EngineForumList {
 
   EngineForumList();
 
-  /// @deprecated
-  /// 게시판 목록 초기화
-  ///
-  /// 첫 페이지를 로딩하고, scroll listener 를 등록하고,
-  /// 페이지를 로딩 할 때마다 event 를 전송한다.
-  init() {
-    // this.id = id;
-    // print('init() forum id: ${this.id}');
-
-    // loadPage();
-    // scrollController.addListener(_scrollListener);
-  }
 
   initScrollListener() {
     scrollController.addListener(_scrollListener);
