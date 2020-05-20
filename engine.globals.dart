@@ -16,8 +16,7 @@ EngineModel _ef;
 
 set ef(value) => _ef = value;
 EngineModel get ef {
-  assert(_ef != null,
-      '===> Engine error! [ef] is not set.');
+  assert(_ef != null, '===> Engine error! [ef] is not set.');
   assert(_ef.navigatorKey != null,
       '[GlobalKey<NavigatorState> navigatorKey] is not set. So, you cannot use context in Engine. Please set it on main.dart');
   return _ef;
@@ -46,4 +45,30 @@ String t(code, {info}) {
 ///   'ja' - Japanese.
 String appLanguageCode() {
   return AppLocalizations.of(ef.context).locale.languageCode;
+}
+
+bottomSheet(List<Map<String, dynamic>> items) {
+  showModalBottomSheet(
+    context: ef.context,
+    builder: (BuildContext bc) {
+      return SafeArea(
+        child: Container(
+          child: new Wrap(
+            children: <Widget>[
+              for (var item in items)
+                new ListTile(
+                  leading: new Icon(item['icon']),
+                  title: new Text(item['text']),
+                  onTap: item['onTap'],
+                  // new ListTile(
+                  //   leading: new Icon(Icons.videocam),
+                  //   title: new Text('Video'),
+                  //   onTap: () => {},
+                ),
+            ],
+          ),
+        ),
+      );
+    },
+  );
 }

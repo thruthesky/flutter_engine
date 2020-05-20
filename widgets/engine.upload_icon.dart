@@ -1,8 +1,7 @@
-
-import 'package:clientf/flutter_engine/engine.firestore.dart';
-import 'package:clientf/flutter_engine/engine.globals.dart';
-import 'package:clientf/globals.dart';
-import 'package:clientf/services/app.service.dart';
+import '../engine.firestore.dart';
+import '../engine.globals.dart';
+// import 'package:clientf/globals.dart';
+// import 'package:clientf/services/app.service.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
@@ -33,9 +32,10 @@ import 'package:image_picker/image_picker.dart';
 
 class EngineUploadIcon extends StatelessWidget {
   EngineUploadIcon(
-    this.doc,
-    this.onProgress,
-    this.onUpload, {
+    this.doc, {
+    @required this.onProgress,
+    @required this.onUploadComplete,
+    @required this.onError,
     this.icon,
     Key key,
   }) : super(key: key);
@@ -44,27 +44,33 @@ class EngineUploadIcon extends StatelessWidget {
   final doc;
 
   /// 업로드 성공시 콜백
-  final Function onUpload;
+  final Function onUploadComplete;
 
   /// 업로드 진행 콜백. Percentage 값을 알려 줌.
   final Function onProgress;
+  final Function onError;
 
   final Widget icon;
 
+  _back(context) {
+    Navigator.pop(context);
+  }
+
   upload(context, source) async {
-    back();
+    _back(context);
     print('from camea');
     try {
       String url = await EngineFirestore(doc).pickAndUploadImage(
         context,
         source,
-        onUploadComplete: onUpload,
+        onUploadComplete: onUploadComplete,
         onUploadPercentage: onProgress,
       );
 
       print('EngineUploadIcon:: camera: file uploaded: $url');
     } catch (e) {
-      AppService.alert(null, t(e));
+      onError(e);
+      // AppService.alert(null, t(e));
     }
   }
 
@@ -76,7 +82,7 @@ class EngineUploadIcon extends StatelessWidget {
       behavior: HitTestBehavior.opaque,
       child: _icon,
       onTap: () {
-        AppService.bottomSheet([
+        bottomSheet([
           {
             'icon': Icons.photo_camera,
             'text': t('Take photo from camera'),
@@ -104,7 +110,7 @@ class EngineUploadIcon extends StatelessWidget {
             'icon': Icons.close,
             'text': t('cancel'),
             'onTap': () {
-              back();
+              _back(context);
             }
           },
         ]);

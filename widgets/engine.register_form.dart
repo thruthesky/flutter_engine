@@ -1,10 +1,12 @@
-import 'package:clientf/flutter_engine/engine.globals.dart';
-import 'package:clientf/flutter_engine/engine.user.model.dart';
-import 'package:clientf/flutter_engine/widgets/engine.register.user_photo.dart';
-import 'package:clientf/flutter_engine/widgets/engine.space.dart';
-import 'package:clientf/flutter_engine/widgets/engine.text.dart';
-import 'package:clientf/flutter_engine/widgets/engine.upload_icon.dart';
-import 'package:clientf/flutter_engine/widgets/upload_progress_bar.dart';
+import 'package:flutter_community_app/globals.dart';
+
+import '../engine.globals.dart';
+import '../engine.user.model.dart';
+import './engine.register.user_photo.dart';
+import './engine.space.dart';
+import './engine.text.dart';
+import './engine.upload_icon.dart';
+import './upload_progress_bar.dart';
 import 'package:flutter/material.dart';
 
 class EngineRegisterFrom extends StatefulWidget {
@@ -94,13 +96,13 @@ class _EngineRegisterFromState extends State<EngineRegisterFrom> {
       children: <Widget>[
         EngineUploadIcon(
           user,
-          (p) {
+          onProgress: (p) {
             /// 업로드 Percentage 표시
             setState(() {
               progress = p;
             });
           },
-          (String url) async {
+          onUploadComplete: (String url) async {
             /// 사진 업로드
             try {
               /// 사진을 업로드하면, `Enginef` 에 바로 저장을 해 버린다. 즉, 전송 버튼을 누르지 않아도 이미 업데이트가 되어져 버린다.
@@ -111,6 +113,7 @@ class _EngineRegisterFromState extends State<EngineRegisterFrom> {
               // AppService.alert(null, t(e));
             }
           },
+          onError: (e) => alert(null, t(e)),
           icon: EngineRegisterUserPhoto(
             user,
             onError: (e) => widget.onError(e),
