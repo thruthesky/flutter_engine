@@ -1,5 +1,11 @@
-import './engine.i18n.dart';
 
+import 'package:cloud_functions/cloud_functions.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:google_sign_in/google_sign_in.dart';
+
+import './engine.i18n.dart';
 import './engine.category.model.dart';
 import './engine.category_list.model.dart';
 import './engine.comment.model.dart';
@@ -7,11 +13,6 @@ import './engine.defines.dart';
 import './engine.error.model.dart';
 import './engine.post.model.dart';
 import './engine.user.model.dart';
-import 'package:cloud_functions/cloud_functions.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:google_sign_in/google_sign_in.dart';
 
 /// EngineF Model
 ///
@@ -24,6 +25,16 @@ import 'package:google_sign_in/google_sign_in.dart';
 ///
 /// * 기본적으로 모든 사용자는 Anonymous 로 로그인을 한다. 사용자가 로그인을 안했거나 로그아웃을 하면 자동적으로 Anonymous 로 로그인을 한다.
 class EngineModel extends ChangeNotifier {
+
+  /// 글로벌 키
+  GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
+
+  /// 글로벌 키를 바탕으로 한, 글로벌 context
+  /// 
+  /// `Engine` 의 i18n 이나 위젯들에서 사용한다.
+  /// Returns the context of [navigatorKey]
+  BuildContext get context => navigatorKey.currentState.overlay.context;
+
   /// 사용자가 로그인을 하면, 사용자 정보를 가진다. 로그인을 안한 상태이면 null.
   FirebaseUser user;
 
