@@ -14,8 +14,12 @@ import 'package:google_sign_in/google_sign_in.dart';
 
 /// EngineF Model
 ///
-/// EngineF Model 은 `Firebase Clould Functions EnginF 백엔드`와 와 통신을 관리하는 주요 모델
-/// `ChangeNotifier`를 상속하여 사용자 로그인/로그아웃 등의 Sate 를 관리한다.
+/// 이 모델은 `Engine`과 와 통신을 관리하는 주요 모델
+/// 
+/// * `ChangeNotifier`를 상속하여 사용자 로그인/로그아웃 등의 Sate 를 관리한다.
+/// * 사용자의 로그인/로그아웃 state 는 앱의 전반적인 영역에서 필요하므로, 이 모델을 앱의 최 상단에서 `provide` 하면 된다.
+/// 
+/// 
 ///
 /// * 기본적으로 모든 사용자는 Anonymous 로 로그인을 한다. 사용자가 로그인을 안했거나 로그아웃을 하면 자동적으로 Anonymous 로 로그인을 한다.
 class EngineModel extends ChangeNotifier {
