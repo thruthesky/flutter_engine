@@ -17,7 +17,43 @@ git submodule add https://github.com/thruthesky/flutter_engine lib/flutter_engin
 * 주의: 다른 프로젝트의 GoogleService-Info.plist 를 복사하면 Bundle ID 가 틀려서 안된다.
   * 반드시 Firebase 에 새로운 앱을 등록하고 그 serivice key 파일을 받아야 한다.
 
+### 익명 아이콘 설정
+
+* `flutter_engine/assets/images/user-icon.png` 를 `assets`에 추가를 해 주어야 한다.
+  * 주의: 폴더 경로가 다르면, 위치를 적절하게 수정 해 주어야 한다.
+
+``` yml
+flutter:
+  assets:
+    - lib/flutter_engine/assets/images/user-icon.png
+```
+
+
 ### 패키지 설치
+
+### iOS Info.plsit 수정
+
+* 필요한 정보를 적절하게 추가한다.
+* `<key>CFBundleLocalizations</key>`는 언어화에 필요한 것이다.
+
+``` xml
+	<key>CFBundleLocalizations</key>
+	<array>
+		<string>en</string>
+		<string>ko</string>
+		<string>ja</string>
+		<string>zh</string>
+	</array>
+	
+	<key>NSCameraUsageDescription</key>
+	<string>This app requires access to the Camera to take images for posting on its forum and updating user profile.</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>This app requires access to the microphone.</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>This app requires access to the Photo Library to display images</string>
+	<key>NSContactsUsageDescription</key>
+	<string>This app requires access to the Contact.</string>
+```
 
 
 ## Test

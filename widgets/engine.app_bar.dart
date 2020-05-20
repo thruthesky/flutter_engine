@@ -2,8 +2,6 @@ import 'dart:io';
 import '../engine.defines.dart';
 import '../engine.model.dart';
 
-import 'package:clientf/globals.dart';
-import 'package:clientf/services/app.defines.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_image/network.dart';
 import 'package:provider/provider.dart';
@@ -36,6 +34,7 @@ class EngineAppBar extends StatelessWidget with PreferredSizeWidget {
     this.automaticallyImplyLeading = true,
     this.onPressedCreatePostButton,
     this.displayUserPhoto = true,
+    @required this.onTapUserPhoto,
   });
 
   final String title;
@@ -46,6 +45,8 @@ class EngineAppBar extends StatelessWidget with PreferredSizeWidget {
   final bool automaticallyImplyLeading;
   final Function onPressedCreatePostButton;
   final bool displayUserPhoto;
+
+  final Function onTapUserPhoto;
 
   _openAppDrawer(ScaffoldState scaffold) {
     if (scaffold.hasDrawer) {
@@ -72,7 +73,7 @@ class EngineAppBar extends StatelessWidget with PreferredSizeWidget {
       backgroundColor: backgroundColor,
       actions: <Widget>[
         if (actions != null) actions,
-        if (displayUserPhoto) UserPhoto(),
+        if (displayUserPhoto) UserPhoto(onTapUserPhoto),
         AppTitleMenuIcon(
           visible: scaffold.hasEndDrawer,
           onTap: () => _openAppDrawer(scaffold),
@@ -83,21 +84,22 @@ class EngineAppBar extends StatelessWidget with PreferredSizeWidget {
 }
 
 class UserPhoto extends StatelessWidget {
-  const UserPhoto({
+  const UserPhoto(this.onTap, {
     Key key,
   }) : super(key: key);
 
+final Function onTap;
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       behavior: HitTestBehavior.opaque,
-      onTap: () => open(app.loggedIn ? AppRoutes.register : AppRoutes.login),
+      onTap: () => onTap(),
       child: ClipOval(
         child: Selector<EngineModel, String>(
           builder: (context, url, child) {
             if (url == null || url == '' || url == DELETED_PHOTO) {
               return Image.asset(
-                'assets/images/user-icon.png',
+                'lib/flutter_engine/assets/images/user-icon.png',
                 width: 40,
                 height: 40,
                 fit: BoxFit.contain,
