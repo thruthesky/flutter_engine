@@ -1,9 +1,11 @@
 import 'package:clientf/enginf_clientf_service/enginf.comment.model.dart';
 import 'package:clientf/enginf_clientf_service/enginf.model.dart';
 import 'package:clientf/enginf_clientf_service/enginf.post.model.dart';
+import 'package:clientf/services/app.defines.dart';
 import 'package:clientf/services/app.i18n.dart';
 import 'package:clientf/services/app.service.dart';
 import 'package:flutter/material.dart';
+import 'package:hive/hive.dart';
 
 /// 게시판 헬퍼 클래스
 ///
@@ -20,36 +22,61 @@ import 'package:flutter/material.dart';
 /// 기능
 /// * 캐시
 /// * 스크롤이 되면 자동으로 다음 페이지 불러 오기
-class EngineForumList {
-  String id;
+class EngineForum {
+  String _id;
+  String _cacheKey;
+
+  /// 한 페이지(글 목록)의 글 수. 직접 수정을 하면 된다.
+  int _limit;
+  Function _onLoad;
+
   EngineModel f = EngineModel();
 
   List<EnginePost> posts = [];
 
-  /// 한 페이지(글 목록)의 글 수. 직접 수정을 하면 된다.
-  int noOfPostsPerPage = 10;
-
+  int pageNo = 1;
   bool loading = false;
   bool noMorePosts = false;
-  Function callbackOnLoad;
 
   final scrollController =
       ScrollController(initialScrollOffset: 0.0, keepScrollOffset: true);
 
-  EngineForumList();
+  /// 생성자. 초기화를 한다.
+  EngineForum() {
+    initScrollListener();
+  }
 
-
+  /// 
   initScrollListener() {
     scrollController.addListener(_scrollListener);
   }
 
+  String get id => _id;
+  bool get cache {
+    return _cacheKey != null && pageNo == 1;
+  }
 
   /// 글 목록을 한다.
-  /// 
+  ///
   /// 글 목록을 할 때, 처음에는 한번 호출을 해 줘야한다. 그 다음 부터는 스크롤읋 할 때마다 자동으로 다음 페이지를 로드한다.
   /// [onLoad] 이 것은 페이지가 로드 될 때 마다 호출 된다. setState() 와 같은 필요한 작업을 하면 된다.
-  loadPage({@required Function onLoad}) async {
-    if (onLoad != null) callbackOnLoad = onLoad;
+  ///
+  /// [cacheKey]이 것이 문자열이면 이면,
+  ///
+  /// * 첫번째 페이지만 캐시를 한다.
+  /// * 첫 페이지를 로드 할 때, `onLoad`가 두번 호출 된다.
+  ///
+  loadPage({
+    String id,
+    Function onLoad,
+    int limit = 20,
+    String cacheKey,
+  }) async {
+    _id ??= id;
+    _onLoad ??= onLoad;
+    _limit ??= limit;
+    _cacheKey ??= cacheKey;
+
     if (noMorePosts) {
       print('---------> No more posts on $id ! just return!');
       return;
@@ -57,22 +84,48 @@ class EngineForumList {
     loading = true;
     var req = {
       'categories': [id],
-      'limit': noOfPostsPerPage,
+      'limit': _limit,
       'includeComments': true,
     };
     if (posts.length > 0) {
       req['startAfter'] = posts[posts.length - 1].createdAt;
     }
 
+    if (cache) {
+      var re = Hive.box(HiveBox.cache).get(cacheKey);
+      if (re != null) {
+        print('Got cache: cache id: $cacheKey');
+        posts = f.sanitizePosts(re);
+        _onLoad();
+      }
+    }
+
     try {
-      final _re = await f.postList(req);
+      final res = await f.postDocuments(req);
+
+      /// 캐시 저장
+      if (cache) {
+        print('Save cache: cache id: $cacheKey');
+        Hive.box(HiveBox.cache).put(cacheKey, res);
+      }
+      final _posts = f.sanitizePosts(res);
+
       loading = false;
-      if (_re.length < noOfPostsPerPage) {
+
+      /// 더 이상 글이 없는 경우
+      if (_posts.length < _limit) {
         noMorePosts = true;
       }
-      posts.addAll(_re);
 
-      callbackOnLoad();
+      /// 캐시를 하는 경우, 첫 페이지 글은 덮어 쓴다.
+      if (cache) {
+        posts = _posts;
+      } else {
+        posts.addAll(_posts);
+      }
+
+      pageNo++;
+      _onLoad();
     } catch (e) {
       print(e);
 
@@ -83,7 +136,7 @@ class EngineForumList {
 
   void _scrollListener() {
     if (noMorePosts) {
-      print('_scrollListener:: no more posts on $id. just return!');
+      print('_scrollListener:: no more posts on $_id. just return!');
       return;
     }
 
@@ -95,8 +148,8 @@ class EngineForumList {
 
     /// @warning `mount` check is needed here?
 
-    print('_scrollListener() going to load on $id');
-    loadPage(onLoad: null);
+    print('_scrollListener() going to load on $_id');
+    loadPage();
 
     loading = true;
   }
