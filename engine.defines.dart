@@ -29,3 +29,14 @@ const String LOGIN_FIRST = 'login_first';
 
 
 const String ALREADY_LOGIN_ON_REGISTER_PAGE = 'already_login_on_register_page';
+
+
+const String DELETED_PHOTO = 'https://userphoto.org/deleted.png';
+
+const String POST_TITLE_DELETED = 'post-title-deleted';
+const String POST_CONTENT_DELETED = 'post-content-deleted';
+const String COMMENT_POST_CONTENT_DELETED = 'comment-content-deleted';
+const String NO_TITLE = 'no title';
+
+
+

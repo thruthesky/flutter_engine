@@ -1,9 +1,6 @@
 import './engine.comment.model.dart';
 import './engine.model.dart';
 import './engine.post.model.dart';
-import 'package:clientf/services/app.defines.dart';
-import 'package:clientf/services/app.i18n.dart';
-import 'package:clientf/services/app.service.dart';
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 
@@ -25,10 +22,16 @@ import 'package:hive/hive.dart';
 class EngineForum {
   String _id;
   String _cacheKey;
+  String _cacheBox = 'cache';
 
   /// 한 페이지(글 목록)의 글 수. 직접 수정을 하면 된다.
   int _limit;
+
+  /// 페이지(글 목록)을 가져오면 호출
   Function _onLoad;
+
+  /// 글 목록을 가져 올 때, 에러가 있으면 호출
+  Function _onError;
 
   EngineModel f = EngineModel();
 
@@ -68,14 +71,16 @@ class EngineForum {
   ///
   loadPage({
     String id,
-    Function onLoad,
     int limit = 20,
     String cacheKey,
+    Function onLoad,
+    Function onError,
   }) async {
     _id ??= id;
-    _onLoad ??= onLoad;
     _limit ??= limit;
     _cacheKey ??= cacheKey;
+    _onLoad ??= onLoad;
+    _onError ??= onError;
 
     if (noMorePosts) {
       print('---------> No more posts on $id ! just return!');
@@ -92,7 +97,7 @@ class EngineForum {
     }
 
     if (cache) {
-      var re = Hive.box(HiveBox.cache).get(cacheKey);
+      var re = Hive.box(_cacheBox).get(cacheKey);
       if (re != null) {
         print('Got cache: cache id: $cacheKey');
         posts = f.sanitizePosts(re);
@@ -106,7 +111,7 @@ class EngineForum {
       /// 캐시 저장
       if (cache) {
         print('Save cache: cache id: $cacheKey');
-        Hive.box(HiveBox.cache).put(cacheKey, res);
+        Hive.box(_cacheBox).put(cacheKey, res);
       }
       final _posts = f.sanitizePosts(res);
 
@@ -128,9 +133,12 @@ class EngineForum {
       _onLoad();
     } catch (e) {
       print(e);
+      if ( _onError != null ) {
+        _onError(e);
+      }
 
       ///
-      AppService.alert(null, t(e));
+      // AppService.alert(null, t(e));
     }
   }
 
