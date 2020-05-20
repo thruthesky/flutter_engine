@@ -1,4 +1,3 @@
-import 'package:flutter_community_app/globals.dart';
 
 import '../engine.globals.dart';
 import '../engine.user.model.dart';
@@ -113,7 +112,7 @@ class _EngineRegisterFromState extends State<EngineRegisterFrom> {
               // AppService.alert(null, t(e));
             }
           },
-          onError: (e) => alert(null, t(e)),
+          onError: (e) => widget.onError(e),
           icon: EngineRegisterUserPhoto(
             user,
             onError: (e) => widget.onError(e),
