@@ -1,7 +1,7 @@
+import 'package:clientf/flutter_engine/engine.globals.dart';
+
 import '../engine.defines.dart';
 import '../engine.model.dart';
-
-EngineModel ft = EngineModel();
 
 int failure = 0;
 String uid;
@@ -43,15 +43,14 @@ testError() async {
 }
 
 testRouter() async {
-  EngineModel engin = EngineModel();
   try {
-    await engin.callFunction({'route': 'wrong-class'});
+    await ef.callFunction({'route': 'wrong-class'});
   } catch (e) {
     equal(e.code, WRONG_CLASS_NAME, 'Wrong class name test');
   }
 
   try {
-    await engin.callFunction({'route': 'user.wrong-method'});
+    await ef.callFunction({'route': 'user.wrong-method'});
   } catch (e) {
     equal(e.code, WRONG_METHOD_NAME, 'Wrong method name test');
   }
@@ -67,23 +66,23 @@ testEngineUser() async {
 
   failure = 0;
   trace('user test ok');
-  trace(ft.user);
+  trace(ef.user);
   try {
-    await ft.register({});
+    await ef.register({});
     failed('Expect email is not provided');
   } catch (e) {
     equal(e.code, EMAIL_IS_NOT_PROVIDED, 'Register without email');
   }
 
   try {
-    await ft.register({'email': 'abc'});
+    await ef.register({'email': 'abc'});
     failed('Expect password is not provided');
   } catch (e) {
     equal(e.code, PASSWORD_IS_NOT_PROVIDED, 'Register without password');
   }
 
   try {
-    await ft.register({'email': 'abc', 'password': '12345a'});
+    await ef.register({'email': 'abc', 'password': '12345a'});
     failed('Expect invalid email');
   } catch (e) {
     /// TODO - Functions and Auth returns difference error code on same error.
@@ -94,7 +93,7 @@ testEngineUser() async {
   try {
     String email = '$id@myemail.com';
     trace('email: $email');
-    var user = await ft.register({'email': email, 'password': '12345a'});
+    var user = await ef.register({'email': email, 'password': '12345a'});
     uid = user.uid;
     equal(user.email, email, 'Register. Expect success.');
   } catch (e) {

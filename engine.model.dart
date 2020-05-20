@@ -26,25 +26,13 @@ import './engine.user.model.dart';
 /// * 기본적으로 모든 사용자는 Anonymous 로 로그인을 한다. 사용자가 로그인을 안했거나 로그아웃을 하면 자동적으로 Anonymous 로 로그인을 한다.
 class EngineModel extends ChangeNotifier {
 
-  /// 글로벌 키
-  GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
-
-  /// 글로벌 키를 바탕으로 한, 글로벌 context
-  /// 
-  /// `Engine` 의 i18n 이나 위젯들에서 사용한다.
-  /// Returns the context of [navigatorKey]
-  BuildContext get context => navigatorKey.currentState.overlay.context;
-
-  /// 사용자가 로그인을 하면, 사용자 정보를 가진다. 로그인을 안한 상태이면 null.
-  FirebaseUser user;
-
-  /// 파이어베이스 로그인을 연결하는 플러그인.
-  final FirebaseAuth _auth = FirebaseAuth.instance;
-
-  final GoogleSignIn _googleSignIn = GoogleSignIn();
-
   /// 생성자에서 초기화를 한다.
-  EngineModel() {
+  /// 
+  /// [navigatorKey] 앱에서 사용하는 `MaterialApp 의 navigatorKey에 등록하는 Global Navigator Key` 이다.
+  /// 글로벌 키를 바탕으로, 글로벌 context 나 위젯 등에서 사용한다.
+  EngineModel({
+    @required this.navigatorKey,
+  }) {
     /// 사용자가 로그인/로그아웃을 할 때 `user` 를 업데이트하고 notifyListeners() 를 호출.
     (() async {
       _auth.onAuthStateChanged.listen((_user) {
@@ -63,6 +51,23 @@ class EngineModel extends ChangeNotifier {
     final _engineI18N = EngineI18N();
     _engineI18N.i18nKeyCheck();
   }
+
+
+  /// 글로벌 키
+  /// 
+  GlobalKey<NavigatorState> navigatorKey ;
+
+  /// Returns the context of [navigatorKey]
+  BuildContext get context => navigatorKey.currentState.overlay.context;
+
+  /// 사용자가 로그인을 하면, 사용자 정보를 가진다. 로그인을 안한 상태이면 null.
+  FirebaseUser user;
+
+  /// 파이어베이스 로그인을 연결하는 플러그인.
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+
+  final GoogleSignIn _googleSignIn = GoogleSignIn();
+
 
   /// 백엔드로 호출하는 함수. 에러가 있으면 에러를 throw 한다.
   Future<dynamic> callFunction(Map<String, dynamic> request) async {

@@ -1,3 +1,5 @@
+import 'package:clientf/flutter_engine/engine.globals.dart';
+
 import './engine.comment.model.dart';
 import './engine.model.dart';
 import './engine.post.model.dart';
@@ -32,8 +34,6 @@ class EngineForum {
 
   /// 글 목록을 가져 올 때, 에러가 있으면 호출
   Function _onError;
-
-  EngineModel f = EngineModel();
 
   List<EnginePost> posts = [];
 
@@ -100,20 +100,20 @@ class EngineForum {
       var re = Hive.box(_cacheBox).get(cacheKey);
       if (re != null) {
         print('Got cache: cache id: $cacheKey');
-        posts = f.sanitizePosts(re);
+        posts = ef.sanitizePosts(re);
         _onLoad();
       }
     }
 
     try {
-      final res = await f.postDocuments(req);
+      final res = await ef.postDocuments(req);
 
       /// 캐시 저장
       if (cache) {
         print('Save cache: cache id: $cacheKey');
         Hive.box(_cacheBox).put(cacheKey, res);
       }
-      final _posts = f.sanitizePosts(res);
+      final _posts = ef.sanitizePosts(res);
 
       loading = false;
 
