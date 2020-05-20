@@ -1,4 +1,3 @@
-
 import 'package:cloud_functions/cloud_functions.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -25,9 +24,8 @@ import './engine.user.model.dart';
 ///
 /// * 기본적으로 모든 사용자는 Anonymous 로 로그인을 한다. 사용자가 로그인을 안했거나 로그아웃을 하면 자동적으로 Anonymous 로 로그인을 한다.
 class EngineModel extends ChangeNotifier {
-
   /// 생성자에서 초기화를 한다.
-  /// 
+  ///
   /// [navigatorKey] 앱에서 사용하는 `MaterialApp 의 navigatorKey에 등록하는 Global Navigator Key` 이다.
   /// 글로벌 키를 바탕으로, 글로벌 context 나 위젯 등에서 사용한다.
   EngineModel({
@@ -52,14 +50,12 @@ class EngineModel extends ChangeNotifier {
     _engineI18N.i18nKeyCheck();
   }
 
-
   /// 글로벌 키
-  /// 
-  GlobalKey<NavigatorState> navigatorKey ;
+  ///
+  GlobalKey<NavigatorState> navigatorKey;
 
   /// Returns the context of [navigatorKey]
   BuildContext get context {
-    
     return navigatorKey.currentState.overlay.context;
   }
 
@@ -70,7 +66,6 @@ class EngineModel extends ChangeNotifier {
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
   final GoogleSignIn _googleSignIn = GoogleSignIn();
-
 
   /// 백엔드로 호출하는 함수. 에러가 있으면 에러를 throw 한다.
   Future<dynamic> callFunction(Map<String, dynamic> request) async {
@@ -295,9 +290,32 @@ class EngineModel extends ChangeNotifier {
   List<EnginePost> sanitizePosts(List posts) {
     List<EnginePost> ret = [];
     for (var e in posts) {
-      ret.add(EnginePost.fromEnginData(e));
+      ret.add(
+        sanitizeComments(
+          EnginePost.fromEnginData(e),
+        ),
+      );
     }
     return ret;
+  }
+
+  /// 코멘트를 Map<dynamic, dynamic> 에서 EngineComment 로 변경한다.
+  ///
+  /// 원래는 성능 향상을 위해서 필요할 때 하려고 했는데, 많이 번거롭다. 그래서 데이터를 서버로 부터 가져 올 때 바로 한다.
+  /// 그래서, 코멘트를 변환하는 시간을 단축하려면, 서버로 부터 코멘트를 아예 가져오지를 말아야 한다.
+  EnginePost sanitizeComments(EnginePost post) {
+    var arr = [];
+    for (var c in post.comments) {
+      //   /// 주의! 한번 파싱을 했으면, Type 이 Map<dynamic, dynamic> 에서 EngineComment 로 벼하는데,
+      //   /// 랜더링을 다시 할 때, 또 다시 파싱하는데, 이 때, _TypeError 가 발생한다.
+      //   if (c is EngineComment) {
+      //     arr.add(c);
+      //   } else {
+      arr.add(EngineComment.fromEnginData(c));
+      // }
+    }
+    post.comments = arr;
+    return post;
   }
 
   /// post collection 의 document 를 가져온다.
