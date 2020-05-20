@@ -58,7 +58,10 @@ class EngineModel extends ChangeNotifier {
   GlobalKey<NavigatorState> navigatorKey ;
 
   /// Returns the context of [navigatorKey]
-  BuildContext get context => navigatorKey.currentState.overlay.context;
+  BuildContext get context {
+    
+    return navigatorKey.currentState.overlay.context;
+  }
 
   /// 사용자가 로그인을 하면, 사용자 정보를 가진다. 로그인을 안한 상태이면 null.
   FirebaseUser user;

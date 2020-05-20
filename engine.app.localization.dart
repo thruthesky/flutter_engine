@@ -1,4 +1,4 @@
-import 'package:clientf/flutter_engine/engine.i18n.dart';
+import './engine.i18n.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
