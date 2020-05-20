@@ -1,3 +1,5 @@
+import 'package:clientf/flutter_engine/engine.i18n.dart';
+
 import './engine.category.model.dart';
 import './engine.category_list.model.dart';
 import './engine.comment.model.dart';
@@ -11,15 +13,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
-
 /// EngineF Model
 ///
 /// 이 모델은 `Engine`과 와 통신을 관리하는 주요 모델
-/// 
+///
 /// * `ChangeNotifier`를 상속하여 사용자 로그인/로그아웃 등의 Sate 를 관리한다.
 /// * 사용자의 로그인/로그아웃 state 는 앱의 전반적인 영역에서 필요하므로, 이 모델을 앱의 최 상단에서 `provide` 하면 된다.
-/// 
-/// 
+///
+///
 ///
 /// * 기본적으로 모든 사용자는 Anonymous 로 로그인을 한다. 사용자가 로그인을 안했거나 로그아웃을 하면 자동적으로 Anonymous 로 로그인을 한다.
 class EngineModel extends ChangeNotifier {
@@ -47,6 +48,9 @@ class EngineModel extends ChangeNotifier {
         }
       });
     })();
+
+    final _engineI18N = EngineI18N();
+    _engineI18N.i18nKeyCheck();
   }
 
   /// 백엔드로 호출하는 함수. 에러가 있으면 에러를 throw 한다.
@@ -267,7 +271,7 @@ class EngineModel extends ChangeNotifier {
   }
 
   /// 게시글 도큐먼트를 EnginePost 로 변환한다.
-  /// 
+  ///
   /// [posts] 는 post collection 의 document 들이다.
   List<EnginePost> sanitizePosts(List posts) {
     List<EnginePost> ret = [];
