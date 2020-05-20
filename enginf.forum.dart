@@ -1,6 +1,6 @@
-import 'package:clientf/enginf_clientf_service/enginf.comment.model.dart';
-import 'package:clientf/enginf_clientf_service/enginf.model.dart';
-import 'package:clientf/enginf_clientf_service/enginf.post.model.dart';
+import './enginf.comment.model.dart';
+import './enginf.model.dart';
+import './enginf.post.model.dart';
 import 'package:clientf/services/app.defines.dart';
 import 'package:clientf/services/app.i18n.dart';
 import 'package:clientf/services/app.service.dart';

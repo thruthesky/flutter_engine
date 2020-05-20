@@ -1,5 +1,5 @@
-import 'package:clientf/enginf_clientf_service/enginf.defines.dart';
-import 'package:clientf/enginf_clientf_service/enginf.model.dart';
+import 'package:clientf/flutter_engine/enginf.defines.dart';
+import './enginf.model.dart';
 
 EngineModel ft = EngineModel();
 
