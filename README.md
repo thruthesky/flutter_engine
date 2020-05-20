@@ -7,7 +7,7 @@
 플터러 프로젝트 폴더에서 아래의 명령을 하면 된다.
 
 ```
-$ $ git submodule add https://github.com/thruthesky/flutter_engine lib/flutter_engine
+git submodule add https://github.com/thruthesky/flutter_engine lib/flutter_engine
 ```
 
 
