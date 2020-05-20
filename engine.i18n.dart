@@ -1,5 +1,4 @@
-import 'package:clientf/flutter_engine/engine.defines.dart';
-import 'package:clientf/services/app.defines.dart';
+import './engine.defines.dart';
 import 'package:flutter/foundation.dart';
 
 /// 대소문자 구분없이 기록

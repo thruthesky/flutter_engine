@@ -1,5 +1,4 @@
-import 'package:clientf/flutter_engine/widgets/space.dart';
-
+import '../widgets/space.dart';
 import '../engine.globals.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';

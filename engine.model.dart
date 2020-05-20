@@ -1,4 +1,4 @@
-import 'package:clientf/flutter_engine/engine.i18n.dart';
+import './engine.i18n.dart';
 
 import './engine.category.model.dart';
 import './engine.category_list.model.dart';

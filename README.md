@@ -4,11 +4,20 @@
 
 ## 설치
 
+### Git submodule 을 프로젝트에 추가
+
 플터러 프로젝트 폴더에서 아래의 명령을 하면 된다.
 
 ```
 git submodule add https://github.com/thruthesky/flutter_engine lib/flutter_engine
 ```
+
+### 플러터 프로젝트에 Firebase 설정
+
+* 주의: 다른 프로젝트의 GoogleService-Info.plist 를 복사하면 Bundle ID 가 틀려서 안된다.
+  * 반드시 Firebase 에 새로운 앱을 등록하고 그 serivice key 파일을 받아야 한다.
+
+### 패키지 설치
 
 
 ## Test
