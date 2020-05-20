@@ -1,4 +1,4 @@
-import 'package:clientf/flutter_engine/engine.defines.dart';
+import '../engine.defines.dart';
 import '../engine.model.dart';
 
 EngineModel ft = EngineModel();
