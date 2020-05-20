@@ -3,8 +3,8 @@ import '../engine.globals.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
-class EngineLogin extends StatelessWidget {
-  EngineLogin({
+class EngineLoginForm extends StatelessWidget {
+  EngineLoginForm({
     this.hintEmail = 'Email',
     this.hintPassword = 'Password',
     this.hintSubmit = 'Submit',

@@ -40,3 +40,4 @@ const String NO_TITLE = 'no title';
 
 
 
+const String ERROR_CAMERA_PERMISSION = 'permission-error-no-access-to-camera';
