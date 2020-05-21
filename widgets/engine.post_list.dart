@@ -1,6 +1,4 @@
 
-import '../engine.globals.dart';
-import 'package:flutter_community_app/flutter_engine/engine.globals.dart';
 
 import './engine.post_item.dart';
 import '../engine.forum.dart';
@@ -10,14 +8,18 @@ import 'package:flutter/material.dart';
 class EnginePostList extends StatefulWidget {
   EnginePostList(
     this.forum, {
-      @required this.onEdit,
-      @required this.onReply,
+    @required this.onEdit,
+    @required this.onReply,
+    @required this.onDelete,
+    @required this.onError,
     Key key,
   }) : super(key: key);
 
   final EngineForum forum;
   final Function onEdit;
   final Function onReply;
+  final Function onDelete;
+  final Function onError;
 
   @override
   _EnginePostListState createState() {
@@ -25,7 +27,6 @@ class EnginePostList extends StatefulWidget {
     return _state;
     }
 }
-
 
 
 class _EnginePostListState extends State<EnginePostList> {
@@ -38,12 +39,10 @@ class _EnginePostListState extends State<EnginePostList> {
       itemBuilder: (context, i) {
         return EnginePostItem(
           widget.forum.posts[i],
-          onEdit: () => widget.onEdit(widget.forum.posts[i]),
-          onReply: (post) {
-//
-          },
-          onDelete: () => engineAlert(t('post deleted')),
-          onError: (e) => engineAlert(t(e)),
+          onEdit: widget.onEdit,
+          onReply: widget.onReply,
+          onDelete: () => widget.onDelete,
+          onError: widget.onError,
         );
       },
     );
