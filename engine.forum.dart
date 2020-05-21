@@ -45,11 +45,11 @@ class EngineForum {
 
   /// 생성자. 초기화를 한다.
   EngineForum() {
-    initScrollListener();
+    _initScrollListener();
   }
 
   /// 
-  initScrollListener() {
+  _initScrollListener() {
     scrollController.addListener(_scrollListener);
   }
 

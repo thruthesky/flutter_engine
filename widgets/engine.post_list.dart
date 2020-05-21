@@ -1,21 +1,29 @@
-import 'package:clientf/flutter_engine/engine.comment.model.dart';
-import 'package:clientf/flutter_engine/engine.globals.dart';
-import 'package:clientf/flutter_engine/engine.post.model.dart';
-import 'package:clientf/globals.dart';
-import 'package:clientf/services/app.defines.dart';
-import 'package:clientf/services/app.service.dart';
+
+import '../engine.globals.dart';
 
 import './engine.post_item.dart';
 import '../engine.forum.dart';
 import 'package:flutter/material.dart';
 
+_EnginePostListState _state;
+
 class EnginePostList extends StatefulWidget {
-  EnginePostList(this.forum, {Key key}) : super(key: key);
+  EnginePostList(
+    this.forum, {
+      @required this.onEdit,
+      @required this.onReply,
+    Key key,
+  }) : super(key: key);
 
   final EngineForum forum;
+  final Function onEdit;
+  final Function onReply;
 
   @override
-  _EnginePostListState createState() => _EnginePostListState();
+  _EnginePostListState createState() {
+    _state = _EnginePostListState();
+    return _state;
+    }
 }
 
 class _EnginePostListState extends State<EnginePostList> {
@@ -28,16 +36,13 @@ class _EnginePostListState extends State<EnginePostList> {
       itemBuilder: (context, i) {
         return EnginePostItem(
           widget.forum.posts[i],
-          onEdit: (onDone) async => onDone(
-            await open(AppRoutes.postUpdate,
-                arguments: {'post': widget.forum.posts[i]}),
-          ),
+          onEdit: () => widget.onEdit(widget.forum.posts[i], _state),
           onReply: (onDone) async => onDone(
-            await AppService.openCommentBox(
-                widget.forum.posts[i], null, EngineComment()),
+            // await AppService.openCommentBox(
+            //     widget.forum.posts[i], null, EngineComment()),
           ),
-          onDelete: () => AppService.alert(null, t('post deleted')),
-          onError: (e) => AppService.alert(null, t(e)),
+          onDelete: () => engineAlert(t('post deleted')),
+          onError: (e) => engineAlert(t(e)),
         );
       },
     );

@@ -1,4 +1,4 @@
-import 'package:clientf/flutter_engine/widgets/engine.text.dart';
+import './widgets/engine.text.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 
 import './engine.app.localization.dart';
@@ -83,6 +83,30 @@ bottomSheet(List<Map<String, dynamic>> items) {
 
 void _back({arguments}) {
   Navigator.pop(ef.context, arguments);
+}
+
+
+
+/// Show alert box
+/// @example AppService.alert(null, e.message);
+engineAlert(String title, { String content}) {
+  if ( content == null ) {
+    content = title;
+    title = null;
+  }
+  showPlatformDialog(
+    context: ef.context,
+    builder: (_) => PlatformAlertDialog(
+      title: title != null ? Text(title) : null,
+      content: Text(content),
+      actions: <Widget>[
+        PlatformDialogAction(
+          child: PlatformText(t('Ok')),
+          onPressed: () => Navigator.pop(ef.context),
+        ),
+      ],
+    ),
+  );
 }
 
 

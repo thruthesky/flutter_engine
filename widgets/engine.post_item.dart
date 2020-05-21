@@ -3,10 +3,8 @@ import './engine.comment_list.dart';
 import '../engine.globals.dart';
 import './engine.post_item_content.dart';
 
-import '../../flutter_engine/engine.comment.model.dart';
 import '../../flutter_engine/engine.forum.dart';
 import '../../flutter_engine/engine.post.model.dart';
-import 'package:clientf/pages/post_list/widgets/comment_box.dart';
 
 // import 'package:clientf/services/app.service.dart';
 import 'package:flutter/material.dart';
@@ -59,6 +57,7 @@ class _EnginePostItemState extends State<EnginePostItem> {
             children: <Widget>[
               RaisedButton(
                 child: Text('Reply'),
+
                 /// README Ping/pong callback 참고
                 onPressed: () => widget.onReply((comment) {
                   forum.addComment(comment, post, null);
@@ -79,12 +78,13 @@ class _EnginePostItemState extends State<EnginePostItem> {
                 child: Text('Edit'),
 
                 /// README Ping/pong callback 참고
-                onPressed: () => widget.onEdit((updatedPost) {
-                  forum.updatePost(post, updatedPost);
-                  setState(() {
-                    /** 수정된 글 rendering */
-                  });
-                }),
+                onPressed: widget.onEdit,
+                // () => widget.onEdit((updatedPost) {
+                //   forum.updatePost(post, updatedPost);
+                //   setState(() {
+                //     /** 수정된 글 rendering */
+                //   });
+                // }),
               ),
               RaisedButton(
                 onPressed: () async {
