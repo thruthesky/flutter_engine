@@ -8,10 +8,6 @@ import './upload_progress_bar.dart';
 
 import '../engine.comment.model.dart';
 import '../engine.post.model.dart';
-import 'package:clientf/globals.dart';
-import 'package:clientf/services/app.color.dart';
-
-import 'package:clientf/services/app.service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 
@@ -20,8 +16,11 @@ class EngineCommentBox extends StatefulWidget {
     this.post, {
     this.parentComment,
     this.currentComment,
-    this.onSubmit,
-    // this.onCancel,
+    // this.onSubmit,
+    @required this.onReply,
+    @required this.onUpdate,
+    @required this.onCancel,
+    @required this.onError,
     Key key,
   }) : super(key: key);
   final EnginePost post;
@@ -30,10 +29,13 @@ class EngineCommentBox extends StatefulWidget {
   final EngineComment parentComment;
 
   /// When user updates a comment, [currentComemnt] will be set.
+
   final EngineComment currentComment;
 
-  final Function onSubmit;
-  // final Function onCancel;
+  final Function onReply;
+  final Function onUpdate;
+  final Function onCancel;
+  final Function onError;
 
   @override
   _EngineCommentBoxState createState() => _EngineCommentBoxState();
@@ -125,7 +127,7 @@ class _EngineCommentBoxState extends State<EngineCommentBox> {
       ),
       body: SafeArea(
         child: Container(
-          color: AppColor.light,
+          color: Colors.black38,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
@@ -143,7 +145,7 @@ class _EngineCommentBoxState extends State<EngineCommentBox> {
                   onUploadComplete: (String url) {
                     setState(() {});
                   },
-                  onError: (e) => AppService.alert(null, t(e)),
+                  onError: (e) => widget.onError(e),
                   ),
                   Expanded(
                     child: TextField(
@@ -171,13 +173,13 @@ class _EngineCommentBoxState extends State<EngineCommentBox> {
                           /// create (reply)
                           var re = await ef.commentCreate(data);
                           print('create: $data');
-                          back(arguments: re);
+                          engineBack(arguments: re);
                         } else {
                           /// update
                           var re = await ef.commentUpdate(getFormData());
                           print('EngineCommentBox:: Comment update. $re');
                           widget.currentComment.content = re.content;
-                          back(arguments: re);
+                          engineBack(arguments: re);
                         }
                       } catch (e) {
                         print(e);

@@ -6,7 +6,6 @@ import './engine.post_item.dart';
 import '../engine.forum.dart';
 import 'package:flutter/material.dart';
 
-_EnginePostListState _state;
 
 class EnginePostList extends StatefulWidget {
   EnginePostList(
@@ -22,7 +21,7 @@ class EnginePostList extends StatefulWidget {
 
   @override
   _EnginePostListState createState() {
-    _state = _EnginePostListState();
+    var _state = _EnginePostListState();
     return _state;
     }
 }
@@ -37,7 +36,7 @@ class _EnginePostListState extends State<EnginePostList> {
       itemBuilder: (context, i) {
         return EnginePostItem(
           widget.forum.posts[i],
-          onEdit: () => widget.onEdit(widget.forum.posts[i], _state),
+          onEdit: () => widget.onEdit(widget.forum.posts[i]),
           onReply: (onDone) async => onDone(
             // await AppService.openCommentBox(
             //     widget.forum.posts[i], null, EngineComment()),

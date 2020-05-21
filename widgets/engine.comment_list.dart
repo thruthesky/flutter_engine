@@ -1,8 +1,11 @@
-import 'package:clientf/flutter_engine/engine.globals.dart';
-import 'package:clientf/flutter_engine/engine.post.model.dart';
-
+import '../engine.globals.dart';
 import '../engine.post.model.dart';
+<<<<<<< HEAD
 import './comment_item.dart';
+=======
+import './engine.comment_item.dart';
+
+>>>>>>> 9b2cee297ca8547a1698446551b4dd810aefe158
 import 'package:flutter/material.dart';
 
 class EngineCommentList extends StatefulWidget {
@@ -29,7 +32,7 @@ class _EngineCommentListState extends State<EngineCommentList> {
       children: <Widget>[
         if (widget.post.comments != null)
           for (var c in widget.post.comments)
-            CommentItem(
+            EngineCommentItem(
               widget.post,
               c,
               key: ValueKey(c.id ?? randomString()),

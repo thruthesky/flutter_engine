@@ -1,10 +1,7 @@
-<<<<<<< HEAD
 import './widgets/engine.text.dart';
-=======
 import 'dart:math';
 
-import 'package:clientf/flutter_engine/widgets/engine.text.dart';
->>>>>>> e5f0bbf946fd1dc4b8aa3072d3f9feca0705b25e
+// import './widgets/engine.text.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 
 import './engine.app.localization.dart';
