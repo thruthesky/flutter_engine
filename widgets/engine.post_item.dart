@@ -8,7 +8,11 @@ import './engine.post_item_content.dart';
 import '../../flutter_engine/engine.forum.dart';
 import '../../flutter_engine/engine.post.model.dart';
 // import 'package:clientf/services/app.service.dart';
+import '../engine.forum.dart';
+import '../engine.post.model.dart';
+
 import 'package:flutter/material.dart';
+
 
 /// 글을 보여주고 수정/삭제/코멘트 등의 작업을 할 수 있다.
 ///
@@ -60,12 +64,7 @@ class _EnginePostItemState extends State<EnginePostItem> {
                 child: Text('Reply'),
 
                 /// README Ping/pong callback 참고
-                onPressed: () => widget.onReply((comment) {
-                  forum.addComment(comment, post, null);
-                  setState(() {
-                    /// 코멘트 작성 rendering
-                  });
-                }),
+                onPressed: () => widget.onReply(widget.post),
                 // () async {
                 //   final re = await AppService.openCommentBox(
                 //       post, null, EngineComment());
@@ -79,7 +78,7 @@ class _EnginePostItemState extends State<EnginePostItem> {
                 child: Text('Edit'),
 
                 /// README Ping/pong callback 참고
-                onPressed: widget.onEdit,
+                onPressed: () => widget.onEdit(widget.post),
                 // () => widget.onEdit((updatedPost) {
                 //   forum.updatePost(post, updatedPost);
                 //   setState(() {

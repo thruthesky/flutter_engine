@@ -1,8 +1,8 @@
+import 'package:clientf/flutter_engine/engine.globals.dart';
 import 'package:clientf/flutter_engine/engine.post.model.dart';
 
 import '../engine.post.model.dart';
-import 'package:clientf/globals.dart';
-import 'package:clientf/pages/post_list/widgets/comment_item.dart';
+import './comment_item.dart';
 import 'package:flutter/material.dart';
 
 class EngineCommentList extends StatefulWidget {
@@ -22,8 +22,6 @@ class _EngineCommentListState extends State<EngineCommentList> {
     super.initState();
   }
 
-
-
   @override
   Widget build(BuildContext context) {
     /// 글 하나에 달려있는 코멘트 목록을 표시한다.
@@ -31,7 +29,7 @@ class _EngineCommentListState extends State<EngineCommentList> {
       children: <Widget>[
         if (widget.post.comments != null)
           for (var c in widget.post.comments)
-            CommentItem(
+            EngineCommentItem(
               widget.post,
               c,
               key: ValueKey(c.id ?? randomString()),

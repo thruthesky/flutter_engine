@@ -94,13 +94,13 @@ class _DeleteIconState extends State<DeleteIcon> {
         /// TODO: 파일을 삭제를 하면, 실패를 해도 [urls] 에서 없앤다. 즉, 실패를 하면, 파일이 없는 것으로 간주하는 것이다. 다른 에러가 있을 수 있으니 확인한다.
         widget.onDelete();
       },
-      color: AppColor.light,
+      color: Colors.black26,
       child: inLoading
           ? PlatformCircularProgressIndicator()
           : Icon(
               Icons.delete,
               size: 24,
-              color: AppColor.primaryColorDark,
+              color: Colors.blueGrey,
             ),
       padding: EdgeInsets.all(4.0),
       shape: CircleBorder(),
