@@ -1,12 +1,13 @@
+import 'package:clientf/flutter_engine/widgets/comment_box.dart';
+
 import './engine.comment_list.dart';
 
 import '../engine.globals.dart';
 import './engine.post_item_content.dart';
 
-import '../../flutter_engine/engine.comment.model.dart';
 import '../../flutter_engine/engine.forum.dart';
 import '../../flutter_engine/engine.post.model.dart';
-import 'package:clientf/pages/post_list/widgets/comment_box.dart';
+import './comment_box.dart';
 
 // import 'package:clientf/services/app.service.dart';
 import 'package:flutter/material.dart';
@@ -125,7 +126,7 @@ class _EnginePostItemState extends State<EnginePostItem> {
             ],
           ),
           if (showCommentBox)
-            CommentBox(
+            EngineCommentBox(
               post,
               // onCancel: () => setState(() => showCommentBox = false),
               onSubmit: () => setState(() => showCommentBox = false),
