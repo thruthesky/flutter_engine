@@ -1,4 +1,10 @@
 
+import './engine.text.dart';
+
+import './engine.display_uploaded_images.dart';
+
+import '../engine.globals.dart';
+
 import '../engine.comment.model.dart';
 import '../engine.post.model.dart';
 import 'package:flutter/material.dart';
@@ -31,8 +37,8 @@ class _EngineCommentItemState extends State<EngineCommentItem> {
     if (widget.comment == null) return SizedBox.shrink();
     return Container(
       width: double.infinity,
-      padding: EdgeInsets.all(AppSpace.space),
-      color: AppColor.scaffoldBackgroundColor,
+      padding: EdgeInsets.all(8.0),
+      color: Colors.blueAccent,
       child: Column(
         children: <Widget>[
           Column(
@@ -86,9 +92,9 @@ class EngineCommentContent extends StatelessWidget {
     return Container(
       width: double.infinity,
       child: Container(
-        color: AppColor.light,
-        margin: EdgeInsets.only(left: AppSpace.space * comment.depth),
-        padding: EdgeInsets.all(AppSpace.space),
+        color: Colors.white30,
+        margin: EdgeInsets.only(left: 8.0 * comment.depth),
+        padding: EdgeInsets.all(8.0),
         child: Column(
           children: <Widget>[
             EngineDisplayUploadedImages(
