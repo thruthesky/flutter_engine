@@ -20,6 +20,7 @@ class EnginePostTitle extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    if ( this.post == null ) return SizedBox.shrink();
     String title;
     if (post.title == null || post.title == '')
       title = t(NO_TITLE);
