@@ -23,7 +23,7 @@ import 'package:hive/hive.dart';
 class EngineForum {
   String _id;
   String _cacheKey;
-  String _cacheBox = 'cache';
+  
 
   /// 한 페이지(글 목록)의 글 수. 직접 수정을 하면 된다.
   int _limit;
@@ -96,7 +96,7 @@ class EngineForum {
     }
 
     if (cache) {
-      var re = Hive.box(_cacheBox).get(cacheKey);
+      var re = Hive.box(hiveCacheBox).get(cacheKey);
       if (re != null) {
         print('Got cache: cache id: $cacheKey');
         posts = ef.sanitizePosts(re);
@@ -110,7 +110,7 @@ class EngineForum {
       /// 캐시 저장
       if (cache) {
         print('Save cache: cache id: $cacheKey');
-        Hive.box(_cacheBox).put(cacheKey, res);
+        Hive.box(hiveCacheBox).put(cacheKey, res);
       }
       final _posts = ef.sanitizePosts(res);
 

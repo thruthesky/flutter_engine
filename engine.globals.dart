@@ -1,3 +1,6 @@
+import 'package:clientf/flutter_engine/widgets/engine.text.dart';
+import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
+
 import './engine.app.localization.dart';
 import './engine.error.model.dart';
 import 'package:flutter/material.dart';
@@ -21,6 +24,9 @@ EngineModel get ef {
       '[GlobalKey<NavigatorState> navigatorKey] is not set. So, you cannot use context in Engine. Please set it on main.dart');
   return _ef;
 }
+
+const String hiveCacheBox = 'cache';
+
 
 /// Returns translated string from the text code.
 /// If [code] is [EngineError], then it takes [EngineError.code] as [code] and translate it.
@@ -72,3 +78,41 @@ bottomSheet(List<Map<String, dynamic>> items) {
     },
   );
 }
+
+
+
+void _back({arguments}) {
+  Navigator.pop(ef.context, arguments);
+}
+
+
+  /// Can it be synchronous by using async/await? So, it does not need to use callback functions.
+  engineConfirm(
+      {String title, String content, Function onNo, Function onYes}) {
+    return showPlatformDialog<void>(
+      context: ef.context,
+      builder: (context) {
+        return AlertDialog(
+          title: title != null ? Text(title) : null,
+          content: Text(content),
+          actions: <Widget>[
+            FlatButton(
+              child: T('no'),
+              onPressed: () {
+                onNo();
+                _back();
+              },
+            ),
+            FlatButton(
+              child: T('yes'),
+              onPressed: () {
+                onYes();
+                _back();
+              },
+            )
+          ],
+        );
+      },
+    );
+  }
+

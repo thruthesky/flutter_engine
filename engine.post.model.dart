@@ -45,6 +45,7 @@ class EnginePost {
   /// 
   /// 글 수정 할 때 유용하게 사용 할 수 있다.
   replaceWith(EnginePost post) {
+    if ( post == null ) return;
     id = post.id;
     categories = post.categories;
     title = post.title;
