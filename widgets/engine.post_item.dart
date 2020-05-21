@@ -1,3 +1,6 @@
+import 'package:clientf/flutter_engine/engine.comment.model.dart';
+import 'package:clientf/globals.dart';
+import 'package:clientf/services/app.service.dart';
 
 import './engine.comment_box.dart';
 
@@ -11,25 +14,33 @@ import '../engine.post.model.dart';
 
 import 'package:flutter/material.dart';
 
-
 /// 글을 보여주고 수정/삭제/코멘트 등의 작업을 할 수 있다.
 ///
 /// 다만, 새글을 추가하지는 않는다. 따라서 글 목록 자체는 필요 없이 글 하나의 정보만 필요하다.
 class EnginePostItem extends StatefulWidget {
   EnginePostItem(
     this.post, {
-    @required this.onEdit,
+    @required this.onUpdate,
     @required this.onReply,
     @required this.onDelete,
     @required this.onError,
+    @required this.onCommentReply,
+    @required this.onCommentUpdate,
+    @required this.onCommentDelete,
+    @required this.onCommentError,
     Key key,
   }) : super(key: key);
 
   final EnginePost post;
-  final Function onEdit;
+  final Function onUpdate;
   final Function onReply;
   final Function onDelete;
   final Function onError;
+
+  final Function onCommentReply;
+  final Function onCommentUpdate;
+  final Function onCommentDelete;
+  final Function onCommentError;
 
   @override
   _EnginePostItemState createState() => _EnginePostItemState();
@@ -37,7 +48,7 @@ class EnginePostItem extends StatefulWidget {
 
 class _EnginePostItemState extends State<EnginePostItem> {
   bool showContent = true;
-  bool showCommentBox = false;
+  // bool showCommentBox = true;
 
   @override
   void initState() {
@@ -76,8 +87,8 @@ class _EnginePostItemState extends State<EnginePostItem> {
                 child: Text('Edit'),
 
                 /// README Ping/pong callback 참고
-                onPressed: () => widget.onEdit(widget.post),
-                // () => widget.onEdit((updatedPost) {
+                onPressed: () => widget.onUpdate(widget.post),
+                // () => widget.onUpdate((updatedPost) {
                 //   forum.updatePost(post, updatedPost);
                 //   setState(() {
                 //     /** 수정된 글 rendering */
@@ -122,16 +133,30 @@ class _EnginePostItemState extends State<EnginePostItem> {
               ),
             ],
           ),
-          if (showCommentBox)
-            EngineCommentBox(
-              post,
-              // onCancel: () => setState(() => showCommentBox = false),
-              onSubmit: () => setState(() => showCommentBox = false),
-              key: ValueKey('EnginePostItem::CommentBox::' + post.id),
-            ),
+          // if (showCommentBox)
+          //   EngineCommentBox(
+          //     /// 글 바로 아래에
+          //     post,
+          //     // onCancel: () => setState(() => showCommentBox = false),
+          //     onCommentReply: (EngineComment comment) {
+          //       setState(() => showCommentBox = false);
+          //       back(arguments: comment);
+          //     },
+          //     onCommentUpdate: (EngineComment comment) {
+          //       /// 글 메뉴에서는 오직 Reply 만 있다. 업데이트는 없다.
+          //       // setState(() => showCommentBox = false);
+          //       // back(arguments: comment);
+          //     },
+          //     key: ValueKey('EnginePostItem::CommentBox::' + post.id),
+          //     onCommentError: (e) => AppService.alert(null, t(e)),
+          //   ),
           EngineCommentList(
             post,
             key: ValueKey('ColumnList${post.id}'),
+            onCommentReply: widget.onCommentReply,
+            onCommentUpdate: widget.onCommentUpdate,
+            onCommentDelete: widget.onCommentDelete,
+            onCommentError: widget.onCommentError,
           )
         ],
       );

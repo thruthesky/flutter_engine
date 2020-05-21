@@ -7,8 +7,17 @@ import 'package:flutter/material.dart';
 class EngineCommentList extends StatefulWidget {
   EngineCommentList(
     this.post, {
+    @required this.onCommentReply,
+    @required this.onCommentUpdate,
+    @required this.onCommentDelete,
+    @required this.onCommentError,
     Key key,
   }) : super(key: key);
+
+  final Function onCommentReply;
+  final Function onCommentUpdate;
+  final Function onCommentDelete;
+  final Function onCommentError;
 
   final EnginePost post;
   @override
@@ -32,7 +41,10 @@ class _EngineCommentListState extends State<EngineCommentList> {
               widget.post,
               c,
               key: ValueKey(c.id ?? randomString()),
-              onStateChanged: () => setState(() => {}),
+              onCommentReply: widget.onCommentReply,
+              onCommentUpdate: widget.onCommentUpdate,
+              onCommentDelete: widget.onCommentDelete,
+              onCommentError: widget.onCommentError,
             ),
       ],
     );

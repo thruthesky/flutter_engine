@@ -8,10 +8,6 @@ import './upload_progress_bar.dart';
 
 import '../engine.comment.model.dart';
 import '../engine.post.model.dart';
-import 'package:clientf/globals.dart';
-import 'package:clientf/services/app.color.dart';
-
-import 'package:clientf/services/app.service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 
@@ -20,7 +16,12 @@ class EngineCommentBox extends StatefulWidget {
     this.post, {
     this.parentComment,
     this.currentComment,
-    this.onSubmit,
+    // this.onReply,
+    // this.onUpdate,
+    @required this.onCommentError,
+    this.onCommentReply,
+    this.onCommentUpdate,
+    // @required this.onCommentDelete,
     // this.onCancel,
     Key key,
   }) : super(key: key);
@@ -32,8 +33,12 @@ class EngineCommentBox extends StatefulWidget {
   /// When user updates a comment, [currentComemnt] will be set.
   final EngineComment currentComment;
 
-  final Function onSubmit;
-  // final Function onCancel;
+  // final Function onReply;
+  // final Function onUpdate;
+  final Function onCommentError;
+  final Function onCommentReply;
+  final Function onCommentUpdate;
+  // final Function onCommentDelete;
 
   @override
   _EngineCommentBoxState createState() => _EngineCommentBoxState();
@@ -105,12 +110,14 @@ class _EngineCommentBoxState extends State<EngineCommentBox> {
 
   @override
   void initState() {
+    print(widget.currentComment);
     Timer.run(() {
       // if (isCreate) {
       //   /// 임시 코멘트 생성. README 참고.
       //   widget.currentComment = EngineComment();
       // }
       if (isUpdate) {
+        print('if(isUpdate');
         _contentController.text = widget.currentComment.content;
       }
     });
@@ -125,7 +132,7 @@ class _EngineCommentBoxState extends State<EngineCommentBox> {
       ),
       body: SafeArea(
         child: Container(
-          color: AppColor.light,
+          color: Colors.black38,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
@@ -134,16 +141,17 @@ class _EngineCommentBoxState extends State<EngineCommentBox> {
               ),
               Row(
                 children: <Widget>[
-                  EngineUploadIcon(widget.currentComment,
-                  onProgress: (p) {
-                    setState(() {
-                      progress = p;
-                    });
-                  },
-                  onUploadComplete: (String url) {
-                    setState(() {});
-                  },
-                  onError: (e) => AppService.alert(null, t(e)),
+                  EngineUploadIcon(
+                    widget.currentComment,
+                    onProgress: (p) {
+                      setState(() {
+                        progress = p;
+                      });
+                    },
+                    onUploadComplete: (String url) {
+                      setState(() {});
+                    },
+                    onError: widget.onCommentError,
                   ),
                   Expanded(
                     child: TextField(
@@ -170,18 +178,24 @@ class _EngineCommentBoxState extends State<EngineCommentBox> {
                         if (isCreate) {
                           /// create (reply)
                           var re = await ef.commentCreate(data);
-                          print('create: $data');
-                          back(arguments: re);
+                          // print('create: $data');
+                          // back(arguments: re);
+
+                          widget.onCommentReply(re);
+
+                          ////
                         } else {
                           /// update
                           var re = await ef.commentUpdate(getFormData());
-                          print('EngineCommentBox:: Comment update. $re');
+                          // print('EngineCommentBox:: Comment update. $re');
                           widget.currentComment.content = re.content;
-                          back(arguments: re);
+                          widget.onCommentUpdate(re);
+                          // back(arguments: re);
                         }
                       } catch (e) {
-                        print(e);
-                        AppService.alert(null, t(e));
+                        widget.onCommentError(e);
+                        // print(e);
+                        // AppService.alert(null, t(e));
                       }
                     },
                   ),
