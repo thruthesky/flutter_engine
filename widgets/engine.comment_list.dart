@@ -1,7 +1,7 @@
+import 'package:clientf/flutter_engine/engine.globals.dart';
 import 'package:clientf/flutter_engine/engine.post.model.dart';
 
 import '../engine.post.model.dart';
-import 'package:clientf/globals.dart';
 import 'package:clientf/pages/post_list/widgets/comment_item.dart';
 import 'package:flutter/material.dart';
 
@@ -21,8 +21,6 @@ class _EngineCommentListState extends State<EngineCommentList> {
   void initState() {
     super.initState();
   }
-
-
 
   @override
   Widget build(BuildContext context) {

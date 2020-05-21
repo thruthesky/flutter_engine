@@ -1,8 +1,6 @@
 import 'package:clientf/flutter_engine/engine.comment.model.dart';
 import 'package:clientf/flutter_engine/engine.globals.dart';
 import 'package:clientf/flutter_engine/engine.post.model.dart';
-import 'package:clientf/globals.dart';
-import 'package:clientf/services/app.defines.dart';
 import 'package:clientf/services/app.service.dart';
 
 import './engine.post_item.dart';
@@ -10,9 +8,14 @@ import '../engine.forum.dart';
 import 'package:flutter/material.dart';
 
 class EnginePostList extends StatefulWidget {
-  EnginePostList(this.forum, {Key key}) : super(key: key);
+  EnginePostList(
+    this.forum, {
+    @required this.onEdit,
+    Key key,
+  }) : super(key: key);
 
   final EngineForum forum;
+  final Function onEdit;
 
   @override
   _EnginePostListState createState() => _EnginePostListState();
@@ -28,14 +31,12 @@ class _EnginePostListState extends State<EnginePostList> {
       itemBuilder: (context, i) {
         return EnginePostItem(
           widget.forum.posts[i],
-          onEdit: (onDone) async => onDone(
-            await open(AppRoutes.postUpdate,
-                arguments: {'post': widget.forum.posts[i]}),
-          ),
-          onReply: (onDone) async => onDone(
-            await AppService.openCommentBox(
-                widget.forum.posts[i], null, EngineComment()),
-          ),
+          onEdit: widget.onEdit,
+          onReply: (EnginePost post) async {
+            var reply = await AppService.openCommentBox(post, null, EngineComment());
+            widget.forum.addComment(reply, post, null);
+            setState(() { /** 댓글 반영 */});
+          },
           onDelete: () => AppService.alert(null, t('post deleted')),
           onError: (e) => AppService.alert(null, t(e)),
         );
