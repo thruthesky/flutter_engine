@@ -29,7 +29,7 @@ class _EngineCommentListState extends State<EngineCommentList> {
       children: <Widget>[
         if (widget.post.comments != null)
           for (var c in widget.post.comments)
-            EngineCommentItem(
+            CommentItem(
               widget.post,
               c,
               key: ValueKey(c.id ?? randomString()),
