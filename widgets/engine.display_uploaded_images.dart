@@ -1,10 +1,7 @@
-import 'package:clientf/flutter_engine/engine.firestore.dart';
-import 'package:clientf/flutter_engine/engine.globals.dart';
-import 'package:clientf/globals.dart';
-import 'package:clientf/services/app.color.dart';
 
-import 'package:clientf/services/app.service.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_community_app/flutter_engine/engine.firestore.dart';
+import 'package:flutter_community_app/flutter_engine/engine.globals.dart';
 import 'package:flutter_image/network.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 
@@ -91,7 +88,7 @@ class _DeleteIconState extends State<DeleteIcon> {
           await EngineFirestore(widget.doc).delete(widget.url);
         } catch (e) {
           print(e);
-          AppService.alert(null, t(e));
+          engineAlert(t(e));
         }
 
         /// TODO: 파일을 삭제를 하면, 실패를 해도 [urls] 에서 없앤다. 즉, 실패를 하면, 파일이 없는 것으로 간주하는 것이다. 다른 에러가 있을 수 있으니 확인한다.

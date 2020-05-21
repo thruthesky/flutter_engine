@@ -1,7 +1,7 @@
 
-import 'package:clientf/flutter_engine/engine.post.model.dart';
-import 'package:clientf/flutter_engine/widgets/engine.display_uploaded_images.dart';
 import 'package:flutter/material.dart';
+import './engine.display_uploaded_images.dart';
+import '../engine.post.model.dart';
 
 class EnginePostItemContent extends StatelessWidget {
   const EnginePostItemContent(
