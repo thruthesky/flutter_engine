@@ -1,20 +1,22 @@
-import 'package:clientf/flutter_engine/engine.defines.dart';
-import 'package:clientf/flutter_engine/engine.globals.dart';
+import '../engine.defines.dart';
+import '../engine.globals.dart';
 
-import '../../flutter_engine/engine.post.model.dart';
-import 'package:clientf/globals.dart';
-import 'package:clientf/services/app.defines.dart';
+import '../engine.post.model.dart';
+// import 'package:clientf/globals.dart';
+// import 'package:clientf/services/app.defines.dart';
 
-import 'package:clientf/services/app.space.dart';
+// import 'package:clientf/services/app.space.dart';
 import 'package:flutter/material.dart';
 
 class EnginePostTitle extends StatelessWidget {
   const EnginePostTitle({
     Key key,
     @required this.post,
+    this.onTap,
   }) : super(key: key);
 
   final EnginePost post;
+  final Function onTap;
 
   @override
   Widget build(BuildContext context) {
@@ -27,11 +29,11 @@ class EnginePostTitle extends StatelessWidget {
       title = post.title;
 
     return GestureDetector(
-      onTap: () => open(AppRoutes.postView, arguments: {'post': post}),
+      onTap: () => onTap,// open(AppRoutes.postView, arguments: {'post': post}),
       behavior: HitTestBehavior.opaque,
       child: Container(
         width: double.infinity,
-        padding: EdgeInsets.only(top: AppSpace.half, bottom: AppSpace.half),
+        padding: EdgeInsets.only(top: 8.0, bottom: 8.0),
         child: Text(
           title,
           style: TextStyle(fontSize: 16.0),

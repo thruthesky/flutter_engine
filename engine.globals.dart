@@ -22,6 +22,9 @@ EngineModel get ef {
   return _ef;
 }
 
+const String hiveCacheBox = 'cache';
+
+
 /// Returns translated string from the text code.
 /// If [code] is [EngineError], then it takes [EngineError.code] as [code] and translate it.
 String t(code, {info}) {
