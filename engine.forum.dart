@@ -200,6 +200,11 @@ class EngineForum {
     }
   }
 
+  addPost(EnginePost post) {
+    if ( post == null ) return;
+    posts.insert(0, post);
+  }
+
   /// 코멘트를 수정하고, 기존의 코멘트와 바꿔치기 한다.
   ///
   /// [comment] 업데이트된 코멘트
