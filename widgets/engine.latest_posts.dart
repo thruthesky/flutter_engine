@@ -13,8 +13,6 @@ class EngineLatestPosts extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // print('EngineLatestPosts:: posts');
-    // for (EnginePost p in posts) print(p.title);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
