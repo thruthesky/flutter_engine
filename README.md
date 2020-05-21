@@ -55,6 +55,13 @@ flutter:
 	<string>This app requires access to the Contact.</string>
 ```
 
+## 수정과 삭제 용어
+
+* 수정과 삭제를 한페이지 또는 기능 하나로 같이 하는 경우 함수명이나 코드에 `Edit` 이라는 용어를 쓴다.
+* 수정만 하는 경우 함수명이나 코드에 `Update` 이라고 쓴다. 다만, 수정이라도 랜더링 화면에는 `Edit`으로 표기 될 수 있다.
+* 글 생성하는 경우 `Create` 이라고 쓴다.
+* 댓글 생성하는 경우 `Reply` 라고 쓴다.
+* 그리고 편의를 위해서 Route 에는 Create 또는 Edit 이라고 쓰고 실제로 Edit 페이지로 이동하게 해도 된다.
 
 ## Test
 
