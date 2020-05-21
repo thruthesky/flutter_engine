@@ -39,10 +39,9 @@ class _EnginePostListState extends State<EnginePostList> {
         return EnginePostItem(
           widget.forum.posts[i],
           onEdit: () => widget.onEdit(widget.forum.posts[i]),
-          onReply: (onDone) async => onDone(
-            // await AppService.openCommentBox(
-            //     widget.forum.posts[i], null, EngineComment()),
-          ),
+          onReply: (post) {
+//
+          },
           onDelete: () => engineAlert(t('post deleted')),
           onError: (e) => engineAlert(t(e)),
         );
