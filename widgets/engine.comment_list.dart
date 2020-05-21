@@ -1,18 +1,23 @@
 import '../engine.globals.dart';
 import '../engine.post.model.dart';
-<<<<<<< HEAD
-import './comment_item.dart';
-=======
 import './engine.comment_item.dart';
 
->>>>>>> 9b2cee297ca8547a1698446551b4dd810aefe158
 import 'package:flutter/material.dart';
 
 class EngineCommentList extends StatefulWidget {
   EngineCommentList(
     this.post, {
+    @required this.onCommentReply,
+    @required this.onCommentUpdate,
+    @required this.onCommentDelete,
+    @required this.onCommentError,
     Key key,
   }) : super(key: key);
+
+  final Function onCommentReply;
+  final Function onCommentUpdate;
+  final Function onCommentDelete;
+  final Function onCommentError;
 
   final EnginePost post;
   @override
@@ -36,7 +41,10 @@ class _EngineCommentListState extends State<EngineCommentList> {
               widget.post,
               c,
               key: ValueKey(c.id ?? randomString()),
-              onStateChanged: () => setState(() => {}),
+              onCommentReply: widget.onCommentReply,
+              onCommentUpdate: widget.onCommentUpdate,
+              onCommentDelete: widget.onCommentDelete,
+              onCommentError: widget.onCommentError,
             ),
       ],
     );

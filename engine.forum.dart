@@ -98,7 +98,7 @@ class EngineForum {
     if (cache) {
       var re = Hive.box(hiveCacheBox).get(cacheKey);
       if (re != null) {
-        print('Got cache: cache id: $cacheKey');
+        // print('Got cache: cache id: $cacheKey');
         posts = ef.sanitizePosts(re);
         _onLoad();
       }
@@ -109,7 +109,7 @@ class EngineForum {
 
       /// 캐시 저장
       if (cache) {
-        print('Save cache: cache id: $cacheKey');
+        // print('Save cache: cache id: $cacheKey');
         Hive.box(hiveCacheBox).put(cacheKey, res);
       }
       final _posts = ef.sanitizePosts(res);
@@ -162,6 +162,8 @@ class EngineForum {
 
   /// 글을 수정한다.
   updatePost(EnginePost oldPost, EnginePost updatedPost) {
+    print('updatePost: updatedPost:');
+    print(updatedPost);
     oldPost.replaceWith(updatedPost);
     // if (post == null) return;
 

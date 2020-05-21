@@ -44,6 +44,7 @@ class EnginePost {
   /// 현재 글 속성을 입력된 글로 변경한다.
   /// 
   /// 글 수정 할 때 유용하게 사용 할 수 있다.
+  /// @attention 코멘트는 덮어쓰지 않고 기존의 것을 유지한다.
   replaceWith(EnginePost post) {
     if ( post == null ) return;
     id = post.id;
@@ -54,7 +55,7 @@ class EnginePost {
     createdAt = post.createdAt;
     updatedAt = post.updatedAt;
     deletedAt = post.deletedAt;
-    comments = post.comments;
+    // comments = post.comments;
     urls = post.urls ?? [];
   }
 
