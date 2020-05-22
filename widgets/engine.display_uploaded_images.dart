@@ -87,8 +87,8 @@ class _DeleteIconState extends State<DeleteIcon> {
         try {
           await EngineFirestore(widget.doc).delete(widget.url);
         } catch (e) {
-          print(e);
-          engineAlert(t(e));
+          // print(e);
+          alert(e);
         }
 
         /// TODO: 파일을 삭제를 하면, 실패를 해도 [urls] 에서 없앤다. 즉, 실패를 하면, 파일이 없는 것으로 간주하는 것이다. 다른 에러가 있을 수 있으니 확인한다.
