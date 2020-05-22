@@ -1,21 +1,33 @@
+import 'package:flutter_community_app/flutter_engine/engine.category.model.dart';
+
 class EngineCategoryList {
   List<dynamic> ids;
-  Map<dynamic, dynamic> data;
+  List<EngineCategory> categories;
   EngineCategoryList({
     this.ids,
-    this.data,
+    this.categories,
   });
   factory EngineCategoryList.fromEngineData(Map<dynamic, dynamic> data) {
     // data.keys;
 
+    var _ids = data.keys.toList();
+    List<EngineCategory> arr = [];
+    for (String id in _ids) {
+      var _data = Map.from(data[id]);
+      _data['id'] = id;
+      // print('data: ');
+      // print(_data);
+      arr.add(EngineCategory.fromEngineData(_data));
+    }
+
     return EngineCategoryList(
       ids: data.keys.toList(),
-      data: data,
+      categories: arr,
     );
   }
 
   @override
   String toString() {
-    return "$ids $data";
+    return "$ids $categories";
   }
 }
