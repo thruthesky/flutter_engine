@@ -4,6 +4,7 @@ class EngineUser {
   String phoneNumber;
   String photoURL;
   String birthday;
+  bool isAdmin;
   List<dynamic> urls;
   EngineUser({
     this.email,
@@ -12,16 +13,18 @@ class EngineUser {
     this.photoURL,
     this.birthday,
     this.urls,
+    this.isAdmin,
   }) {
     if (urls == null) urls = [];
   }
-  factory EngineUser.fromMap(Map<dynamic, dynamic> data) {
+  factory EngineUser.fromEngineData(Map<dynamic, dynamic> data) {
     return EngineUser(
       email: data['email'],
       displayName: data['displayName'],
       phoneNumber: data['phoneNumber'],
       photoURL: data['photoURL'],
       birthday: data['birthday'],
+      isAdmin: data['isAdmin'] ?? false,
       urls: data['urls'] != null
           ? List<dynamic>.from(data['urls'])
           : [], // To preved 'fixed-length' error.
@@ -30,6 +33,6 @@ class EngineUser {
 
   @override
   String toString() {
-    return "email: $email\ndisplayName:$displayName\nphoneNumber:$phoneNumber\nphotoURL:$photoURL\nbirthday:$birthday";
+    return "email: $email\nisAdmin: $isAdmin\ndisplayName:$displayName\nphoneNumber:$phoneNumber\nphotoURL:$photoURL\nbirthday:$birthday";
   }
 }

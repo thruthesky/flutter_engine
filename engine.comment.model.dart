@@ -27,7 +27,7 @@ class EngineComment {
     if (depth == null) depth = 0;
     if (urls == null) urls = [];
   }
-  factory EngineComment.fromEnginData(Map<dynamic, dynamic> data) {
+  factory EngineComment.fromEngineData(Map<dynamic, dynamic> data) {
     return EngineComment(
       id: data['id'],
       postId: data['postId'],

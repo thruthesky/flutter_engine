@@ -5,7 +5,7 @@ class EngineCategoryList {
     this.ids,
     this.data,
   });
-  factory EngineCategoryList.fromEnginData(Map<dynamic, dynamic> data) {
+  factory EngineCategoryList.fromEngineData(Map<dynamic, dynamic> data) {
     // data.keys;
 
     return EngineCategoryList(

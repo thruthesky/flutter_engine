@@ -24,7 +24,7 @@ class EnginePost {
     if (comments == null) comments = [];
     if (urls == null) urls = [];
   }
-  factory EnginePost.fromEnginData(Map<dynamic, dynamic> data) {
+  factory EnginePost.fromEngineData(Map<dynamic, dynamic> data) {
     return EnginePost(
       id: data['id'],
       categories: data['categories'],

@@ -30,18 +30,31 @@ class EngineModel extends ChangeNotifier {
   /// 글로벌 키를 바탕으로, 글로벌 context 나 위젯 등에서 사용한다.
   EngineModel({
     @required this.navigatorKey,
+    @required this.onError,
   }) {
     /// 사용자가 로그인/로그아웃을 할 때 `user` 를 업데이트하고 notifyListeners() 를 호출.
-    (() async {
-      _auth.onAuthStateChanged.listen((_user) {
+    (() {
+      _auth.onAuthStateChanged.listen((_user) async {
         user = _user;
         notifyListeners();
         if (user == null) {
           // print('EngineModel::onAuthStateChanged() user logged out');
           _auth.signInAnonymously();
         } else {
-          // print('EngineModel::onAuthStateChanged() user logged in: $user');
-          // print('Anonymous: ${user.isAnonymous}');
+          print('EngineModel::onAuthStateChanged() user logged in: $user');
+          print('Anonymous: ${user.isAnonymous}');
+
+          if (loggedIn) {
+            try {
+              engineUser = await userProfile();
+              print('engineUser: ');
+              print(engineUser);
+            } catch (e) {
+              print('got profile error: ');
+              print(e);
+              onError(e);
+            }
+          }
         }
       });
     })();
@@ -50,9 +63,20 @@ class EngineModel extends ChangeNotifier {
     _engineI18N.i18nKeyCheck();
   }
 
+
   /// 글로벌 키
   ///
   GlobalKey<NavigatorState> navigatorKey;
+
+  /// 에러가 발생 한 경우 콜백
+  /// 
+  /// 각종 에러 핸들러
+  /// 
+  /// 에러 예: 사용자가 로그인을 하면, `Engine`에서 사용자 정보를 가져오는데, 에러가 있으면 메인 쓰레드로 전달 한다.
+  final Function onError;
+
+  /// 사용자 정보 정보
+  EngineUser engineUser;
 
   /// Returns the context of [navigatorKey]
   BuildContext get context {
@@ -206,7 +230,7 @@ class EngineModel extends ChangeNotifier {
     await user.reload();
     user = await _auth.currentUser();
     notifyListeners();
-    return EngineUser.fromMap(update);
+    return EngineUser.fromEngineData(update);
   }
 
   Future<void> userReload() async {
@@ -222,11 +246,11 @@ class EngineModel extends ChangeNotifier {
   /// 이 때, `Firebase User` 가 가지는 `displayName`, `photoUrl`, `phoneNumber` 를 그대로 사용 할 수 있지만, 그 외의 추가 정보는 없다.
   /// 이 함수를 이용하여 `displayName`, `photoUrl`, `phoneNumber` 뿐만아니라 추가적으로 지정한 모든 값을 다 가져 올 수 있다.
   /// 즉, 회원 정보 수정을 할 때에 이 함수를 이용해서 모든 정보를 불러와서 업데이트 양식(form)에 보여주면 되는 것이다.
-  Future<EngineUser> profile() async {
+  Future<EngineUser> userProfile() async {
     if (notLoggedIn || user?.uid == null) throw LOGIN_FIRST;
     final profile =
         await callFunction({'route': 'user.data', 'data': user.uid});
-    return EngineUser.fromMap(profile);
+    return EngineUser.fromEngineData(profile);
   }
 
   /// 카테로리를 생성한다. 관리자만 가능.
@@ -242,12 +266,12 @@ class EngineModel extends ChangeNotifier {
   /// 카테고리 하나의 정보를 가져온다.
   Future<EngineCategory> categoryData(String id) async {
     var re = await callFunction({'route': 'category.data', 'data': id});
-    return EngineCategory.fromEnginData(re);
+    return EngineCategory.fromEngineData(re);
   }
 
   /// 카테고리 목록 전체를 가져온다.
   Future<EngineCategoryList> categoryList() async {
-    return EngineCategoryList.fromEnginData(
+    return EngineCategoryList.fromEngineData(
         await callFunction({'route': 'category.list'}));
   }
 
@@ -256,7 +280,7 @@ class EngineModel extends ChangeNotifier {
   /// 입력값은 프로토콜 문서 참고
   Future<EnginePost> postCreate(data) async {
     final post = await callFunction({'route': 'post.create', 'data': data});
-    return EnginePost.fromEnginData(post);
+    return EnginePost.fromEngineData(post);
   }
 
   /// 게시글 수정
@@ -264,7 +288,7 @@ class EngineModel extends ChangeNotifier {
   /// 입력값은 프로토콜 문서 참고
   Future<EnginePost> postUpdate(data) async {
     final post = await callFunction({'route': 'post.update', 'data': data});
-    return EnginePost.fromEnginData(post);
+    return EnginePost.fromEngineData(post);
   }
 
   /// 게시글 삭제
@@ -272,7 +296,7 @@ class EngineModel extends ChangeNotifier {
   /// 입력값은 프로토콜 문서 참고
   Future<EnginePost> postDelete(String id) async {
     final post = await callFunction({'route': 'post.delete', 'data': id});
-    return EnginePost.fromEnginData(post);
+    return EnginePost.fromEngineData(post);
   }
 
   /// 게시글 목록
@@ -292,7 +316,7 @@ class EngineModel extends ChangeNotifier {
     for (var e in posts) {
       ret.add(
         sanitizeComments(
-          EnginePost.fromEnginData(e),
+          EnginePost.fromEngineData(e),
         ),
       );
     }
@@ -311,7 +335,7 @@ class EngineModel extends ChangeNotifier {
       //   if (c is EngineComment) {
       //     arr.add(c);
       //   } else {
-      arr.add(EngineComment.fromEnginData(c));
+      arr.add(EngineComment.fromEngineData(c));
       // }
     }
     post.comments = arr;
@@ -334,7 +358,7 @@ class EngineModel extends ChangeNotifier {
     final comment =
         await callFunction({'route': 'comment.create', 'data': data});
     // return comment;
-    return EngineComment.fromEnginData(comment);
+    return EngineComment.fromEngineData(comment);
   }
 
   /// 코멘트 수정
@@ -345,7 +369,7 @@ class EngineModel extends ChangeNotifier {
     final comment =
         await callFunction({'route': 'comment.update', 'data': data});
     // return comment;
-    return EngineComment.fromEnginData(comment);
+    return EngineComment.fromEngineData(comment);
   }
 
   /// 코멘트 삭제

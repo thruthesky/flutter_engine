@@ -7,7 +7,7 @@ class EngineCategory {
     this.title,
     this.description,
   });
-  factory EngineCategory.fromEnginData(Map<dynamic, dynamic> data) {
+  factory EngineCategory.fromEngineData(Map<dynamic, dynamic> data) {
     return EngineCategory(
       id: data['id'],
       title: data['title'],

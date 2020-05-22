@@ -75,7 +75,7 @@ class _EngineRegisterFromState extends State<EngineRegisterFrom> {
 
   loadProfile() async {
     try {
-      var _user = await ef.profile();
+      var _user = await ef.userProfile();
       setState(() {
         user = _user;
         _nicknameController.text = user.displayName;

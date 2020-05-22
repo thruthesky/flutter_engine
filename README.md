@@ -55,6 +55,32 @@ flutter:
 	<string>This app requires access to the Contact.</string>
 ```
 
+## 기본 코딩
+
+* 
+
+* 앱에서 아래와 같이 초기화를 한다.
+  * `ef` 는 engine.globals.dart 에 정의 되어 전체 앱에서 사용된다.
+
+``` dart
+ef = EngineModel(
+	navigatorKey: AppService.navigatorKey,
+	onError: (e) => AppService.alert(null, t(e)),
+);
+```
+
+* 그리고 `ef` 를 Provider 로 등록한다.
+
+``` dart
+MultiProvider(
+	providers: [
+		ChangeNotifierProvider(create: (context) => app),
+		ChangeNotifierProvider(create: (context) => ef),
+	],
+```
+
+
+
 ## 수정과 삭제 용어
 
 * 수정과 삭제를 한페이지 또는 기능 하나로 같이 하는 경우 함수명이나 코드에 `Edit` 이라는 용어를 쓴다.
