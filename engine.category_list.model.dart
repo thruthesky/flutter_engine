@@ -1,4 +1,5 @@
-import 'package:flutter_community_app/flutter_engine/engine.category.model.dart';
+
+import './engine.category.model.dart';
 
 class EngineCategoryList {
   List<dynamic> ids;

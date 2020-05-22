@@ -30,7 +30,7 @@ class EnginePostTitle extends StatelessWidget {
       title = post.title;
 
     return GestureDetector(
-      onTap: () => onTap(post),// open(AppRoutes.postView, arguments: {'post': post}),
+      onTap: () => onTap(post),// open(Routes.postView, arguments: {'post': post}),
       behavior: HitTestBehavior.opaque,
       child: Container(
         width: double.infinity,
