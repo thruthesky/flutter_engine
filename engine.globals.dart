@@ -92,8 +92,40 @@ void _back({arguments}) {
 
 /// Show alert box
 /// @example AppService.alert(null, e.message);
-engineAlert(String title, { String content}) {
-  if ( content == null ) {
+// engineAlert(String title, { String content}) {
+//   if ( content == null ) {
+//     content = title;
+//     title = null;
+//   }
+//   showPlatformDialog(
+//     context: ef.context,
+//     builder: (_) => PlatformAlertDialog(
+//       title: title != null ? Text(title) : null,
+//       content: Text(content),
+//       actions: <Widget>[
+//         PlatformDialogAction(
+//           child: PlatformText(t('Ok')),
+//           onPressed: () => Navigator.pop(ef.context),
+//         ),
+//       ],
+//     ),
+//   );
+// }
+
+
+/// Show alert box
+/// @example async( onError: alert );
+/// @example alert(e) - where `e` can be an Error Object.
+alert(dynamic title, {String content}) {
+  /// 제목이 문자열이 아니면, t() 한다.
+  if (title != null && !(title is String)) {
+    title = t(title);
+  }
+  /// 내용이 문자열이 아니면, t() 한다.
+  if (content != null && !(content is String)) {
+    content = t(content);
+  }
+  if (content == null) {
     content = title;
     title = null;
   }
@@ -112,9 +144,23 @@ engineAlert(String title, { String content}) {
   );
 }
 
+openDialog(childWidget) {
+  return showGeneralDialog(
+    context: ef.context,
+    barrierDismissible: true,
+    barrierLabel: MaterialLocalizations.of(ef.context).modalBarrierDismissLabel,
+    barrierColor: Colors.black45,
+    transitionDuration: const Duration(milliseconds: 200),
+    pageBuilder: (BuildContext buildContext, Animation animation,
+        Animation secondaryAnimation) {
+      return childWidget;
+    },
+  );
+}
+
 
   /// Can it be synchronous by using async/await? So, it does not need to use callback functions.
-  engineConfirm(
+  confirm(
       {String title, String content, Function onNo, Function onYes}) {
     return showPlatformDialog<void>(
       context: ef.context,

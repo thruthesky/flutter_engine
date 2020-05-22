@@ -95,7 +95,7 @@ class _EnginePostItemState extends State<EnginePostItem> {
               ),
               RaisedButton(
                 onPressed: () async {
-                  engineConfirm(
+                  confirm(
                     title: 'confirm',
                     content: 'do you want to delete?',
                     onYes: () async {
