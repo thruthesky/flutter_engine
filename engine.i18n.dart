@@ -185,6 +185,10 @@ const Map<String, Map<String, String>> textTranslations = {
     'en':
         'Ooh! You have already logged in.\nYou cannot open register page while you are logged in.',
   },
+  ADMIN_PAGE: {
+    'ko': '관리자 페이지',
+    'en': 'Admin Dashboard',
+  }
 };
 
 class EngineI18N {

@@ -47,11 +47,11 @@ class EngineModel extends ChangeNotifier {
           if (loggedIn) {
             try {
               engineUser = await userProfile();
-              print('engineUser: ');
-              print(engineUser);
+              // print('engineUser: ');
+              // print(engineUser);
             } catch (e) {
-              print('got profile error: ');
-              print(e);
+              // print('got profile error: ');
+              // print(e);
               onError(e);
             }
           }
@@ -128,6 +128,11 @@ class EngineModel extends ChangeNotifier {
   /// 사용자가 로그인을 안했으면 참을 리턴.
   bool get notLoggedIn {
     return loggedIn == false;
+  }
+
+  /// 관리자 이면 참을 리턴한다.
+  bool get isAdmin {
+    return loggedIn && engineUser?.isAdmin == true;
   }
 
   /// 사용자 로그인을 한다.

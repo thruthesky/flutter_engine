@@ -24,7 +24,7 @@ class EngineUser {
       phoneNumber: data['phoneNumber'],
       photoURL: data['photoURL'],
       birthday: data['birthday'],
-      isAdmin: data['isAdmin'] ?? false,
+      isAdmin: data['admin'] ?? false,
       urls: data['urls'] != null
           ? List<dynamic>.from(data['urls'])
           : [], // To preved 'fixed-length' error.

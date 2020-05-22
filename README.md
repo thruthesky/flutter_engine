@@ -57,7 +57,7 @@ flutter:
 
 ## 기본 코딩
 
-* 
+* `Engine` 을 바탕으로 기본 코딩을 해 놓은 [플러터 Engine Client](https://github.com/thruthesky/clientf) 를 참고한다.
 
 * 앱에서 아래와 같이 초기화를 한다.
   * `ef` 는 engine.globals.dart 에 정의 되어 전체 앱에서 사용된다.
