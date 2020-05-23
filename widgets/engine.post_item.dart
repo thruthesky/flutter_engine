@@ -1,4 +1,5 @@
 
+import '../engine.defines.dart';
 import './engine.comment_list.dart';
 
 import '../engine.globals.dart';
@@ -96,8 +97,8 @@ class _EnginePostItemState extends State<EnginePostItem> {
               RaisedButton(
                 onPressed: () async {
                   confirm(
-                    title: 'confirm',
-                    content: 'do you want to delete?',
+                    title: t(CONFIRM_POST_DELETE_TITLE),
+                    content: t(CONFIRM_POST_DELETE_CONTENT),
                     onYes: () async {
                       try {
                         final re = await ef.postDelete(post.id);

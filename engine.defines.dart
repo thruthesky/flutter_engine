@@ -44,3 +44,11 @@ const String ERROR_CAMERA_PERMISSION = 'permission-error-no-access-to-camera';
 
 
 const String ADMIN_PAGE = 'admin dashboard';
+
+
+const String CONFIRM_POST_DELETE_TITLE = 'confirm post delete title';
+const String CONFIRM_POST_DELETE_CONTENT = 'confirm post delete content';
+
+const String CONFIRM_COMMENT_DELETE_TITLE = 'confirm comment delete title';
+const String CONFIRM_COMMENT_DELETE_CONTENT = 'confirm comment delete content';
+

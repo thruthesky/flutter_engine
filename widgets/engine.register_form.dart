@@ -1,4 +1,3 @@
-
 import '../engine.globals.dart';
 import '../engine.user.model.dart';
 import './engine.register.user_photo.dart';
@@ -76,12 +75,14 @@ class _EngineRegisterFromState extends State<EngineRegisterFrom> {
   loadProfile() async {
     try {
       var _user = await ef.userProfile();
-      setState(() {
-        user = _user;
-        _nicknameController.text = user.displayName;
-        _phoneNumberController.text = user.phoneNumber;
-        _birthdayController.text = user.birthday;
-      });
+      if (mounted) {
+        setState(() {
+          user = _user;
+          _nicknameController.text = user.displayName;
+          _phoneNumberController.text = user.phoneNumber;
+          _birthdayController.text = user.birthday;
+        });
+      }
     } catch (e) {
       widget.onError(e);
       // AppService.alert(null, t(e));

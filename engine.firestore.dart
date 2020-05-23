@@ -1,3 +1,5 @@
+import 'package:clientf/settings.dart';
+
 import './engine.defines.dart';
 import 'package:flutter/material.dart';
 
@@ -136,7 +138,7 @@ class EngineFirestore {
   Future<String> upload(
       File file, Function onUploadPercentage, Function onUploadComplete) async {
     final FirebaseStorage _storage =
-        FirebaseStorage(storageBucket: 'gs://enginf-856e7.appspot.com');
+        FirebaseStorage(storageBucket: storageLink);
 
     /// Unique file name for the file
     String filePath = 'images/${DateTime.now()}.jpg';

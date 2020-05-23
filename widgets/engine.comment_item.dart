@@ -1,4 +1,4 @@
-
+import '../engine.defines.dart';
 import './engine.text.dart';
 
 import './engine.display_uploaded_images.dart';
@@ -63,12 +63,25 @@ class _EngineCommentItemState extends State<EngineCommentItem> {
                 //   });
                 // },
                 onDelete: () async {
-                  /// Comment Delte
-                  var re = await ef.commentDelete(widget.comment.id);
-                  setState(() {
-                    /** 코멘트 삭제 반영 */
-                    widget.comment.content = re['content'];
-                  });
+                  /// 코멘트 삭제
+                  confirm(
+                    title: t(CONFIRM_COMMENT_DELETE_TITLE),
+                    content: t(CONFIRM_COMMENT_DELETE_CONTENT),
+                    onYes: () async {
+                      try {
+                        var re = await ef.commentDelete(widget.comment.id);
+                        setState(() {
+                          /** 코멘트 삭제 반영 */
+                          widget.comment.content = re['content'];
+                        });
+                      } catch (e) {
+                        widget.onCommentError(e);
+                      }
+                    },
+                    onNo: () {
+                      // print('no');
+                    },
+                  );
                 },
               ),
             ],

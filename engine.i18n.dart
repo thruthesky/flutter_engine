@@ -124,6 +124,7 @@ const Map<String, Map<String, String>> textTranslations = {
     'ko': '새소식',
     'en': 'News',
   },
+  
   NO_TITLE: {
     'ko': '제목이 없습니다.',
     'en': 'This post have no title.',
@@ -188,6 +189,22 @@ const Map<String, Map<String, String>> textTranslations = {
   ADMIN_PAGE: {
     'ko': '관리자 페이지',
     'en': 'Admin Dashboard',
+  },
+  CONFIRM_POST_DELETE_TITLE: {
+    'ko': '글 삭제',
+    'en': 'Delete Post',
+  },
+  CONFIRM_POST_DELETE_CONTENT: {
+    'ko': '앗! 글을 삭제하시겠습니까?',
+    'en': 'Ooh. Do you want to delete this post?'
+  },
+  CONFIRM_COMMENT_DELETE_TITLE: {
+    'ko': '코멘트 삭제',
+    'en': 'Delete Comment',
+  },
+  CONFIRM_COMMENT_DELETE_CONTENT: {
+    'ko': '앗! 코멘트를 삭제하시겠습니까?',
+    'en': 'Ooh. Do you want to delete this comment?'
   }
 };
 
