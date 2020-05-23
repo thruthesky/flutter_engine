@@ -1,7 +1,7 @@
+import 'package:clientf/flutter_engine/widgets/engine.comment_content.dart';
+
 import '../engine.defines.dart';
 import './engine.text.dart';
-
-import './engine.display_uploaded_images.dart';
 
 import '../engine.globals.dart';
 
@@ -38,7 +38,7 @@ class _EngineCommentItemState extends State<EngineCommentItem> {
     return Container(
       width: double.infinity,
       padding: EdgeInsets.all(8.0),
-      color: Colors.blueAccent,
+      color: Colors.black12,
       child: Column(
         children: <Widget>[
           Column(
@@ -48,20 +48,8 @@ class _EngineCommentItemState extends State<EngineCommentItem> {
                 onReply: () =>
                     widget.onCommentReply(widget.post, widget.comment),
                 onUpdate: () {
-                  // print('update button clicked: ');
-                  // print(widget.comment);
                   widget.onCommentUpdate(widget.post, widget.comment);
                 },
-                // async {
-
-                //   /// Comment Edit
-                //   final re = await AppService.openCommentBox(
-                //       widget.post, null, widget.comment);
-                //   EngineForum().updateComment(re, widget.post);
-                //   setState(() {
-                //     /** 코멘트 수정 반영 */
-                //   });
-                // },
                 onDelete: () async {
                   /// 코멘트 삭제
                   confirm(
@@ -92,34 +80,7 @@ class _EngineCommentItemState extends State<EngineCommentItem> {
   }
 }
 
-class EngineCommentContent extends StatelessWidget {
-  const EngineCommentContent({
-    Key key,
-    @required this.comment,
-  }) : super(key: key);
 
-  final EngineComment comment;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: double.infinity,
-      child: Container(
-        color: Colors.white30,
-        margin: EdgeInsets.only(left: 8.0 * comment.depth),
-        padding: EdgeInsets.all(8.0),
-        child: Column(
-          children: <Widget>[
-            EngineDisplayUploadedImages(
-              comment,
-            ),
-            Text('[${comment.depth}] ${comment.content}'),
-          ],
-        ),
-      ),
-    );
-  }
-}
 
 class EngineCommentButtons extends StatelessWidget {
   EngineCommentButtons({
@@ -133,16 +94,17 @@ class EngineCommentButtons extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Row(
+      mainAxisAlignment: MainAxisAlignment.end,
       children: <Widget>[
-        RaisedButton(
+        FlatButton(
           onPressed: onReply,
           child: T('reply'),
         ),
-        RaisedButton(
+        FlatButton(
           onPressed: onUpdate,
           child: T('edit'),
         ),
-        RaisedButton(
+        FlatButton(
           onPressed: onDelete,
           child: T('delete'),
         ),

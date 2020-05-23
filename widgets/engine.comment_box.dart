@@ -1,4 +1,8 @@
 import 'dart:async';
+import 'package:flutter/material.dart';
+import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
+
+import './engine.comment_content.dart';
 
 import '../engine.globals.dart';
 import './engine.display_uploaded_images.dart';
@@ -8,8 +12,11 @@ import './upload_progress_bar.dart';
 
 import '../engine.comment.model.dart';
 import '../engine.post.model.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
+
+import 'engine.post_item_content.dart';
+import 'engine.space.dart';
+import 'engine.space.dart';
+import 'engine.space.dart';
 
 class EngineCommentBox extends StatefulWidget {
   EngineCommentBox(
@@ -110,14 +117,14 @@ class _EngineCommentBoxState extends State<EngineCommentBox> {
 
   @override
   void initState() {
-    print(widget.currentComment);
+    // print(widget.currentComment);
     Timer.run(() {
       // if (isCreate) {
       //   /// 임시 코멘트 생성. README 참고.
       //   widget.currentComment = EngineComment();
       // }
       if (isUpdate) {
-        print('if(isUpdate');
+        // print('if(isUpdate');
         _contentController.text = widget.currentComment.content;
       }
     });
@@ -130,15 +137,12 @@ class _EngineCommentBoxState extends State<EngineCommentBox> {
       appBar: AppBar(
         title: T('edit comment'),
       ),
-      body: SafeArea(
-        child: Container(
-          color: Colors.black38,
+      bottomNavigationBar: Container(
+        height: 100.0,
+        color: Colors.red,
+        child: SafeArea(
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
-              Expanded(
-                child: T('원글 또는 부모 코멘트 글 목록까지만 보여주고 나머지 코멘트는 감춘다.'),
-              ),
               Row(
                 children: <Widget>[
                   EngineUploadIcon(
@@ -197,6 +201,31 @@ class _EngineCommentBoxState extends State<EngineCommentBox> {
                 editable: true,
               ),
             ],
+          ),
+        ),
+      ),
+      body: SingleChildScrollView(
+        child: Container(
+          color: Colors.black38,
+          child: SafeArea(
+            child: Padding(
+              padding: EdgeInsets.all(10.0),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  EnginePostItemContent(widget.post),
+                  Column(
+                    children: <Widget>[
+                      if (widget.post.comments != null)
+                        for (var c in widget.post.comments) ...[
+                          EngineCommentContent(comment: c),
+                          EngineSpace()
+                        ],
+                    ],
+                  ),
+                ],
+              ),
+            ),
           ),
         ),
       ),

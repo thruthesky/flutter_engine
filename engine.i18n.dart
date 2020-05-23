@@ -223,7 +223,23 @@ const Map<String, Map<String, String>> textTranslations = {
   UPDATE_CATEGORY: {
     'ko': '카테고리 수정',
     'en': 'Update Category',
-  }
+  },
+  'reply': {
+    'ko': '댓글 작성',
+    'en': 'Reply',
+  },
+  'edit': {
+    'ko': '수정',
+    'en': 'Edit',
+  },
+  'delete': {
+    'ko': '삭제',
+    'en': 'Delete',
+  },
+  'close': {
+    'ko': '닫기',
+    'en': 'Close',
+  },
 };
 
 class EngineI18N {

@@ -46,6 +46,7 @@ class _EnginePostListState extends State<EnginePostList> {
       itemBuilder: (context, i) {
         return EnginePostItem(
           widget.forum.posts[i],
+          // showContentByDefault: false,
           onUpdate: widget.onUpdate,
           onReply: widget.onReply,
           onDelete: () => widget.onDelete,
@@ -54,8 +55,6 @@ class _EnginePostListState extends State<EnginePostList> {
           onCommentUpdate: widget.onCommentUpdate,
           onCommentDelete: widget.onCommentDelete,
           onCommentError: widget.onCommentError,
-
-          /// TODO: 게시판 목록에서 코멘트 Error Callback 을 걸 필요 있는가? Error Callback 이 약간 복잡하다.
         );
       },
     );

@@ -2,10 +2,6 @@ import '../engine.defines.dart';
 import '../engine.globals.dart';
 
 import '../engine.post.model.dart';
-// import 'package:clientf/globals.dart';
-// import 'package:clientf/services/services/app.defines.dart';
-
-// import 'package:clientf/services/app.space.dart';
 import 'package:flutter/material.dart';
 
 class EnginePostTitle extends StatelessWidget {
@@ -30,14 +26,20 @@ class EnginePostTitle extends StatelessWidget {
       title = post.title;
 
     return GestureDetector(
-      onTap: () => onTap(post),// open(Routes.postView, arguments: {'post': post}),
+      onTap: () => onTap(post),
       behavior: HitTestBehavior.opaque,
       child: Container(
         width: double.infinity,
         padding: EdgeInsets.only(top: 8.0, bottom: 8.0),
-        child: Text(
-          title,
-          style: TextStyle(fontSize: 16.0),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: <Widget>[
+            Text(
+              title,
+              style: TextStyle(fontSize: 16.0),
+            ),
+            Icon(Icons.keyboard_arrow_right),
+          ],
         ),
       ),
     );

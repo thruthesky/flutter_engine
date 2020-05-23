@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import '../engine.firestore.dart';
 import '../engine.globals.dart';
@@ -7,7 +6,7 @@ import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 
 /// 업로드된 사진을 표시
 ///
-class EngineDisplayUploadedImages extends StatefulWidget { 
+class EngineDisplayUploadedImages extends StatefulWidget {
   /// [doc] 사용자 도큐먼트
   EngineDisplayUploadedImages(
     this.doc, {
@@ -18,16 +17,19 @@ class EngineDisplayUploadedImages extends StatefulWidget {
   final bool editable;
 
   @override
-  _EngineDisplayUploadedImagesState createState() => _EngineDisplayUploadedImagesState();
+  _EngineDisplayUploadedImagesState createState() =>
+      _EngineDisplayUploadedImagesState();
 }
 
-class _EngineDisplayUploadedImagesState extends State<EngineDisplayUploadedImages> {
+class _EngineDisplayUploadedImagesState
+    extends State<EngineDisplayUploadedImages> {
   @override
   Widget build(BuildContext context) {
     if (widget.doc.urls == null || widget.doc.urls.length == 0)
       return SizedBox.shrink();
     return GridView.builder(
       shrinkWrap: true,
+      physics: const NeverScrollableScrollPhysics(),
       padding: EdgeInsets.all(10),
       gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
         mainAxisSpacing: 8,
