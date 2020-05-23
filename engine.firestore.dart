@@ -1,4 +1,4 @@
-import 'package:clientf/settings.dart';
+import '../settings.dart';
 
 import './engine.defines.dart';
 import 'package:flutter/material.dart';
