@@ -205,6 +205,24 @@ const Map<String, Map<String, String>> textTranslations = {
   CONFIRM_COMMENT_DELETE_CONTENT: {
     'ko': '앗! 코멘트를 삭제하시겠습니까?',
     'en': 'Ooh. Do you want to delete this comment?'
+  },
+
+  CREATE_POST: {
+    'ko': '글 작성',
+    'en': 'Create Post',
+  },
+  UPDATE_POST: {
+    'ko': '글 수정',
+    'en': 'Update Post',
+  },
+
+  CREATE_CATEGORY: {
+    'ko': '카테고리 생성',
+    'en': 'Create Category',
+  },
+  UPDATE_CATEGORY: {
+    'ko': '카테고리 수정',
+    'en': 'Update Category',
   }
 };
 

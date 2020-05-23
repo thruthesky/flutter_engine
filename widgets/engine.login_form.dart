@@ -1,13 +1,16 @@
+
+import './engine.button.dart';
+
 import '../widgets/engine.space.dart';
 import '../engine.globals.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
-class EngineLoginForm extends StatelessWidget {
+class EngineLoginForm extends StatefulWidget {
   EngineLoginForm({
     this.hintEmail = 'Email',
     this.hintPassword = 'Password',
-    this.hintSubmit = 'Submit',
+    this.textSubmit = 'Submit',
     this.hintGoogleSignIn = 'Google Sign In',
     @required this.onLogin,
     @required this.onError,
@@ -15,13 +18,21 @@ class EngineLoginForm extends StatelessWidget {
 
   final String hintEmail;
   final String hintPassword;
-  final String hintSubmit;
+  final String textSubmit;
   final String hintGoogleSignIn;
   final Function onLogin;
   final Function onError;
 
+  @override
+  _EngineLoginFormState createState() => _EngineLoginFormState();
+}
+
+class _EngineLoginFormState extends State<EngineLoginForm> {
   final TextEditingController _emailController = TextEditingController();
+
   final TextEditingController _passwordController = TextEditingController();
+
+  bool inSubmit = false;
 
   /// Gets user registration data from the form
   /// TODO - form validation
@@ -41,7 +52,7 @@ class EngineLoginForm extends StatelessWidget {
     } catch (e) {
       print('Got error: ');
       print(e);
-      onError(e);
+      widget.onError(e);
     }
   }
 
@@ -54,7 +65,7 @@ class EngineLoginForm extends StatelessWidget {
           controller: _emailController,
           onSubmitted: (text) {},
           decoration: InputDecoration(
-            hintText: hintEmail,
+            hintText: widget.hintEmail,
           ),
         ),
         EngineSpace(),
@@ -62,36 +73,39 @@ class EngineLoginForm extends StatelessWidget {
           controller: _passwordController,
           onSubmitted: (text) {},
           decoration: InputDecoration(
-            hintText: hintPassword,
+            hintText: widget.hintPassword,
           ),
         ),
         EngineSpace(),
-        RaisedButton(
+        EngineButton(
+          loader: inSubmit,
+          text: widget.textSubmit,
           onPressed: () async {
+            if ( inSubmit ) return;
+            setState(() {
+              inSubmit = true;
+            });
             final data = getFormData();
             try {
               final user = await ef.login(data['email'], data['password']);
-              onLogin(user);
-              // AppRouter.open(context, Routes.home);
+              widget.onLogin(user);
             } catch (e) {
-              onError(e);
-              // AppService.alert(null, t(e));
+              widget.onError(e);
             }
+            setState(() {
+              inSubmit = false;
+            });
           },
-          child: Text(hintSubmit),
         ),
         RaisedButton(
           onPressed: () async {
             try {
               final user = await _handleSignIn();
             } catch (e) {
-              onError(e);
+              widget.onError(e);
             }
-
-            // .then((FirebaseUser user) => print(user))
-            // .catchError((e) => print(e));
           },
-          child: Text(hintGoogleSignIn),
+          child: Text(widget.hintGoogleSignIn),
         ),
       ],
     );

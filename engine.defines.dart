@@ -52,3 +52,8 @@ const String CONFIRM_POST_DELETE_CONTENT = 'confirm post delete content';
 const String CONFIRM_COMMENT_DELETE_TITLE = 'confirm comment delete title';
 const String CONFIRM_COMMENT_DELETE_CONTENT = 'confirm comment delete content';
 
+
+const String CREATE_POST = 'create post';
+const String UPDATE_POST = 'update post';
+const String CREATE_CATEGORY = 'create category';
+const String UPDATE_CATEGORY = 'update category';

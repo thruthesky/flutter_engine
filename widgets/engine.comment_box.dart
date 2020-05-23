@@ -47,7 +47,7 @@ class EngineCommentBox extends StatefulWidget {
 class _EngineCommentBoxState extends State<EngineCommentBox> {
   final TextEditingController _contentController = TextEditingController();
 
-  bool inLoading = false;
+  bool inSubmit = false;
   int progress = 0;
 
   /// TODO: app model 로 이동할 것
@@ -163,40 +163,29 @@ class _EngineCommentBoxState extends State<EngineCommentBox> {
                     ),
                   ),
                   GestureDetector(
-                    child: inLoading
+                    child: inSubmit
                         ? PlatformCircularProgressIndicator()
                         : Icon(Icons.send),
                     onTap: () async {
-                      if (inLoading) return;
-                      setState(() {
-                        inLoading = true;
-                      });
+                      if (inSubmit) return;
+                      setState(() => inSubmit = true);
 
                       var data = getFormData();
-                      // print(getFormData());
                       try {
                         if (isCreate) {
                           /// create (reply)
                           print(data);
                           var re = await ef.commentCreate(data);
-                          // print('create: $data');
-                          // back(arguments: re);
-
                           widget.onCommentReply(re);
-
-                          ////
                         } else {
                           /// update
                           var re = await ef.commentUpdate(getFormData());
-                          // print('EngineCommentBox:: Comment update. $re');
                           widget.currentComment.content = re.content;
                           widget.onCommentUpdate(re);
-                          // back(arguments: re);
                         }
                       } catch (e) {
                         widget.onCommentError(e);
-                        // print(e);
-                        // AppService.alert(null, t(e));
+                        setState(() => inSubmit = false);
                       }
                     },
                   ),
