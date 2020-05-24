@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:time_formatter/time_formatter.dart';
 import './engine.display_uploaded_images.dart';
-import '../engine.post.model.dart';
+import '../../engine.post.model.dart';
 
 class EnginePostItemContent extends StatelessWidget {
   const EnginePostItemContent(

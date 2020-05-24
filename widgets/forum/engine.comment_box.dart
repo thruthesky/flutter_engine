@@ -1,35 +1,26 @@
 import 'dart:async';
+import 'package:clientf/flutter_engine/widgets/forum/engine.comment_view_content.dart';
+import 'package:clientf/flutter_engine/widgets/forum/engine.display_uploaded_images.dart';
+import 'package:clientf/flutter_engine/widgets/forum/engine.post_item_content.dart';
+import 'package:clientf/globals.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 
-import './engine.comment_content.dart';
+import '../../engine.globals.dart';
+import '../engine.text.dart';
+import '../engine.upload_icon.dart';
+import '../upload_progress_bar.dart';
 
-import '../engine.globals.dart';
-import './engine.display_uploaded_images.dart';
-import './engine.text.dart';
-import './engine.upload_icon.dart';
-import './upload_progress_bar.dart';
+import '../../engine.comment.model.dart';
+import '../../engine.post.model.dart';
 
-import '../engine.comment.model.dart';
-import '../engine.post.model.dart';
-
-import 'engine.post_item_content.dart';
-import 'engine.space.dart';
-import 'engine.space.dart';
-import 'engine.space.dart';
+import '../engine.space.dart';
 
 class EngineCommentBox extends StatefulWidget {
   EngineCommentBox(
     this.post, {
     this.parentComment,
     this.currentComment,
-    // this.onReply,
-    // this.onUpdate,
-    @required this.onCommentError,
-    this.onCommentReply,
-    this.onCommentUpdate,
-    // @required this.onCommentDelete,
-    // this.onCancel,
     Key key,
   }) : super(key: key);
   final EnginePost post;
@@ -39,13 +30,6 @@ class EngineCommentBox extends StatefulWidget {
 
   /// When user updates a comment, [currentComemnt] will be set.
   final EngineComment currentComment;
-
-  // final Function onReply;
-  // final Function onUpdate;
-  final Function onCommentError;
-  final Function onCommentReply;
-  final Function onCommentUpdate;
-  // final Function onCommentDelete;
 
   @override
   _EngineCommentBoxState createState() => _EngineCommentBoxState();
@@ -152,7 +136,7 @@ class _EngineCommentBoxState extends State<EngineCommentBox> {
                 onUploadComplete: (String url) {
                   setState(() {});
                 },
-                onError: widget.onCommentError,
+                onError: alert,
               ),
               Expanded(
                 child: TextField(
@@ -170,24 +154,31 @@ class _EngineCommentBoxState extends State<EngineCommentBox> {
                     ? PlatformCircularProgressIndicator()
                     : Icon(Icons.send),
                 onTap: () async {
+                  /// 코멘트 생성 또는 수정.
+                  /// Rendering 을 여기서 하지 않는다.
                   if (inSubmit) return;
                   setState(() => inSubmit = true);
 
                   var data = getFormData();
                   try {
                     if (isCreate) {
-                      /// create (reply)
                       print(data);
-                      var re = await ef.commentCreate(data);
-                      widget.onCommentReply(re);
+                      EngineComment comment = await ef.commentCreate(data);
+                      back(arguments: comment);
+                      // widget.onCommentReply(re);
                     } else {
                       /// update
-                      var re = await ef.commentUpdate(getFormData());
-                      widget.currentComment.content = re.content;
-                      widget.onCommentUpdate(re);
+                      EngineComment comment =
+                          await ef.commentUpdate(getFormData());
+                      // widget.currentComment.content = re.content;
+                      // forum.updateComment(comment, widget.post);
+                      
+                      back(arguments: comment);
+                      // widget.onCommentUpdate(re);
                     }
                   } catch (e) {
-                    widget.onCommentError(e);
+                    alert(e);
+                    // widget.onCommentError(e);
                     setState(() => inSubmit = false);
                   }
                 },
@@ -216,7 +207,7 @@ class _EngineCommentBoxState extends State<EngineCommentBox> {
                     children: <Widget>[
                       if (widget.post.comments != null)
                         for (var c in widget.post.comments) ...[
-                          EngineCommentContent(comment: c),
+                          EngineCommentViewContent(comment: c),
                           EngineSpace()
                         ],
                     ],

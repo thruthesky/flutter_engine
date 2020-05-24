@@ -1,6 +1,6 @@
+import 'package:clientf/flutter_engine/engine.firestore.dart';
+import 'package:clientf/flutter_engine/engine.globals.dart';
 import 'package:flutter/material.dart';
-import '../engine.firestore.dart';
-import '../engine.globals.dart';
 import 'package:flutter_image/network.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 

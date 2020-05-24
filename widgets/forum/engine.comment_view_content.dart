@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
-import '../engine.comment.model.dart';
+import '../../engine.comment.model.dart';
 import 'engine.display_uploaded_images.dart';
 
-class EngineCommentContent extends StatelessWidget {
-  const EngineCommentContent({
+class EngineCommentViewContent extends StatelessWidget {
+  const EngineCommentViewContent({
     Key key,
     @required this.comment,
   }) : super(key: key);

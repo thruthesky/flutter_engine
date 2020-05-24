@@ -1,7 +1,9 @@
-import '../engine.forum.dart';
+import 'dart:async';
 
-import '../engine.post.model.dart';
-import './engine.post_title.dart';
+import 'package:clientf/flutter_engine/engine.forum_list.model.dart';
+import 'package:clientf/flutter_engine/engine.post.model.dart';
+import 'package:clientf/flutter_engine/widgets/engine.post_title.dart';
+
 import 'package:flutter/material.dart';
 
 /// 최근 글 목록
@@ -27,22 +29,18 @@ class EngineLatestPosts extends StatefulWidget {
 }
 
 class _EngineLatestPostsState extends State<EngineLatestPosts> {
-  EngineForum forum = EngineForum();
+  final EngineForumListModel forum = EngineForumListModel();
 
   @override
   void initState() {
-    loadPosts();
+    Timer(Duration(milliseconds: 100), () {
+      forum.init(
+        id: widget.id,
+        cacheKey: 'front-page',
+        limit: 15,
+      );
+    });
     super.initState();
-  }
-
-  loadPosts() {
-    forum.loadPage(
-      id: widget.id,
-      limit: widget.limit,
-      onLoad: () => setState(() => {}),
-      onError: (e) => widget.onError(e),
-      cacheKey: 'front-page',
-    );
   }
 
   @override
