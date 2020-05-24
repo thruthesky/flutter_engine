@@ -1,6 +1,8 @@
 # Flutter Engine
 
-* `Engine` 을 활용하여 플러터 앱을 제작하기 위한 라이브러리 모듈이다.
+* `Flutter Engine`은 파이어베이스 기반 백엔드인 `Engine` 을 활용하여 플러터 앱을 제작하기 위한 라이브러리 모듈이다.
+* `callback` 브랜치를 보면, `Flutter Engine` 에서 게시판 관련 기능을 구현 할 때, state 관리 없이 callback 으로만 되어져 있는 것을 볼 수 있다.
+* 처음에 `Provider`를 바탕으로 개발을 하였다가 모든 개발자들이 `Provider`를 쓰는 것이 아니라는 생각에 `callback` 으로 제작하게 되었는데, callback hell 이 나타나는 조짐이 보여서 다시 `Provider`를 기반으로 만들게 되었다.
 
 ## 설치
 
@@ -69,16 +71,17 @@ ef = EngineModel(
 );
 ```
 
-* 그리고 `ef` 를 Provider 로 등록한다.
+* 그리고 `ef` 를 main.dart 에서 전체 영역으로 Provider 등록한다.
+  * 회원 로그인 및 정보를 state 로 관리하며, 앱 전체 영역으로 해야, 전체 영역에서 회원 state 정보를 업데이트 할 수 있다.
 
 ``` dart
 MultiProvider(
 	providers: [
-		ChangeNotifierProvider(create: (context) => app),
 		ChangeNotifierProvider(create: (context) => ef),
 	],
 ```
 
+* 게시판 state 는 해당 게시판 별로 별도의 Model 객체를 생성해서 Provider 등록하면 된다.
 
 
 ## 수정과 삭제 용어
