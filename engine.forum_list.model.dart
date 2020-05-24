@@ -32,6 +32,7 @@ class EngineForumListModel extends ChangeNotifier {
   List<EnginePost> posts = [];
 
   String get id => _id;
+  bool get inLoading => _inLoading;
   bool get _cache {
     return _cacheKey != null && _pageNo == 1;
   }
@@ -218,6 +219,7 @@ class EngineForumListModel extends ChangeNotifier {
   /// [comment] 업데이트된 코멘트
   /// TODO: 에러 핸들링. 정상적인 이용에서는 에러가 없지어야 하지만, 혹시라도 ... 코멘트가 없을 수 있다.
    updateComment(EngineComment comment, EnginePost post) {
+     if ( comment == null ) return;
     int i = post.comments.indexWhere((element) => element.id == comment.id);
     post.comments.removeAt(i);
     post.comments.insert(i, comment);

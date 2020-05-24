@@ -84,35 +84,38 @@ class EngineAppBar extends StatelessWidget with PreferredSizeWidget {
 }
 
 class UserPhoto extends StatelessWidget {
-  const UserPhoto(this.onTap, {
+  const UserPhoto(
+    this.onTap, {
     Key key,
   }) : super(key: key);
 
-final Function onTap;
+  final Function onTap;
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       behavior: HitTestBehavior.opaque,
       onTap: () => onTap(),
-      child: ClipOval(
-        child: Selector<EngineModel, String>(
-          builder: (context, url, child) {
-            if (url == null || url == '' || url == DELETED_PHOTO) {
-              return Image.asset(
-                'lib/flutter_engine/assets/images/user-icon.png',
-                width: 40,
-                height: 40,
-                fit: BoxFit.contain,
-              );
-            } else {
-              return Image(
+      child: Material(
+        shape: CircleBorder(),
+        clipBehavior: Clip.hardEdge,
+        color: Colors.blueAccent,
+        child: SizedBox(
+          width: 44,
+          height: 44,
+          child: Selector<EngineModel, String>(
+            builder: (context, url, child) {
+              if (url == null || url == '' || url == DELETED_PHOTO) {
+                return Image.asset(
+                    'lib/flutter_engine/assets/images/user-icon.png');
+              } else {
+                return Image(
                   image: NetworkImageWithRetry(url),
-                  width: 40,
-                  height: 40,
-                  fit: BoxFit.cover);
-            }
-          },
-          selector: (_, model) => model.user?.photoUrl,
+                  fit: BoxFit.cover,
+                );
+              }
+            },
+            selector: (_, model) => model.user?.photoUrl,
+          ),
         ),
       ),
     );

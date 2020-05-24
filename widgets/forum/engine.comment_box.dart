@@ -144,6 +144,13 @@ class _EngineCommentBoxState extends State<EngineCommentBox> {
                   maxLines: null,
                   controller: _contentController,
                   onSubmitted: (text) {},
+                  onChanged: (String content) {
+                    /// 글 내용을 입력하면 화면에 바인딩되어 나타난다.
+                    /// 사진을 업로드해도 마찬가지이다.
+                    setState(() {
+                      widget.currentComment.content = content;
+                    });
+                  },
                   decoration: InputDecoration(
                     hintText: t('input comment'),
                   ),
@@ -172,7 +179,7 @@ class _EngineCommentBoxState extends State<EngineCommentBox> {
                           await ef.commentUpdate(getFormData());
                       // widget.currentComment.content = re.content;
                       // forum.updateComment(comment, widget.post);
-                      
+
                       back(arguments: comment);
                       // widget.onCommentUpdate(re);
                     }

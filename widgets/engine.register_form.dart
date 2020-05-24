@@ -92,7 +92,6 @@ class _EngineRegisterFromState extends State<EngineRegisterFrom> {
   @override
   Widget build(BuildContext context) {
     return Column(
-      mainAxisAlignment: MainAxisAlignment.start,
       children: <Widget>[
         EngineUploadIcon(
           user,

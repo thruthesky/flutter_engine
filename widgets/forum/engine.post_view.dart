@@ -57,8 +57,6 @@ class EnginePostViewButtons extends StatelessWidget {
               ),
             );
 
-            
-
             forum.addComment(comment, post, null);
 
             // forum.notify();
