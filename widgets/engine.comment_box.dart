@@ -137,79 +137,77 @@ class _EngineCommentBoxState extends State<EngineCommentBox> {
       appBar: AppBar(
         title: T('edit comment'),
       ),
-      bottomNavigationBar: Container(
-        height: 100.0,
-        color: Colors.red,
-        child: SafeArea(
-          child: Column(
+      bottomNavigationBar: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: <Widget>[
+          Row(
             children: <Widget>[
-              Row(
-                children: <Widget>[
-                  EngineUploadIcon(
-                    widget.currentComment,
-                    onProgress: (p) {
-                      setState(() {
-                        progress = p;
-                      });
-                    },
-                    onUploadComplete: (String url) {
-                      setState(() {});
-                    },
-                    onError: widget.onCommentError,
-                  ),
-                  Expanded(
-                    child: TextField(
-                      controller: _contentController,
-                      onSubmitted: (text) {},
-                      decoration: InputDecoration(
-                        hintText: t('input comment'),
-                      ),
-                    ),
-                  ),
-                  GestureDetector(
-                    child: inSubmit
-                        ? PlatformCircularProgressIndicator()
-                        : Icon(Icons.send),
-                    onTap: () async {
-                      if (inSubmit) return;
-                      setState(() => inSubmit = true);
-
-                      var data = getFormData();
-                      try {
-                        if (isCreate) {
-                          /// create (reply)
-                          print(data);
-                          var re = await ef.commentCreate(data);
-                          widget.onCommentReply(re);
-                        } else {
-                          /// update
-                          var re = await ef.commentUpdate(getFormData());
-                          widget.currentComment.content = re.content;
-                          widget.onCommentUpdate(re);
-                        }
-                      } catch (e) {
-                        widget.onCommentError(e);
-                        setState(() => inSubmit = false);
-                      }
-                    },
-                  ),
-                ],
-              ),
-              EngineProgressBar(progress),
-              EngineDisplayUploadedImages(
+              EngineUploadIcon(
                 widget.currentComment,
-                editable: true,
+                onProgress: (p) {
+                  setState(() {
+                    progress = p;
+                  });
+                },
+                onUploadComplete: (String url) {
+                  setState(() {});
+                },
+                onError: widget.onCommentError,
+              ),
+              Expanded(
+                child: TextField(
+                  keyboardType: TextInputType.multiline,
+                  maxLines: null,
+                  controller: _contentController,
+                  onSubmitted: (text) {},
+                  decoration: InputDecoration(
+                    hintText: t('input comment'),
+                  ),
+                ),
+              ),
+              GestureDetector(
+                child: inSubmit
+                    ? PlatformCircularProgressIndicator()
+                    : Icon(Icons.send),
+                onTap: () async {
+                  if (inSubmit) return;
+                  setState(() => inSubmit = true);
+
+                  var data = getFormData();
+                  try {
+                    if (isCreate) {
+                      /// create (reply)
+                      print(data);
+                      var re = await ef.commentCreate(data);
+                      widget.onCommentReply(re);
+                    } else {
+                      /// update
+                      var re = await ef.commentUpdate(getFormData());
+                      widget.currentComment.content = re.content;
+                      widget.onCommentUpdate(re);
+                    }
+                  } catch (e) {
+                    widget.onCommentError(e);
+                    setState(() => inSubmit = false);
+                  }
+                },
               ),
             ],
           ),
-        ),
+          Container(height: 100, color: Colors.black45),
+          EngineProgressBar(progress),
+          EngineDisplayUploadedImages(
+            widget.currentComment,
+            editable: true,
+          ),
+        ],
       ),
-      body: SingleChildScrollView(
-        child: Container(
-          color: Colors.black38,
-          child: SafeArea(
-            child: Padding(
-              padding: EdgeInsets.all(10.0),
+      body: Container(
+        color: Colors.black38,
+        child: SafeArea(
+          child: Padding(
+            padding: EdgeInsets.all(10.0),
+            child: SingleChildScrollView(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[

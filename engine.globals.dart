@@ -42,7 +42,17 @@ String t(code, {info}) {
   if (code is FlutterError) code = code.message;
   if (code is PlatformException) {
     // @fix type error
-    code = '${code.code} ${code.message} ${code.details['code']}';
+    // print('code: ');
+    // print(code);
+    String _code = '';
+    _code += code?.code ?? '';
+    _code += ' ' + code?.message ?? '';
+    // print(_code);
+    // if ( code?.details != null && code?.details[0] != null ) {
+    //   _code += ' ' + code.details[0];
+    // }
+    code = _code;
+    // code =  '${code.code} ${code.message} ${code.details['code']}';
   }
 
   return AppLocalizations.of(ef.context).t(code, info: info);
