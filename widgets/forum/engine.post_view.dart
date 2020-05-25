@@ -1,6 +1,5 @@
-/// TODO: 아래의 두 개 링크가 dependecy 문제 발생 시킨다.
-import 'package:clientf/globals.dart';
-import 'package:clientf/services/app.defines.dart';
+import './engine.comment_edit_form.dart';
+import './engine.post_edit_form.dart';
 
 import '../../engine.comment.helper.dart';
 import '../../engine.defines.dart';
@@ -8,7 +7,6 @@ import '../../engine.forum_list.model.dart';
 import '../../engine.globals.dart';
 import '../../engine.post.model.dart';
 import '../engine.text.dart';
-import './engine.comment_box.dart';
 import './engine.comment_view.dart';
 import './engine.post_item_content.dart';
 import 'package:flutter/material.dart';
@@ -53,7 +51,7 @@ class EnginePostViewButtons extends StatelessWidget {
           onPressed: () async {
             /// 글에서 Reply 버튼을 클릭한 경우
             EngineComment comment = await openDialog(
-              EngineCommentBox(
+              EngineCommentEditForm(
                 post,
                 currentComment: EngineComment(),
               ),
@@ -68,11 +66,10 @@ class EnginePostViewButtons extends StatelessWidget {
           child: T('Edit'),
           onPressed: () async {
             /// 글 수정
-            var updatedPost = await open(
-              Routes.postUpdate,
-              arguments: {'post': post},
+            EnginePost _post = await openDialog(
+              EnginePostEditForm(post: post),
             );
-            forum.updatePost(post, updatedPost);
+            forum.updatePost(post, _post);
           },
         ),
         FlatButton(

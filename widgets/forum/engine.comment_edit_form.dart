@@ -16,8 +16,8 @@ import '../../engine.post.model.dart';
 
 import '../engine.space.dart';
 
-class EngineCommentBox extends StatefulWidget {
-  EngineCommentBox(
+class EngineCommentEditForm extends StatefulWidget {
+  EngineCommentEditForm(
     this.post, {
     this.parentComment,
     this.currentComment,
@@ -32,10 +32,10 @@ class EngineCommentBox extends StatefulWidget {
   final EngineComment currentComment;
 
   @override
-  _EngineCommentBoxState createState() => _EngineCommentBoxState();
+  _EngineCommentEditFormState createState() => _EngineCommentEditFormState();
 }
 
-class _EngineCommentBoxState extends State<EngineCommentBox> {
+class _EngineCommentEditFormState extends State<EngineCommentEditForm> {
   final TextEditingController _contentController = TextEditingController();
 
   bool inSubmit = false;
@@ -50,7 +50,6 @@ class _EngineCommentBoxState extends State<EngineCommentBox> {
   //   _startUpload();
   // }
 
-  //// 여기서 부터. bottom sheet 이 열리지만 그 후 동작하지 않음.
   ///소스 참고: https://fireship.io/lessons/flutter-file-uploads-cloud-storage/
   /// 파일 업로드. 코멘트, 게시글, 사용자 사진을 업로드한다.
   ///업로드하는 사진은, quality 를 90% 로 하고, 너비를 024px 로 자동으로 줄인다.

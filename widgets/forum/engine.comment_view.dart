@@ -1,5 +1,5 @@
 import '../../engine.forum_list.model.dart';
-import './engine.comment_box.dart';
+import './engine.comment_edit_form.dart';
 import './engine.comment_view_content.dart';
 import 'package:provider/provider.dart';
 
@@ -40,7 +40,7 @@ class EngineCommentView extends StatelessWidget {
                 onReply: () async {
                   /// 코멘트에서 Reply 버튼을 클릭한 경우,
                   EngineComment _comment = await openDialog(
-                    EngineCommentBox(
+                    EngineCommentEditForm(
                       post,
                       currentComment: EngineComment(),
                       parentComment: comment,
@@ -51,7 +51,7 @@ class EngineCommentView extends StatelessWidget {
                 },
                 onUpdate: () async {
                   EngineComment _comment = await openDialog(
-                    EngineCommentBox(
+                    EngineCommentEditForm(
                       post,
                       currentComment: comment,
                     ),
