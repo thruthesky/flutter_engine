@@ -1,8 +1,10 @@
+import 'package:clientf/flutter_engine/widgets/engine.button.dart';
+import 'package:clientf/flutter_engine/widgets/engine.image.dart';
 
 import '../engine.firestore.dart';
 import './engine.space.dart';
 import './engine.text.dart';
-import 'package:flutter_image/network.dart';
+// import 'package:flutter_image/network.dart';
 
 import '../engine.defines.dart';
 
@@ -14,7 +16,7 @@ import 'package:flutter/material.dart';
 class EngineRegisterUserPhoto extends StatefulWidget {
   EngineRegisterUserPhoto(
     this.user, {
-      @required this.onError,
+    @required this.onError,
     Key key,
   }) : super(key: key);
 
@@ -22,24 +24,28 @@ class EngineRegisterUserPhoto extends StatefulWidget {
   final Function onError;
 
   @override
-  _EngineRegisterUserPhotoState createState() => _EngineRegisterUserPhotoState();
+  _EngineRegisterUserPhotoState createState() =>
+      _EngineRegisterUserPhotoState();
 }
 
 class _EngineRegisterUserPhotoState extends State<EngineRegisterUserPhoto> {
+  bool inDelete = false;
   @override
   Widget build(BuildContext context) {
     /// `Firebase Auth` 의 `photoUrl` 을 바로 보여준다.
     String url = ef.user?.photoUrl;
     bool hasPhoto = url != null && url != DELETED_PHOTO;
+
+    // print('hasPhoto: $hasPhoto, $url');
     return Column(
       children: <Widget>[
         hasPhoto
             ? ClipOval(
-                child: Image(
-                    image: NetworkImageWithRetry(url),
-                    width: 160,
-                    height: 160,
-                    fit: BoxFit.cover),
+                child: SizedBox(
+                  width: 200,
+                  height: 200,
+                  child: EngineImage(url),
+                ),
               )
             : Material(
                 elevation: 4.0,
@@ -58,9 +64,12 @@ class _EngineRegisterUserPhotoState extends State<EngineRegisterUserPhoto> {
         if (!hasPhoto) T('Upload photo'),
         if (hasPhoto) ...[
           T('Change photo'),
-          RaisedButton(
+          EngineButton(
+            loader: inDelete,
             onPressed: () async {
               /// 사진 삭제
+              if (inDelete) return;
+              setState(() => inDelete = true);
               try {
                 await EngineFirestore(widget.user).delete(url);
                 await ef.userUpdate({'photoURL': DELETED_PHOTO}); // @see README
@@ -69,8 +78,10 @@ class _EngineRegisterUserPhotoState extends State<EngineRegisterUserPhoto> {
                 widget.onError(e);
                 // AppService.alert(null, t(e));
               }
+
+              setState(() => inDelete = false);
             },
-            child: T('Delete Photo'),
+            text: t('Delete Photo'),
           ),
         ],
       ],

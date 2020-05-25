@@ -5,11 +5,11 @@ import 'package:flutter/services.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
 import './engine.i18n.dart';
-import './engine.category.model.dart';
-import './engine.category_list.model.dart';
-import './engine.comment.model.dart';
+import './engine.category.helper.dart';
+import './engine.category_list.helper.dart';
+import './engine.comment.helper.dart';
 import './engine.defines.dart';
-import './engine.error.model.dart';
+import './engine.error.helper.dart';
 import './engine.post.model.dart';
 import './engine.user.model.dart';
 

@@ -5,7 +5,7 @@ import 'dart:math';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 
 import './engine.app.localization.dart';
-import './engine.error.model.dart';
+import './engine.error.helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 

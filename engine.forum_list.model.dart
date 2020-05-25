@@ -1,4 +1,4 @@
-import 'package:clientf/flutter_engine/engine.comment.model.dart';
+import 'package:clientf/flutter_engine/engine.comment.helper.dart';
 import 'package:clientf/flutter_engine/engine.globals.dart';
 import 'package:clientf/flutter_engine/engine.post.model.dart';
 import 'package:flutter/material.dart';
@@ -33,6 +33,7 @@ class EngineForumListModel extends ChangeNotifier {
 
   String get id => _id;
   bool get inLoading => _inLoading;
+  bool get noMorePosts => _noMorePosts;
   bool get _cache {
     return _cacheKey != null && _pageNo == 1;
   }
@@ -103,6 +104,7 @@ class EngineForumListModel extends ChangeNotifier {
       return;
     }
     _inLoading = true;
+    notify();
     var req = {
       'categories': [_id],
       'limit': _limit,

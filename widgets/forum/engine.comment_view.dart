@@ -8,7 +8,7 @@ import './../engine.text.dart';
 
 import '../../engine.globals.dart';
 
-import '../../engine.comment.model.dart';
+import '../../engine.comment.helper.dart';
 import '../../engine.post.model.dart';
 import 'package:flutter/material.dart';
 

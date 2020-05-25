@@ -1,9 +1,10 @@
 import 'dart:io';
+import 'package:clientf/flutter_engine/widgets/engine.image.dart';
+
 import '../engine.defines.dart';
 import '../engine.model.dart';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_image/network.dart';
 import 'package:provider/provider.dart';
 
 /// `EngineAppBar` Widget
@@ -108,10 +109,12 @@ class UserPhoto extends StatelessWidget {
                 return Image.asset(
                     'lib/flutter_engine/assets/images/user-icon.png');
               } else {
-                return Image(
-                  image: NetworkImageWithRetry(url),
-                  fit: BoxFit.cover,
-                );
+                return EngineImage(url);
+
+                // return Image(
+                //   image: NetworkImageWithRetry(url),
+                //   fit: BoxFit.cover,
+                // );
               }
             },
             selector: (_, model) => model.user?.photoUrl,

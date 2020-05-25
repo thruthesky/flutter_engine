@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../engine.comment.model.dart';
+import '../../engine.comment.helper.dart';
 import 'engine.display_uploaded_images.dart';
 
 class EngineCommentViewContent extends StatelessWidget {

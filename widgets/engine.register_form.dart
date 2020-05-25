@@ -1,3 +1,5 @@
+import 'package:clientf/flutter_engine/widgets/engine.button.dart';
+
 import '../engine.globals.dart';
 import '../engine.user.model.dart';
 import './engine.register.user_photo.dart';
@@ -24,6 +26,7 @@ class EngineRegisterFrom extends StatefulWidget {
 class _EngineRegisterFromState extends State<EngineRegisterFrom> {
   EngineUser user = EngineUser();
   int progress = 0;
+  bool inSubmit = false;
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _nicknameController = TextEditingController();
@@ -162,9 +165,13 @@ class _EngineRegisterFromState extends State<EngineRegisterFrom> {
             hintText: t('input birthday'),
           ),
         ),
-        RaisedButton(
+        EngineButton(
+          loader: inSubmit,
+          text: ef.notLoggedIn ? t('register submit') : t('update submit'),
           onPressed: () async {
             /// 전송 버튼
+            if ( inSubmit ) return;
+            setState(() => inSubmit = true);
             final data = getFormData();
             try {
               if (ef.notLoggedIn) {
@@ -177,8 +184,9 @@ class _EngineRegisterFromState extends State<EngineRegisterFrom> {
             } catch (e) {
               widget.onError(e);
             }
+            setState(() => inSubmit = false);
           },
-          child: ef.notLoggedIn ? T('register submit') : T('update submit'),
+          // child: ef.notLoggedIn ? T('register submit') : T('update submit'),
         ),
       ],
     );

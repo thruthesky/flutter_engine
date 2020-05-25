@@ -1,7 +1,7 @@
 import 'package:clientf/flutter_engine/engine.firestore.dart';
 import 'package:clientf/flutter_engine/engine.globals.dart';
+import 'package:clientf/flutter_engine/widgets/engine.image.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_image/network.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 
 /// 업로드된 사진을 표시
@@ -41,9 +41,12 @@ class _EngineDisplayUploadedImagesState
       itemBuilder: (context, i) {
         String url = widget.doc.urls.elementAt(i);
         return GridTile(
-          child: Image(
-            image: NetworkImageWithRetry(url),
-          ),
+          child: EngineImage(url),
+
+          // Image(
+          //   image: NetworkImageWithRetry(url),
+
+          // ),
           footer: DeleteIcon(
             widget.doc,
             url,

@@ -11,7 +11,7 @@ import '../engine.text.dart';
 import '../engine.upload_icon.dart';
 import '../upload_progress_bar.dart';
 
-import '../../engine.comment.model.dart';
+import '../../engine.comment.helper.dart';
 import '../../engine.post.model.dart';
 
 import '../engine.space.dart';

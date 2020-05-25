@@ -1,34 +1,23 @@
 
-import './engine.category.model.dart';
+import 'package:clientf/flutter_engine/engine.category_list.helper.dart';
+import 'package:clientf/flutter_engine/engine.globals.dart';
+import 'package:flutter/material.dart';
 
-class EngineCategoryList {
-  List<dynamic> ids;
-  List<EngineCategory> categories;
-  EngineCategoryList({
-    this.ids,
-    this.categories,
-  });
-  factory EngineCategoryList.fromEngineData(Map<dynamic, dynamic> data) {
-    // data.keys;
-
-    var _ids = data.keys.toList();
-    List<EngineCategory> arr = [];
-    for (String id in _ids) {
-      var _data = Map.from(data[id]);
-      _data['id'] = id;
-      // print('data: ');
-      // print(_data);
-      arr.add(EngineCategory.fromEngineData(_data));
-    }
-
-    return EngineCategoryList(
-      ids: data.keys.toList(),
-      categories: arr,
-    );
+class EngineCategoryListModel extends ChangeNotifier {
+  bool inLoading = false;
+  EngineCategoryListModel() {
+    loadCategories();
   }
-
-  @override
-  String toString() {
-    return "$ids $categories";
+  EngineCategoryList list;
+  loadCategories() async {
+    inLoading = true;
+    notifyListeners();
+    try {
+      list = await ef.categoryList();
+    } catch (e) {
+      alert(t(e));
+    }
+    inLoading = false;
+    notifyListeners();
   }
 }
