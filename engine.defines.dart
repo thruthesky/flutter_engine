@@ -57,3 +57,4 @@ const String CREATE_POST = 'create post';
 const String UPDATE_POST = 'update post';
 const String CREATE_CATEGORY = 'create category';
 const String UPDATE_CATEGORY = 'update category';
+const String DELETE_CATEGORY = 'delete category';

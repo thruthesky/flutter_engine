@@ -269,6 +269,17 @@ class EngineModel extends ChangeNotifier {
     return callFunction({'route': 'category.update', 'data': data});
   }
 
+
+  /// 카테고리를 삭제한다. 관리자만 가능.
+  /// @return [WriteResult]
+  /// ``` dart
+  /// await ef.categoryDelete({'id': this.category.id});
+  /// ```
+  Future categoryDelete(data) {
+    return callFunction({'route': 'category.delete', 'data': data});
+  }
+
+
   /// 카테고리 하나의 정보를 가져온다.
   Future<EngineCategory> categoryData(String id) async {
     var re = await callFunction({'route': 'category.data', 'data': id});
