@@ -1,5 +1,5 @@
-import 'package:clientf/flutter_engine/widgets/engine.button.dart';
-import 'package:clientf/flutter_engine/widgets/engine.image.dart';
+import './engine.button.dart';
+import './engine.image.dart';
 
 import '../engine.firestore.dart';
 import './engine.space.dart';

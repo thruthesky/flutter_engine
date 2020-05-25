@@ -1,6 +1,6 @@
 
-import 'package:clientf/flutter_engine/engine.category_list.helper.dart';
-import 'package:clientf/flutter_engine/engine.globals.dart';
+import './engine.category_list.helper.dart';
+import './engine.globals.dart';
 import 'package:flutter/material.dart';
 
 class EngineCategoryListModel extends ChangeNotifier {

@@ -1,8 +1,8 @@
 import 'dart:async';
 
-import 'package:clientf/flutter_engine/engine.forum_list.model.dart';
-import 'package:clientf/flutter_engine/engine.post.model.dart';
-import 'package:clientf/flutter_engine/widgets/engine.post_title.dart';
+import '../../engine.forum_list.model.dart';
+import '../../engine.post.model.dart';
+import '../../widgets/engine.post_title.dart';
 
 import 'package:flutter/material.dart';
 

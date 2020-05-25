@@ -1,5 +1,5 @@
 import 'dart:io';
-import 'package:clientf/flutter_engine/widgets/engine.image.dart';
+import './engine.image.dart';
 
 import '../engine.defines.dart';
 import '../engine.model.dart';

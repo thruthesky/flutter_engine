@@ -1,6 +1,6 @@
-import 'package:clientf/flutter_engine/engine.comment.helper.dart';
-import 'package:clientf/flutter_engine/engine.globals.dart';
-import 'package:clientf/flutter_engine/engine.post.model.dart';
+import './engine.comment.helper.dart';
+import './engine.globals.dart';
+import './engine.post.model.dart';
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 

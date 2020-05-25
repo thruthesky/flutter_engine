@@ -1,6 +1,7 @@
-import 'package:clientf/flutter_engine/engine.firestore.dart';
-import 'package:clientf/flutter_engine/engine.globals.dart';
-import 'package:clientf/flutter_engine/widgets/engine.image.dart';
+import '../../engine.globals.dart';
+
+import '../../engine.firestore.dart';
+import '../engine.image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 

@@ -1,7 +1,5 @@
 import '../engine.firestore.dart';
 import '../engine.globals.dart';
-// import 'package:clientf/globals.dart';
-// import 'package:clientf/services/app.service.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 

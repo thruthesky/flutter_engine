@@ -1,6 +1,6 @@
-import 'package:clientf/flutter_engine/engine.forum_list.model.dart';
-import 'package:clientf/flutter_engine/widgets/forum/engine.comment_box.dart';
-import 'package:clientf/flutter_engine/widgets/forum/engine.comment_view_content.dart';
+import '../../engine.forum_list.model.dart';
+import './engine.comment_box.dart';
+import './engine.comment_view_content.dart';
 import 'package:provider/provider.dart';
 
 import '../../engine.defines.dart';

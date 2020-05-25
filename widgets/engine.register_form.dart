@@ -1,10 +1,9 @@
-import 'package:clientf/flutter_engine/widgets/engine.button.dart';
+import './engine.button.dart';
 
 import '../engine.globals.dart';
 import '../engine.user.model.dart';
 import './engine.register.user_photo.dart';
 import './engine.space.dart';
-import './engine.text.dart';
 import './engine.upload_icon.dart';
 import './upload_progress_bar.dart';
 import 'package:flutter/material.dart';

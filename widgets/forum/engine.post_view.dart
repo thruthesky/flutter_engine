@@ -1,14 +1,16 @@
-import 'package:clientf/flutter_engine/engine.comment.helper.dart';
-import 'package:clientf/flutter_engine/engine.defines.dart';
-import 'package:clientf/flutter_engine/engine.forum_list.model.dart';
-import 'package:clientf/flutter_engine/engine.globals.dart';
-import 'package:clientf/flutter_engine/engine.post.model.dart';
-import 'package:clientf/flutter_engine/widgets/engine.text.dart';
-import 'package:clientf/flutter_engine/widgets/forum/engine.comment_box.dart';
-import 'package:clientf/flutter_engine/widgets/forum/engine.comment_view.dart';
-import 'package:clientf/flutter_engine/widgets/forum/engine.post_item_content.dart';
+/// TODO: 아래의 두 개 링크가 dependecy 문제 발생 시킨다.
 import 'package:clientf/globals.dart';
 import 'package:clientf/services/app.defines.dart';
+
+import '../../engine.comment.helper.dart';
+import '../../engine.defines.dart';
+import '../../engine.forum_list.model.dart';
+import '../../engine.globals.dart';
+import '../../engine.post.model.dart';
+import '../engine.text.dart';
+import './engine.comment_box.dart';
+import './engine.comment_view.dart';
+import './engine.post_item_content.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -66,10 +68,10 @@ class EnginePostViewButtons extends StatelessWidget {
           child: T('Edit'),
           onPressed: () async {
             /// 글 수정
-            var updatedPost =
-                await open(Routes.postUpdate, arguments: {'post': post});
-
-            /// TODO: 이 코드를 post update 페이지로 집어 넣을 것.
+            var updatedPost = await open(
+              Routes.postUpdate,
+              arguments: {'post': post},
+            );
             forum.updatePost(post, updatedPost);
           },
         ),
