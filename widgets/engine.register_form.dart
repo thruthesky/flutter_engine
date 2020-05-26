@@ -1,3 +1,8 @@
+import 'package:clientf/flutter_engine/engine.defines.dart';
+import 'package:clientf/flutter_engine/widgets/engine.text.dart';
+import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
+import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
+
 import './engine.button.dart';
 
 import '../engine.globals.dart';
@@ -26,6 +31,7 @@ class _EngineRegisterFromState extends State<EngineRegisterFrom> {
   EngineUser user = EngineUser();
   int progress = 0;
   bool inSubmit = false;
+  bool inLoading = false;
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _nicknameController = TextEditingController();
@@ -75,6 +81,8 @@ class _EngineRegisterFromState extends State<EngineRegisterFrom> {
   }
 
   loadProfile() async {
+    // print('loading profile');
+    setState(() => inLoading = true);
     try {
       var _user = await ef.userProfile();
       if (mounted) {
@@ -89,6 +97,8 @@ class _EngineRegisterFromState extends State<EngineRegisterFrom> {
       widget.onError(e);
       // AppService.alert(null, t(e));
     }
+
+    setState(() => inLoading = false);
   }
 
   @override
@@ -122,6 +132,7 @@ class _EngineRegisterFromState extends State<EngineRegisterFrom> {
         ),
         EngineProgressBar(progress),
         EnginePageSpace(),
+        if (inLoading) PlatformCircularProgressIndicator(),
         ef.notLoggedIn
             ? TextField(
                 controller: _emailController,
@@ -164,12 +175,44 @@ class _EngineRegisterFromState extends State<EngineRegisterFrom> {
             hintText: t('input birthday'),
           ),
         ),
+        FlatButton(
+          onPressed: () {
+            DatePicker.showDatePicker(
+              context,
+              showTitleActions: true,
+              minTime: DateTime(1940, 1, 1),
+              maxTime: DateTime(2020, 1, 1),
+              onChanged: (date) {
+                print('change $date');
+              },
+              onConfirm: (date) {
+                print('confirm $date');
+                String ymd =
+                    date.toString().split(' ').elementAt(0).split('-').join('');
+                print('ymd: $ymd');
+                setState(() {
+                  _birthdayController.text = ymd;
+                });
+              },
+              currentTime: DateTime.parse(_birthdayController.text),
+              locale: enumValueFromString(appLanguageCode(), LocaleType.values),
+            );
+          },
+          child: T(
+            SHOW_DATE_PICKER,
+            style: TextStyle(color: Colors.blue),
+          ),
+        ),
         EngineButton(
           loader: inSubmit,
           text: ef.notLoggedIn ? t('register submit') : t('update submit'),
           onPressed: () async {
             /// 전송 버튼
-            if ( inSubmit ) return;
+            if (inSubmit) return;
+            if ( _birthdayController.text.length != 8 ) {
+              alert(t(BIRTHDAY_8_DIGITS));
+              return;
+            }
             setState(() => inSubmit = true);
             final data = getFormData();
             try {

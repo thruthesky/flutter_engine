@@ -1,5 +1,7 @@
 import 'dart:async';
 
+import '../../engine.category_list.helper.dart';
+
 import '../engine.space.dart';
 
 import '../../widgets/forum/engine.display_uploaded_images.dart';
@@ -27,65 +29,121 @@ class EnginePostEditForm extends StatefulWidget {
 
 class _EnginePostEditFormState extends State<EnginePostEditForm> {
   EnginePost post = EnginePost();
-  String postId;
   int progress = 0;
   bool inSubmit = false;
+
+  EngineCategoryList categoryList;
 
   final TextEditingController _titleController = TextEditingController();
   final TextEditingController _contentController = TextEditingController();
 
   @override
   void initState() {
+    initLoadCategories();
     super.initState();
 
     Timer(Duration(milliseconds: 10), () {
       setState(() {
-        /// 글 생성시, post.id (카테고리)
-        postId = widget.id;
-
         /// 글 수정시, post document.
         var _post = widget.post;
         if (_post != null) {
-          post = _post;
-          _titleController.text = post.title;
-          _contentController.text = post.content;
+          setState(() {
+            post = _post;
+            _titleController.text = post.title;
+            _contentController.text = post.content;
+            _categorySelected = post.categories;
+          });
+          print(_categorySelected);
+        }
+
+        /// 게시판 아이디가 있는 경우, 카테고리 선택
+        if (widget?.id != null) {
+          setState(() {
+            _categorySelected.add(widget.id);
+          });
         }
       });
     });
   }
 
-  /// TODO - form validation
+  initLoadCategories() async {
+    categoryList = await ef.categoryList();
+    setState(() => null);
+  }
+
   getFormData() {
     final String title = _titleController.text;
     final String content = _contentController.text;
 
-    /// TODO: 카테고리는 사용자가 선택 할 수 있도록 옵션 처리 할 것.
     final data = {
-      'categories': isCreate ? [postId] : post.categories,
+      'id': post?.id,
+      'categories': _categorySelected,
       'title': title,
       'content': content,
       'urls': post.urls,
     };
 
-    if (isUpdate) {
-      data['id'] = post.id;
-    }
+    // if (widget?.id != null) {
+    //   data['id'] = post.id;
+    // }
+    // print('data:');
+    // print(data);
     return data;
   }
 
-  bool get isCreate => postId != null;
-  bool get isUpdate => !isCreate;
+  // bool get isCreate => widget.id != null;
+  // bool get isUpdate => !isCreate;
+
+  List<dynamic> _categorySelected = [];
+  Iterable<Widget> get categoryChips sync* {
+    for (var cat in categoryList.categories) {
+      yield FilterChip(
+        label: T(cat.id),
+        selected: _categorySelected.contains(cat.id),
+        onSelected: (selected) {
+          setState(() {
+            if (selected) {
+              _categorySelected.add(cat.id);
+            } else {
+              _categorySelected.remove(cat.id);
+            }
+          });
+        },
+        selectedColor: Theme.of(context).primaryColorDark,
+      );
+    }
+  }
+
+  String get title {
+    if (widget.id != null)
+      return widget.id;
+    else if (post != null && post.title != null)
+      return post.title;
+    else
+      return POST_CREATE;
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: T(postId ?? post.title ?? ''),
+        title: T(title),
       ),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
+            T('@todo 게시판 카테고리 선택. 게시판 카테고리가 여러개 인 경우. 첫번째 카테고리로 이동.'),
+            T('select category'),
+            Divider(),
+            if (categoryList != null)
+              Wrap(
+                spacing: 6.0,
+                runSpacing: 0.0,
+                children: categoryChips.toList(),
+              ),
+            Divider(),
             TextField(
               controller: _titleController,
               onSubmitted: (text) {},
@@ -129,13 +187,14 @@ class _EnginePostEditFormState extends State<EnginePostEditForm> {
                 ),
                 EngineButton(
                   loader: inSubmit,
-                  text: isCreate ? CREATE_POST : UPDATE_POST,
+                  text: widget?.id == null ? CREATE_POST : UPDATE_POST,
                   onPressed: () async {
                     if (inSubmit) return;
                     setState(() => inSubmit = true);
+                    // print('post: $post');
                     try {
                       var re;
-                      if (isCreate) {
+                      if (post?.id == null) {
                         re = await ef.postCreate(getFormData());
                       } else {
                         re = await ef.postUpdate(getFormData());

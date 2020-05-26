@@ -16,7 +16,7 @@ class EnginePostTitle extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if ( this.post == null ) return SizedBox.shrink();
+    if (this.post == null) return SizedBox.shrink();
     String title;
     if (post.title == null || post.title == '')
       title = t(NO_TITLE);
@@ -34,9 +34,13 @@ class EnginePostTitle extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
-            Text(
-              title,
-              style: TextStyle(fontSize: 16.0),
+            Expanded(
+              child: Text(
+                title,
+                style: TextStyle(fontSize: 16.0),
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+              ),
             ),
             Icon(Icons.keyboard_arrow_right),
           ],

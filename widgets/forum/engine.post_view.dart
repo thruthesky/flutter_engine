@@ -69,7 +69,16 @@ class EnginePostViewButtons extends StatelessWidget {
             EnginePost _post = await openDialog(
               EnginePostEditForm(post: post),
             );
+            if ( _post == null ) return;
             forum.updatePost(post, _post);
+
+            /// 글 수정 후, 카테고리가 변경되어, 현재 카테고리가 글에 포함되지 않으면, 첫번째 카테고리로 이동한다.
+            if (!_post.categories.contains(forum.id)) {
+              return redirect(
+                EngineRoutes.postList,
+                arguments: {'id': _post.categories.first},
+              );
+            }
           },
         ),
         FlatButton(

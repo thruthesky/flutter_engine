@@ -21,6 +21,6 @@ class EngineCategory {
 
   @override
   String toString() {
-    return "$id, $title, $description";
+    return "id: $id, title: $title, description: $description";
   }
 }

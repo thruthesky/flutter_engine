@@ -5,11 +5,11 @@ import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 
 /// 게시판 및 게시글의 State 를 관리한다.
-/// 
+///
 /// 게시글 목록을 관리 할 때 사용 할 수 있는 것으로 각 개시판 별로 `EngineForumListModel` 객체를 하나씩 생성해서 `Provide` 해야 한다.
-/// 
+///
 /// `init()`을 호출하면 첫 페이지를 로드하고, 스크롤 할 때 마다 다음 페이지를 로드한다.
-/// 
+///
 /// 게시글 읽기 페이지에서도 재 활용하여 사용 할 수 있다.
 /// * 게시글 읽기 페이지에는 글이 1개 밖에 없다. 따라서 `posts` 변수에 1개의 글만 지정하면 된다.
 /// * 게시글 읽기 페이지에서는 `init()`을 호출 할 필요가 없다.
@@ -146,8 +146,8 @@ class EngineForumListModel extends ChangeNotifier {
         posts.addAll(_posts);
       }
 
-      print('posts from backend');
-      print(posts);
+      // print('posts from backend');
+      // print(posts);
 
       _pageNo++;
       notify();
@@ -169,10 +169,16 @@ class EngineForumListModel extends ChangeNotifier {
   }
 
   /// 글을 수정한다.
+  ///
+  /// 만약, 글 카테고리가 변경되어, 현재 게시판 카테고리에 더 이상 속하지 않는다면, 글을 목록에서 뺀다.
   updatePost(EnginePost oldPost, EnginePost updatedPost) {
     print('updatePost: updatedPost:');
     print(updatedPost);
-    oldPost.replaceWith(updatedPost);
+    if (updatedPost.categories.contains(id)) {
+      oldPost.replaceWith(updatedPost);
+    } else {
+      posts.removeWhere((p) => p.id == updatedPost.id);
+    }
     notify();
   }
 
@@ -197,7 +203,7 @@ class EngineForumListModel extends ChangeNotifier {
   ///     .addComment(
   ///      commentToAdd, post, parentCommentId);
   /// ```
-   addComment(EngineComment comment, EnginePost post, String parentId) {
+  addComment(EngineComment comment, EnginePost post, String parentId) {
     if (comment == null) return;
     var comments = post.comments;
 
@@ -215,13 +221,12 @@ class EngineForumListModel extends ChangeNotifier {
     notify();
   }
 
-
   /// 코멘트를 수정하고, 기존의 코멘트와 바꿔치기 한다.
   ///
   /// [comment] 업데이트된 코멘트
   /// TODO: 에러 핸들링. 정상적인 이용에서는 에러가 없지어야 하지만, 혹시라도 ... 코멘트가 없을 수 있다.
-   updateComment(EngineComment comment, EnginePost post) {
-     if ( comment == null ) return;
+  updateComment(EngineComment comment, EnginePost post) {
+    if (comment == null) return;
     int i = post.comments.indexWhere((element) => element.id == comment.id);
     post.comments.removeAt(i);
     post.comments.insert(i, comment);

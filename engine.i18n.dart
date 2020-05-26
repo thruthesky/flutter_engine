@@ -124,7 +124,6 @@ const Map<String, Map<String, String>> textTranslations = {
     'ko': '새소식',
     'en': 'News',
   },
-  
   NO_TITLE: {
     'ko': '제목이 없습니다.',
     'en': 'This post have no title.',
@@ -206,7 +205,6 @@ const Map<String, Map<String, String>> textTranslations = {
     'ko': '앗! 코멘트를 삭제하시겠습니까?',
     'en': 'Ooh. Do you want to delete this comment?'
   },
-
   CREATE_POST: {
     'ko': '글 작성',
     'en': 'Create Post',
@@ -215,7 +213,6 @@ const Map<String, Map<String, String>> textTranslations = {
     'ko': '글 수정',
     'en': 'Update Post',
   },
-
   CREATE_CATEGORY: {
     'ko': '카테고리 생성',
     'en': 'Create Category',
@@ -240,10 +237,21 @@ const Map<String, Map<String, String>> textTranslations = {
     'ko': '닫기',
     'en': 'Close',
   },
+  BIRTHDAY_8_DIGITS: {
+    'ko': '생년월인은 숫자 여덟자리로 입력하세요. 공백 입력 금지.',
+    'en': 'Birthday must be 8 digits only. No spaces allowed.',
+  },
+  SHOW_DATE_PICKER: {
+    'ko': '날짜 선택',
+    'en': 'Show date picker',
+  },
+  POST_CREATE: {
+    'ko': '글 작성',
+    'en': 'Post Create',
+  }
 };
 
 class EngineI18N {
-  
   /// i18n 문자열 키 소문자 확인
   ///
   /// i18n 문자열의 키는 반드시 소문자열 이어야한다.

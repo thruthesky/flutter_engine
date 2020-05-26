@@ -110,11 +110,6 @@ class UserPhoto extends StatelessWidget {
                     'lib/flutter_engine/assets/images/user-icon.png');
               } else {
                 return EngineImage(url);
-
-                // return Image(
-                //   image: NetworkImageWithRetry(url),
-                //   fit: BoxFit.cover,
-                // );
               }
             },
             selector: (_, model) => model.user?.photoUrl,

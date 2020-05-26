@@ -107,3 +107,11 @@ MultiProvider(
       testEngineUser();
     }
 ```
+
+
+## Named route 지정
+
+* 글 생성, 수정 후 이동해야 핦 페이지를 `Engine`에서 임의로 라우터로 이동하면, 범용적이지 못하게된다.
+* 하지만 `Engine` 에서 직접 라우트를 이동하지 않으면 코드가 복잡해진다.
+* 그래서 `EngineRoute` 에 Named Route 를 지정하여, 앱에서, `Engine` 의 회원 가입/로그인/게시판 글 작성/수정 등의 작업 후 이동해야 할 페이지를 관리하도록 한다.
+* 

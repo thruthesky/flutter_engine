@@ -23,6 +23,9 @@ class EnginePost {
   }) {
     if (comments == null) comments = [];
     if (urls == null) urls = [];
+    if ( categories != null && categories.length > 0 ) {
+      categories = List.from(categories);
+    }
   }
   factory EnginePost.fromEngineData(Map<dynamic, dynamic> data) {
     return EnginePost(
@@ -42,11 +45,11 @@ class EnginePost {
   }
 
   /// 현재 글 속성을 입력된 글로 변경한다.
-  /// 
+  ///
   /// 글 수정 할 때 유용하게 사용 할 수 있다.
   /// @attention 코멘트는 덮어쓰지 않고 기존의 것을 유지한다.
   replaceWith(EnginePost post) {
-    if ( post == null ) return;
+    if (post == null) return;
     id = post.id;
     categories = post.categories;
     title = post.title;

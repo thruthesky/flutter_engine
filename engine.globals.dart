@@ -30,7 +30,6 @@ EngineModel get ef {
 
 const String hiveCacheBox = 'cache';
 
-
 /// Returns translated string from the text code.
 /// If [code] is [EngineError], then it takes [EngineError.code] as [code] and translate it.
 String t(code, {info}) {
@@ -94,13 +93,9 @@ bottomSheet(List<Map<String, dynamic>> items) {
   );
 }
 
-
-
 void _back({arguments}) {
   Navigator.pop(ef.context, arguments);
 }
-
-
 
 /// Show alert box
 /// @example AppService.alert(null, e.message);
@@ -124,7 +119,6 @@ void _back({arguments}) {
 //   );
 // }
 
-
 /// Show alert box
 /// @example async( onError: alert );
 /// @example alert(e) - where `e` can be an Error Object.
@@ -133,6 +127,7 @@ alert(dynamic title, {String content}) {
   if (title != null && !(title is String)) {
     title = t(title);
   }
+
   /// 내용이 문자열이 아니면, t() 한다.
   if (content != null && !(content is String)) {
     content = t(content);
@@ -170,38 +165,34 @@ openDialog(childWidget) {
   );
 }
 
-
-  /// Can it be synchronous by using async/await? So, it does not need to use callback functions.
-  confirm(
-      {String title, String content, Function onNo, Function onYes}) {
-    return showPlatformDialog<void>(
-      context: ef.context,
-      builder: (context) {
-        return AlertDialog(
-          title: title != null ? Text(title) : null,
-          content: Text(content),
-          actions: <Widget>[
-            FlatButton(
-              child: T('no'),
-              onPressed: () {
-                onNo();
-                _back();
-              },
-            ),
-            FlatButton(
-              child: T('yes'),
-              onPressed: () {
-                onYes();
-                _back();
-              },
-            )
-          ],
-        );
-      },
-    );
-  }
-
-
+/// Can it be synchronous by using async/await? So, it does not need to use callback functions.
+confirm({String title, String content, Function onNo, Function onYes}) {
+  return showPlatformDialog<void>(
+    context: ef.context,
+    builder: (context) {
+      return AlertDialog(
+        title: title != null ? Text(title) : null,
+        content: Text(content),
+        actions: <Widget>[
+          FlatButton(
+            child: T('no'),
+            onPressed: () {
+              onNo();
+              _back();
+            },
+          ),
+          FlatButton(
+            child: T('yes'),
+            onPressed: () {
+              onYes();
+              _back();
+            },
+          )
+        ],
+      );
+    },
+  );
+}
 
 /// 랜덤 문자열을 리턴한다.
 ///
@@ -213,4 +204,27 @@ String randomString({int length = 24}) {
   });
 
   return new String.fromCharCodes(codeUnits);
+}
+
+/// Enum 의 값을 바탕으로 enum 요소 참조
+/// 예)
+/// ``` dart
+/// enum animals { cat, dog }
+/// var re = enumValueFromString('dog', animals.value);
+/// ```
+/// 위와 같은 경우, re 는 `animals.dog` 값이 된다.
+/// 일반적으로 `enum`의 경우, 값으로 해당 요소를 참조 할 수 없지만, 아래의 함수로 가능하다.
+String enumValueToString(Object o) => o.toString().split('.').last;
+T enumValueFromString<T>(String key, Iterable<T> values) => values.firstWhere(
+      (v) => v != null && key == enumValueToString(v),
+      orElse: () => null,
+    );
+
+/// 다른 라우트로 이동을 한다.
+redirect(String route, {arguments}) {
+  return Navigator.pushNamed(
+    ef.context,
+    route,
+    arguments: arguments,
+  );
 }
