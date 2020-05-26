@@ -1,12 +1,12 @@
-import 'package:clientf/flutter_engine/engine.defines.dart';
-import 'package:clientf/flutter_engine/widgets/engine.text.dart';
+import '../engine.defines.dart';
+import '../widgets/engine.text.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 
 import './engine.button.dart';
 
 import '../engine.globals.dart';
-import '../engine.user.model.dart';
+import '../engine.user.helper.dart';
 import './engine.register.user_photo.dart';
 import './engine.space.dart';
 import './engine.upload_icon.dart';
@@ -136,6 +136,7 @@ class _EngineRegisterFromState extends State<EngineRegisterFrom> {
         ef.notLoggedIn
             ? TextField(
                 controller: _emailController,
+          keyboardType: TextInputType.emailAddress,
                 onSubmitted: (text) {},
                 decoration: InputDecoration(
                   hintText: t('input email'),

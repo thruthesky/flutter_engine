@@ -33,8 +33,10 @@ const String DELETED_PHOTO = 'https://userphoto.org/deleted.png';
 
 const String POST_TITLE_DELETED = 'post-title-deleted';
 const String POST_CONTENT_DELETED = 'post-content-deleted';
-const String COMMENT_POST_CONTENT_DELETED = 'comment-content-deleted';
+const String COMMENT_CONTENT_DELETED = 'comment-content-deleted';
 const String NO_TITLE = 'no title';
+const String ALREADY_DELETED = 'already deleted';
+const String NOT_MINE = 'not mine';
 
 const String ERROR_CAMERA_PERMISSION = 'permission-error-no-access-to-camera';
 
@@ -56,6 +58,21 @@ const String BIRTHDAY_8_DIGITS = 'birthday 8 digits';
 const String SHOW_DATE_PICKER = 'show date picker';
 const String POST_CREATE = 'post create';
 
+
+
+/// @see README
 class EngineRoutes {
   static final String postList = 'postList';
+}
+
+
+const String CACHE_VERSION = '1';
+
+class EngineCacheKey {
+  static String forumList(String id) {
+    return id + '-forum-list-' + CACHE_VERSION;
+  }
+  static String frontPage(String id) {
+    return id + '-front-page-' + CACHE_VERSION;
+  }
 }

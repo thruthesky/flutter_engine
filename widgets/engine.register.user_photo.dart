@@ -10,7 +10,7 @@ import '../engine.defines.dart';
 
 import '../engine.globals.dart';
 
-import '../engine.user.model.dart';
+import '../engine.user.helper.dart';
 import 'package:flutter/material.dart';
 
 class EngineRegisterUserPhoto extends StatefulWidget {

@@ -9,7 +9,7 @@ import './../engine.text.dart';
 import '../../engine.globals.dart';
 
 import '../../engine.comment.helper.dart';
-import '../../engine.post.model.dart';
+import '../../engine.post.helper.dart';
 import 'package:flutter/material.dart';
 
 class EngineCommentView extends StatelessWidget {
@@ -38,7 +38,7 @@ class EngineCommentView extends StatelessWidget {
               EngineCommentViewContent(comment: comment),
               EngineCommentButtons(
                 onReply: () async {
-                  /// 코멘트에서 Reply 버튼을 클릭한 경우,
+                  /// 코멘트 보기에서 Reply 버튼을 클릭한 경우, 코멘트 수정 창을 열고, 결과를 리턴 받음.
                   EngineComment _comment = await openDialog(
                     EngineCommentEditForm(
                       post,
@@ -46,10 +46,16 @@ class EngineCommentView extends StatelessWidget {
                       parentComment: comment,
                     ),
                   );
+                  /// 결과를 목록에 집어 넣는다.
                   forum.addComment(_comment, post, comment.id);
-                  // forum.notify();
                 },
                 onUpdate: () async {
+                  /// 삭제되면 수정 불가
+                  if (ef.isDeleted(comment)) return alert(t(ALREADY_DELETED));
+
+                  /// 자신의 글이 아니면, 에러
+                  if (!ef.isMine(comment)) return alert(t(NOT_MINE));
+
                   EngineComment _comment = await openDialog(
                     EngineCommentEditForm(
                       post,
@@ -61,6 +67,13 @@ class EngineCommentView extends StatelessWidget {
                 },
                 onDelete: () async {
                   /// 코멘트 삭제
+                  ///
+                  /// 삭제되면 재 삭제 불가
+                  if (ef.isDeleted(comment)) return alert(t(ALREADY_DELETED));
+
+                  /// 자신의 글이 아니면, 에러
+                  if (!ef.isMine(comment)) return alert(t(NOT_MINE));
+
                   confirm(
                     title: t(CONFIRM_COMMENT_DELETE_TITLE),
                     content: t(CONFIRM_COMMENT_DELETE_CONTENT),

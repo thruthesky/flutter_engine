@@ -1,7 +1,7 @@
 import '../engine.defines.dart';
 import '../engine.globals.dart';
 
-import '../engine.post.model.dart';
+import '../engine.post.helper.dart';
 import 'package:flutter/material.dart';
 
 class EnginePostTitle extends StatelessWidget {

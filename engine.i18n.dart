@@ -248,7 +248,11 @@ const Map<String, Map<String, String>> textTranslations = {
   POST_CREATE: {
     'ko': '글 작성',
     'en': 'Post Create',
-  }
+  },
+  NOT_MINE: {
+    'ko': '회원님께서 작성한 정보(데이터)가 아닙니다.',
+    'en': 'This is not your information(data).'
+  },
 };
 
 class EngineI18N {

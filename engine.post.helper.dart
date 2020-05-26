@@ -1,3 +1,5 @@
+/// 글 helper class
+///
 class EnginePost {
   List<dynamic> categories;
   String title;
@@ -9,6 +11,11 @@ class EnginePost {
   String id;
   List<dynamic> comments;
   List<dynamic> urls;
+
+  /// 글 쓴이 이름.
+  /// 
+  /// `displayName` 은 `Engine` 에서 필수 정보가 아니다. 클라이언트에서 임의로 값을 저장하는 것이다.
+  String displayName;
   EnginePost({
     this.id,
     this.uid,
@@ -20,10 +27,11 @@ class EnginePost {
     this.deletedAt,
     this.comments,
     this.urls,
+    this.displayName,
   }) {
     if (comments == null) comments = [];
     if (urls == null) urls = [];
-    if ( categories != null && categories.length > 0 ) {
+    if (categories != null && categories.length > 0) {
       categories = List.from(categories);
     }
   }
@@ -41,6 +49,7 @@ class EnginePost {
       urls: data['urls'] != null
           ? List<dynamic>.from(data['urls'])
           : [], // To preved 'fixed-length' error.
+      displayName: data['displayName'],
     );
   }
 

@@ -25,6 +25,7 @@ class EngineCommentViewContent extends StatelessWidget {
             EngineDisplayUploadedImages(
               comment,
             ),
+            Text('author: ' + (comment.displayName ?? comment.uid) ),
             Text(comment.content),
           ],
         ),

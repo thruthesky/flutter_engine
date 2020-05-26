@@ -1,7 +1,9 @@
 import 'dart:async';
 
+import '../../engine.defines.dart';
 import '../../engine.forum_list.model.dart';
-import '../../engine.post.model.dart';
+import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
+import '../../engine.post.helper.dart';
 import '../../widgets/engine.post_title.dart';
 
 import 'package:flutter/material.dart';
@@ -12,7 +14,7 @@ import 'package:flutter/material.dart';
 ///   이 처럼, 글 목록만 한다.
 class EngineLatestPosts extends StatefulWidget {
   EngineLatestPosts(
-    this.id, {
+    this.categories, {
     this.limit = 10,
     this.onError,
     this.onTap,
@@ -20,7 +22,7 @@ class EngineLatestPosts extends StatefulWidget {
   }) : super(key: key);
 
   final int limit;
-  final String id;
+  final List<String> categories;
   final Function onError;
   final Function onTap;
 
@@ -33,19 +35,26 @@ class _EngineLatestPostsState extends State<EngineLatestPosts> {
 
   @override
   void initState() {
-    Timer(Duration(milliseconds: 100), () {
-      forum.init(
-        id: widget.id,
-        cacheKey: 'front-page',
-        limit: 15,
-      );
-    });
+    Timer(
+      Duration(milliseconds: 100),
+      () async {
+        await forum.init(
+          categories: widget.categories,
+          cacheKey: EngineCacheKey.frontPage(''),
+          limit: 15,
+          onLoad: (posts) {
+            if (mounted) setState(() => null);
+          },
+        );
+      },
+    );
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    if (forum.posts == null) return SizedBox.shrink();
+    if (forum.posts.length == 0)
+      return Center(child: PlatformCircularProgressIndicator());
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[

@@ -63,6 +63,7 @@ class _EngineLoginFormState extends State<EngineLoginForm> {
       children: <Widget>[
         TextField(
           controller: _emailController,
+          keyboardType: TextInputType.emailAddress,
           onSubmitted: (text) {},
           decoration: InputDecoration(
             hintText: widget.hintEmail,

@@ -10,8 +10,8 @@ import './engine.category_list.helper.dart';
 import './engine.comment.helper.dart';
 import './engine.defines.dart';
 import './engine.error.helper.dart';
-import './engine.post.model.dart';
-import './engine.user.model.dart';
+import './engine.post.helper.dart';
+import './engine.user.helper.dart';
 
 /// EngineF Model
 ///
@@ -64,15 +64,14 @@ class EngineModel extends ChangeNotifier {
     _engineI18N.i18nKeyCheck();
   }
 
-
   /// 글로벌 키
   ///
   GlobalKey<NavigatorState> navigatorKey;
 
   /// 에러가 발생 한 경우 콜백
-  /// 
+  ///
   /// 각종 에러 핸들러
-  /// 
+  ///
   /// 에러 예: 사용자가 로그인을 하면, `Engine`에서 사용자 정보를 가져오는데, 에러가 있으면 메인 쓰레드로 전달 한다.
   final Function onError;
 
@@ -269,7 +268,6 @@ class EngineModel extends ChangeNotifier {
     return callFunction({'route': 'category.update', 'data': data});
   }
 
-
   /// 카테고리를 삭제한다. 관리자만 가능.
   /// @return [WriteResult]
   /// ``` dart
@@ -278,7 +276,6 @@ class EngineModel extends ChangeNotifier {
   Future categoryDelete(data) {
     return callFunction({'route': 'category.delete', 'data': data});
   }
-
 
   /// 카테고리 하나의 정보를 가져온다.
   Future<EngineCategory> categoryData(String id) async {
@@ -433,5 +430,22 @@ class EngineModel extends ChangeNotifier {
   Future commentRemoveUrl(String id, String url) async {
     return await callFunction(
         {'route': 'comment.removeUrl', 'id': id, 'url': url});
+  }
+
+  /// 글 또는 코멘트가 삭제되었으면, 참을 리턴한다.
+  bool isDeleted(obj) {
+    if (obj is EnginePost) {
+      return obj.title == POST_TITLE_DELETED &&
+          obj.content == POST_CONTENT_DELETED;
+    } else if (obj is EngineComment) {
+      return obj.content == COMMENT_CONTENT_DELETED;
+    } else
+      return false;
+  }
+
+  /// 글 또는 코멘트가 자신의 것이면 참을 리턴
+  bool isMine(obj) {
+    if (obj == null || obj.uid == null) return false;
+    return obj.uid == user.uid;
   }
 }

@@ -12,7 +12,7 @@ import '../engine.upload_icon.dart';
 import '../upload_progress_bar.dart';
 
 import '../../engine.comment.helper.dart';
-import '../../engine.post.model.dart';
+import '../../engine.post.helper.dart';
 
 import '../engine.space.dart';
 
@@ -69,6 +69,7 @@ class _EngineCommentEditFormState extends State<EngineCommentEditForm> {
 
     final Map<String, dynamic> data = {
       'content': content,
+      'displayName': ef.user.displayName,
     };
 
     if (isCreate && widget.parentComment != null) {
@@ -156,37 +157,31 @@ class _EngineCommentEditFormState extends State<EngineCommentEditForm> {
                 ),
               ),
               GestureDetector(
+                /// 코멘트 편집 버튼 클릭
                 child: inSubmit
                     ? PlatformCircularProgressIndicator()
                     : Icon(Icons.send),
                 onTap: () async {
                   /// 코멘트 생성 또는 수정.
-                  /// Rendering 을 여기서 하지 않는다.
                   if (inSubmit) return;
                   setState(() => inSubmit = true);
 
                   var data = getFormData();
                   try {
                     if (isCreate) {
-                      print(data);
+                      /// 코멘트 생성. 코멘트를 생성해서 리턴한다.
                       EngineComment comment = await ef.commentCreate(data);
                       back(arguments: comment);
-                      // widget.onCommentReply(re);
                     } else {
-                      /// update
+                      /// 코멘트 수정. 수정된 코멘트를 리턴한다.
                       EngineComment comment =
                           await ef.commentUpdate(getFormData());
-                      // widget.currentComment.content = re.content;
-                      // forum.updateComment(comment, widget.post);
-
                       back(arguments: comment);
-                      // widget.onCommentUpdate(re);
                     }
                   } catch (e) {
                     alert(e);
-                    // widget.onCommentError(e);
-                    setState(() => inSubmit = false);
                   }
+                  setState(() => inSubmit = false);
                 },
               ),
             ],

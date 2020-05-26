@@ -108,10 +108,97 @@ MultiProvider(
     }
 ```
 
+## 캐시를 하는 경우 수정, 삭제
+
+* 게시글 목록을 캐시를 하면, 캐시된 글의 목록을 먼저 보여 주고, 그 다음 서버에서 데이터를 가져와 `this.posts` 에 덮어 쓴다.
+* 이 때, 서버에서 데이터를 가져오기 전에( 앱 부팅 후 빠르게 ), 글 수정, 코멘트 작성/수정 하면, 수정 폼으로 캐시된 `this.posts` 의 `post` 를 reference 로 전달하고,
+* 수정(작성) 된 후, 작성된 글(코멘트)를 업데이트 할 때, 캐시된 `post` reference 를 바탕으로 하게된다.
+* 즉, `앱 부팅 -> 캐시 목록 -> 글 수정 폼 -> 백엔드로 부터 실제 데이터 로드 -> 글 수정 완료 -> 캐시된 데이터 수정` 과 같은 단계로 진행되어
+* 수정을 한 다음에는 화면에 `실제 데이터` 가 보이는데,
+* 수정을 한 결과를 이미 화면에서 사라진 캐시된 목록의 `this.posts` 에 있는 `post` reference 에 하는 문제가 발생한다.
+* 그래서, 글 수정, 코멘트 작성, 수정시 `EngineModel.posts` 를 바탕으로 항상 업데이틀 한다.
+* 이와 같은 문제는 글/코멘트 삭제를 할 때에도 발생 할 수 있다. 하지만 글/코멘트 삭제를 할 때에는 그냥 내버려 두낟.
+
 
 ## Named route 지정
 
 * 글 생성, 수정 후 이동해야 핦 페이지를 `Engine`에서 임의로 라우터로 이동하면, 범용적이지 못하게된다.
 * 하지만 `Engine` 에서 직접 라우트를 이동하지 않으면 코드가 복잡해진다.
-* 그래서 `EngineRoute` 에 Named Route 를 지정하여, 앱에서, `Engine` 의 회원 가입/로그인/게시판 글 작성/수정 등의 작업 후 이동해야 할 페이지를 관리하도록 한다.
-* 
+  * 회원 가입이나 로그인 등은 작업 결과를 callback handler 로 받아 앱 메인 코드에서 처리해도 충분히 코드가 간결하다.
+  * 하지만, 게시판 목록 => 게시글 읽기 => 글 수정 등 여러 단계로 라우트가 이동을 해야하거나 구조가 복잡한 경우, callback handler 로 하기에는 복잡하다. `callback hell` 이 나타난다.
+* 그래서 `EngineRoute` 에 Named Route 를 지정하여, 앱의 Named route 와 일치하게 조정한다.
+  * `Engine` 에서 글(코멘트) 작성/수정 등의 작업 후에 지정된 named route 로 이동을 한다.
+* Engine 의 Named route 는 `engine.defiens.dart`에 지정되어져 있는데,
+  * 앱의 글 목록 named route 가 `postList` 라면, Engine route 에도 동일하게 `postList` 로 해 주어서, 글 작성 후 Engine 에서 바로 `postList` 라우트로 이동을 하면 되는 것이다.
+
+
+
+
+## 예제
+
+### EngineForumListModel.init()
+
+* `EngineForumListModel` 은 하나의 게시판(카테고리)을 목록하기 위한 것이다.
+  * 여러 카테고리를 한 꺼번에 목록하는 것은 코드의 수정이 필요하다.
+* `EngineForumListModel` 로 게시판(카테고리)목록이 아닌 최근 글 목록을 위해서 사용 할 수 있다.
+  * 이 때, 'Provider 로 state 를 관리하지 않고' 게시판 카테고리의 첫번째 글을 가져와 `setState()` 로 업데이트 할 수 있다.
+
+``` dart
+@override
+void initState() {
+  (() async {
+    await forum.init(
+      id: widget.id,
+      cacheKey: 'front-page-7',
+      limit: 15,
+    );
+    setState(() => null);
+  })();
+  super.initState();
+}
+```
+
+
+### 여러개의 카테고리로 부터 글 가져오기
+
+* 예제 1)
+
+``` dart
+@override
+void initState() {
+  Timer(
+    Duration(milliseconds: 100),
+    () async {
+      posts = await ef.postList({'categories': widget.categories});
+      if (!mounted) return;
+      setState(() => null);
+    },
+  );
+  super.initState();
+}
+```
+
+* 예제 2)
+
+``` dart
+class ... extends State<EngineLatestPosts> {
+  final EngineForumListModel forum = EngineForumListModel();
+
+  @override
+  void initState() {
+    Timer(
+      Duration(milliseconds: 100),
+      () async {
+        await forum.init(
+          categories: ['qna', 'discussion'],
+          cacheKey: EngineCacheKey.frontPage(''),
+          limit: 15,
+          onLoad: (posts) {
+            if (mounted) setState(() => null);
+          },
+        );
+      },
+    );
+    super.initState();
+  }
+```

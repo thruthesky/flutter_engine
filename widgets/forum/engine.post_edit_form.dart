@@ -1,5 +1,7 @@
 import 'dart:async';
 
+import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
+
 import '../../engine.category_list.helper.dart';
 
 import '../engine.space.dart';
@@ -15,7 +17,7 @@ import '../../widgets/engine.upload_icon.dart';
 import '../../widgets/upload_progress_bar.dart';
 import '../../../globals.dart';
 
-import '../../engine.post.model.dart';
+import '../../engine.post.helper.dart';
 
 import 'package:flutter/material.dart';
 
@@ -81,6 +83,8 @@ class _EnginePostEditFormState extends State<EnginePostEditForm> {
       'title': title,
       'content': content,
       'urls': post.urls,
+      /// 글 작성/수정시 사용자 이름을 같이 저장한다. `Engine` 에서 필수가 아닌, 앱에서 선택 사항으로 저장하는 값이다.
+      'displayName': ef.user.displayName,
     };
 
     // if (widget?.id != null) {
@@ -137,12 +141,13 @@ class _EnginePostEditFormState extends State<EnginePostEditForm> {
             T('@todo 게시판 카테고리 선택. 게시판 카테고리가 여러개 인 경우. 첫번째 카테고리로 이동.'),
             T('select category'),
             Divider(),
-            if (categoryList != null)
-              Wrap(
-                spacing: 6.0,
-                runSpacing: 0.0,
-                children: categoryChips.toList(),
-              ),
+            categoryList == null
+                ? PlatformCircularProgressIndicator()
+                : Wrap(
+                    spacing: 6.0,
+                    runSpacing: 0.0,
+                    children: categoryChips.toList(),
+                  ),
             Divider(),
             TextField(
               controller: _titleController,
@@ -187,7 +192,7 @@ class _EnginePostEditFormState extends State<EnginePostEditForm> {
                 ),
                 EngineButton(
                   loader: inSubmit,
-                  text: widget?.id == null ? CREATE_POST : UPDATE_POST,
+                  text: widget.post?.id == null ? CREATE_POST : UPDATE_POST,
                   onPressed: () async {
                     if (inSubmit) return;
                     setState(() => inSubmit = true);

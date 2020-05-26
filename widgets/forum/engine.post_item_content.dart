@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:time_formatter/time_formatter.dart';
 import './engine.display_uploaded_images.dart';
-import '../../engine.post.model.dart';
+import '../../engine.post.helper.dart';
 
 class EnginePostItemContent extends StatelessWidget {
   const EnginePostItemContent(
@@ -25,7 +25,7 @@ class EnginePostItemContent extends StatelessWidget {
             '${post.title}',
             style: TextStyle(fontSize: 24),
           ),
-          Text('author: ${post.uid}'),
+          Text('author: ' + (post.displayName ?? post.uid)),
           Text('created: $formatted'),
           Container(
             width: double.infinity,
