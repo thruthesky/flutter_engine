@@ -69,7 +69,6 @@ class _EngineCommentEditFormState extends State<EngineCommentEditForm> {
 
     final Map<String, dynamic> data = {
       'content': content,
-      'displayName': ef.user.displayName,
     };
 
     if (isCreate && widget.parentComment != null) {

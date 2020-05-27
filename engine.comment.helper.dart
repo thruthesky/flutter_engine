@@ -14,10 +14,11 @@ class EngineComment {
 
   List<dynamic> urls;
 
-  /// 글 쓴이 이름.
+  /// 글 쓴이 이름과 photoURL
   ///
-  /// `displayName` 은 `Engine` 에서 필수 정보가 아니다. 클라이언트에서 임의로 값을 저장하는 것이다.
+  /// `displayName` 과 `photoUrl`은 `Firebase Auth` 에 저장되어져 있는 것을 가져온다.
   String displayName;
+  String photoUrl;
 
   EngineComment({
     this.id,
@@ -31,6 +32,7 @@ class EngineComment {
     this.depth,
     this.urls,
     this.displayName,
+    this.photoUrl,
   }) {
     if (depth == null) depth = 0;
     if (urls == null) urls = [];
@@ -51,6 +53,7 @@ class EngineComment {
           : [], // To preved 'fixed-length' error.
 
       displayName: data['displayName'],
+      photoUrl: data['photoUrl'],
     );
   }
 

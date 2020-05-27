@@ -83,8 +83,6 @@ class _EnginePostEditFormState extends State<EnginePostEditForm> {
       'title': title,
       'content': content,
       'urls': post.urls,
-      /// 글 작성/수정시 사용자 이름을 같이 저장한다. `Engine` 에서 필수가 아닌, 앱에서 선택 사항으로 저장하는 값이다.
-      'displayName': ef.user.displayName,
     };
 
     // if (widget?.id != null) {

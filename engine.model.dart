@@ -413,20 +413,25 @@ class EngineModel extends ChangeNotifier {
         {'route': 'category.removeUrl', 'id': id, 'url': url});
   }
 
+
+   /// @deprecated
   Future postAddUrl(String id, String url) async {
     return await callFunction({'route': 'post.addUrl', 'id': id, 'url': url});
   }
 
+   /// @deprecated
   Future postRemoveUrl(String id, String url) async {
     return await callFunction(
         {'route': 'post.removeUrl', 'id': id, 'url': url});
   }
 
+   /// @deprecated
   Future commentAddUrl(String id, String url) async {
     return await callFunction(
         {'route': 'comment.addUrl', 'id': id, 'url': url});
   }
 
+   /// @deprecated
   Future commentRemoveUrl(String id, String url) async {
     return await callFunction(
         {'route': 'comment.removeUrl', 'id': id, 'url': url});
