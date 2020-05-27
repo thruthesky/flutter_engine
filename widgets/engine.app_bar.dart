@@ -1,7 +1,6 @@
 import 'dart:io';
-import './engine.image.dart';
+import './engine.user_photo.dart';
 
-import '../engine.defines.dart';
 import '../engine.model.dart';
 
 import 'package:flutter/material.dart';
@@ -74,48 +73,18 @@ class EngineAppBar extends StatelessWidget with PreferredSizeWidget {
       backgroundColor: backgroundColor,
       actions: <Widget>[
         if (actions != null) actions,
-        if (displayUserPhoto) UserPhoto(onTapUserPhoto),
+        if (displayUserPhoto)
+          Selector<EngineModel, String>(
+            builder: (context, url, child) {
+              return EngineUserPhoto(url, onTap: onTapUserPhoto);
+            },
+            selector: (_, model) => model.user?.photoUrl,
+          ),
         AppTitleMenuIcon(
           visible: scaffold.hasEndDrawer,
           onTap: () => _openAppDrawer(scaffold),
         ),
       ],
-    );
-  }
-}
-
-class UserPhoto extends StatelessWidget {
-  const UserPhoto(
-    this.onTap, {
-    Key key,
-  }) : super(key: key);
-
-  final Function onTap;
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      behavior: HitTestBehavior.opaque,
-      onTap: () => onTap(),
-      child: Material(
-        shape: CircleBorder(),
-        clipBehavior: Clip.hardEdge,
-        color: Colors.blueAccent,
-        child: SizedBox(
-          width: 44,
-          height: 44,
-          child: Selector<EngineModel, String>(
-            builder: (context, url, child) {
-              if (url == null || url == '' || url == DELETED_PHOTO) {
-                return Image.asset(
-                    'lib/flutter_engine/assets/images/user-icon.png');
-              } else {
-                return EngineImage(url);
-              }
-            },
-            selector: (_, model) => model.user?.photoUrl,
-          ),
-        ),
-      ),
     );
   }
 }

@@ -1,3 +1,5 @@
+import './engine.globals.dart';
+
 class EngineComment {
   String content;
   int createdAt;
@@ -20,6 +22,9 @@ class EngineComment {
   String displayName;
   String photoUrl;
 
+  int likes;
+  int dislikes;
+
   EngineComment({
     this.id,
     this.uid,
@@ -33,9 +38,13 @@ class EngineComment {
     this.urls,
     this.displayName,
     this.photoUrl,
+    this.likes,
+    this.dislikes,
   }) {
     if (depth == null) depth = 0;
     if (urls == null) urls = [];
+    if (isEmpty(likes)) likes = 0;
+    if (isEmpty(dislikes)) dislikes = 0;
   }
   factory EngineComment.fromEngineData(Map<dynamic, dynamic> data) {
     return EngineComment(
@@ -54,6 +63,8 @@ class EngineComment {
 
       displayName: data['displayName'],
       photoUrl: data['photoUrl'],
+      likes: data['likes'],
+      dislikes: data['dislikes'],
     );
   }
 

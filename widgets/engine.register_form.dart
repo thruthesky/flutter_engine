@@ -136,7 +136,7 @@ class _EngineRegisterFromState extends State<EngineRegisterFrom> {
         ef.notLoggedIn
             ? TextField(
                 controller: _emailController,
-          keyboardType: TextInputType.emailAddress,
+                keyboardType: TextInputType.emailAddress,
                 onSubmitted: (text) {},
                 decoration: InputDecoration(
                   hintText: t('input email'),
@@ -184,18 +184,20 @@ class _EngineRegisterFromState extends State<EngineRegisterFrom> {
               minTime: DateTime(1940, 1, 1),
               maxTime: DateTime(2020, 1, 1),
               onChanged: (date) {
-                print('change $date');
+                // print('change $date');
               },
               onConfirm: (date) {
                 print('confirm $date');
                 String ymd =
                     date.toString().split(' ').elementAt(0).split('-').join('');
-                print('ymd: $ymd');
+                // print('ymd: $ymd');
                 setState(() {
                   _birthdayController.text = ymd;
                 });
               },
-              currentTime: DateTime.parse(_birthdayController.text),
+              currentTime: DateTime.parse(isEmpty(_birthdayController.text)
+                  ? '20000101'
+                  : _birthdayController.text),
               locale: enumValueFromString(appLanguageCode(), LocaleType.values),
             );
           },
@@ -210,7 +212,7 @@ class _EngineRegisterFromState extends State<EngineRegisterFrom> {
           onPressed: () async {
             /// 전송 버튼
             if (inSubmit) return;
-            if ( _birthdayController.text.length != 8 ) {
+            if (_birthdayController.text.length != 8) {
               alert(t(BIRTHDAY_8_DIGITS));
               return;
             }

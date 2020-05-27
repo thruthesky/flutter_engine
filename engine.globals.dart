@@ -228,3 +228,11 @@ redirect(String route, {arguments}) {
     arguments: arguments,
   );
 }
+
+
+/// Returns true if [obj] is one of null, false, empty string, or 0.
+bool isEmpty(obj) {
+  return obj == null || obj == '' || obj == false || obj == 0;
+}
+
+

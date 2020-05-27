@@ -8,7 +8,19 @@ class EngineSpace extends StatelessWidget {
       height: 8.0,
     );
   }
-}class EngineBigSpace extends StatelessWidget {
+}
+
+class EngineHalfSpace extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      width: 4.0,
+      height: 4.0,
+    );
+  }
+}
+
+class EngineBigSpace extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
@@ -27,4 +39,3 @@ class EnginePageSpace extends StatelessWidget {
     );
   }
 }
-

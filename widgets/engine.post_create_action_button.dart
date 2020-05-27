@@ -19,12 +19,13 @@ class EnginePostCreateActionButton extends StatelessWidget {
     return GestureDetector(
       child: Icon(Icons.add),
       onTap: () async {
+        if (ef.notLoggedIn) return alert(t(LOGIN_FIRST));
         EnginePost _post = await openDialog(
           EnginePostEditForm(id: id),
         );
         if (_post == null) return;
 
-        forum.addPost(_post);
+        if (forum != null) forum.addPost(_post);
 
         /// 글 작성/수정 후, 첫번째 카테고리로 이동
         return redirect(

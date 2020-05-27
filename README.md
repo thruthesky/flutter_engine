@@ -202,3 +202,14 @@ class ... extends State<EngineLatestPosts> {
     super.initState();
   }
 ```
+
+
+## 알려진 문제점
+
+### 성능 문제
+
+* `Clould Functions` 자체가 느리다. 특히 K8s 나 AWS Lamda 와 많이 비교되고 있는데, `Clould Functions`가 다른 것들에 비해서 월등히 느리다. 그리고 사용자가 확실히 체감 할 수 있을 정도로 느리다.
+  * 그래서 서버를 사용자와 가까운 서버를 두는 것이 매우 중요하다.
+  * 적어도 개발 중에 플러터 앱으로 테스트 할 때에는 매우 심각한 성능 저하 및 `Resources exhausted` 에러가 끊임 없이 발생하고 있다.
+  * 그래서 성능을 일부 향상 시키기 위해서, `settings.ts` 에서 `
+

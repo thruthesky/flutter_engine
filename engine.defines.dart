@@ -37,6 +37,7 @@ const String COMMENT_CONTENT_DELETED = 'comment-content-deleted';
 const String NO_TITLE = 'no title';
 const String ALREADY_DELETED = 'already deleted';
 const String NOT_MINE = 'not mine';
+const String CANNOT_VOTE_ON_MINE = 'cannot-post-on-mine';
 
 const String ERROR_CAMERA_PERMISSION = 'permission-error-no-access-to-camera';
 

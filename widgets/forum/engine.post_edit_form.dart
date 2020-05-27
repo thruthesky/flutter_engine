@@ -70,7 +70,7 @@ class _EnginePostEditFormState extends State<EnginePostEditForm> {
 
   initLoadCategories() async {
     categoryList = await ef.categoryList();
-    setState(() => null);
+    if (mounted) setState(() => null);
   }
 
   getFormData() {

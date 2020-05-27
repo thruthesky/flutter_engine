@@ -249,9 +249,17 @@ const Map<String, Map<String, String>> textTranslations = {
     'ko': '글 작성',
     'en': 'Post Create',
   },
+  ALREADY_DELETED: {
+    'ko': '이미 삭제된 글입니다.',
+    'en': 'This post has deleted alredy.'
+  },
   NOT_MINE: {
     'ko': '회원님께서 작성한 정보(데이터)가 아닙니다.',
     'en': 'This is not your information(data).'
+  },
+  CANNOT_VOTE_ON_MINE: {
+    'ko': '본인의 글(또는 코멘트)에 투표를 할 수 없습니다.',
+    'en': 'You cannot vote on your own post(or comment).',
   },
 };
 

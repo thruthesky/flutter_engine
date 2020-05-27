@@ -1,4 +1,7 @@
+import 'package:clientf/flutter_engine/engine.globals.dart';
+import 'package:clientf/flutter_engine/widgets/engine.user_photo.dart';
 import 'package:flutter/material.dart';
+import 'package:time_formatter/time_formatter.dart';
 
 import '../../engine.comment.helper.dart';
 import 'engine.display_uploaded_images.dart';
@@ -22,10 +25,26 @@ class EngineCommentViewContent extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
+            Row(
+              children: <Widget>[
+                EngineUserPhoto(
+                  comment.photoUrl,
+                  onTap: () => alert('tap'),
+                ),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      Text('author: ' + (comment.displayName ?? comment.uid)),
+                      Text('created: ' + formatTime(comment.createdAt)),
+                    ],
+                  ),
+                ),
+              ],
+            ),
             EngineDisplayUploadedImages(
               comment,
             ),
-            Text('author: ' + (comment.displayName ?? comment.uid) ),
             Text(comment.content),
           ],
         ),

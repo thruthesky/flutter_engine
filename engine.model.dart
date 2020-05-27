@@ -413,25 +413,24 @@ class EngineModel extends ChangeNotifier {
         {'route': 'category.removeUrl', 'id': id, 'url': url});
   }
 
-
-   /// @deprecated
+  /// @deprecated
   Future postAddUrl(String id, String url) async {
     return await callFunction({'route': 'post.addUrl', 'id': id, 'url': url});
   }
 
-   /// @deprecated
+  /// @deprecated
   Future postRemoveUrl(String id, String url) async {
     return await callFunction(
         {'route': 'post.removeUrl', 'id': id, 'url': url});
   }
 
-   /// @deprecated
+  /// @deprecated
   Future commentAddUrl(String id, String url) async {
     return await callFunction(
         {'route': 'comment.addUrl', 'id': id, 'url': url});
   }
 
-   /// @deprecated
+  /// @deprecated
   Future commentRemoveUrl(String id, String url) async {
     return await callFunction(
         {'route': 'comment.removeUrl', 'id': id, 'url': url});
@@ -452,5 +451,12 @@ class EngineModel extends ChangeNotifier {
   bool isMine(obj) {
     if (obj == null || obj.uid == null) return false;
     return obj.uid == user.uid;
+  }
+
+  Future postLike(data) async {
+    return await callFunction({'route': 'post.like', 'data': data});
+  }
+  Future commentLike(data) async {
+    return await callFunction({'route': 'comment.like', 'data': data});
   }
 }
