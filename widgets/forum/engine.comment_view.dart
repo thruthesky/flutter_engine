@@ -1,6 +1,6 @@
+import 'package:clientf/flutter_engine/engine.firestore_forum_list.model.dart';
 import 'package:clientf/flutter_engine/widgets/engine.text_button.dart';
 
-import '../../engine.forum_list.model.dart';
 import './engine.comment_edit_form.dart';
 import './engine.comment_view_content.dart';
 import 'package:provider/provider.dart';
@@ -26,8 +26,8 @@ class EngineCommentView extends StatelessWidget {
   Widget build(BuildContext context) {
     if (comment == null) return SizedBox.shrink();
 
-    EngineForumListModel forum =
-        Provider.of<EngineForumListModel>(context, listen: false);
+    EngineFirestoreForumModel forum =
+        Provider.of<EngineFirestoreForumModel>(context, listen: false);
     return Container(
       width: double.infinity,
       padding: EdgeInsets.all(8.0),
@@ -63,7 +63,7 @@ class EngineCommentButtons extends StatefulWidget {
   // final Function onUpdate;
   // final Function onDelete;
   final EnginePost post;
-  final EngineForumListModel forum;
+  final EngineFirestoreForumModel forum;
   final EngineComment comment;
 
   @override

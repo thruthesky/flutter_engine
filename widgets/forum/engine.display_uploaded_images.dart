@@ -1,3 +1,5 @@
+import 'package:clientf/flutter_engine/engine.defines.dart';
+
 import '../../engine.globals.dart';
 
 import '../../engine.storage.dart';
@@ -26,6 +28,10 @@ class _EngineDisplayUploadedImagesState
     extends State<EngineDisplayUploadedImages> {
   @override
   Widget build(BuildContext context) {
+    if (widget.doc?.content == POST_CONTENT_DELETED ||
+        widget.doc?.content == COMMENT_CONTENT_DELETED) {
+      return SizedBox.shrink();
+    }
     if (widget.doc.urls == null || widget.doc.urls.length == 0)
       return SizedBox.shrink();
     return GridView.builder(

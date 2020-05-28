@@ -1,3 +1,5 @@
+import 'package:clientf/flutter_engine/engine.firestore_forum_list.model.dart';
+
 import '../engine.text_button.dart';
 
 import './engine.comment_edit_form.dart';
@@ -5,7 +7,6 @@ import './engine.post_edit_form.dart';
 
 import '../../engine.comment.helper.dart';
 import '../../engine.defines.dart';
-import '../../engine.forum_list.model.dart';
 import '../../engine.globals.dart';
 import '../../engine.post.helper.dart';
 import './engine.comment_view.dart';
@@ -13,19 +14,25 @@ import './engine.post_item_content.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class EnginePostView extends StatelessWidget {
+class EnginePostView extends StatefulWidget {
   EnginePostView(this.post);
   final EnginePost post;
+
+  @override
+  _EnginePostViewState createState() => _EnginePostViewState();
+}
+
+class _EnginePostViewState extends State<EnginePostView> {
   @override
   Widget build(BuildContext context) {
     return Column(
       children: <Widget>[
-        EnginePostItemContent(post),
-        EnginePostViewButtons(post),
-        if (post.comments != null)
-          for (var c in post.comments)
+        EnginePostItemContent(widget.post),
+        EnginePostViewButtons(widget.post),
+        if (widget.post.comments != null)
+          for (var c in widget.post.comments)
             EngineCommentView(
-              post,
+              widget.post,
               c,
               key: ValueKey(c.id ?? randomString()),
             ),
@@ -52,8 +59,8 @@ class _EnginePostViewButtonsState extends State<EnginePostViewButtons> {
   bool inDisike = false;
   @override
   Widget build(BuildContext context) {
-    EngineForumListModel forum =
-        Provider.of<EngineForumListModel>(context, listen: false);
+    EngineFirestoreForumModel forum =
+        Provider.of<EngineFirestoreForumModel>(context, listen: false);
     return Row(
       children: <Widget>[
         EngineTextButton(

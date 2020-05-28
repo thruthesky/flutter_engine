@@ -15,9 +15,13 @@ class EnginePostItemContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    if ( post == null ) return SizedBox.shrink();
     // print('EnginepostItem content: $post');
     // String dt = DateTime.fromMillisecondsSinceEpoch(post.createdAt).toLocal().toString();
-    String formatted = formatTime(post.createdAt);
+    
+    
+    // String formatted = formatTime(post.createdAt);
+    int formatted = post.createdAt;
     return Container(
       width: double.infinity,
       child: Column(
@@ -25,10 +29,10 @@ class EnginePostItemContent extends StatelessWidget {
         children: <Widget>[
           Row(
             children: <Widget>[
-              EngineUserPhoto(
-                post.photoUrl,
-                onTap: () => alert('tap'),
-              ),
+              // EngineUserPhoto(
+              //   post.photoUrl,
+              //   onTap: () => alert('tap'),
+              // ),
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -37,7 +41,7 @@ class EnginePostItemContent extends StatelessWidget {
                       '${post.title}',
                       style: TextStyle(fontSize: 24),
                     ),
-                    Text('author: ' + (post.displayName ?? post.uid)),
+                    Text('author: ' + (post.displayName ?? post.uid ?? '')),
                     Text('created: $formatted'),
                   ],
                 ),

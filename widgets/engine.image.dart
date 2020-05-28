@@ -7,6 +7,13 @@ class EngineImage extends StatelessWidget {
   final String url;
   @override
   Widget build(BuildContext context) {
+
+
+    if (url.indexOf('http') != 0) return Icon(Icons.error);
+
+
+    // print('egine image url: $url');
+
     return CachedNetworkImage(
       imageUrl: url,
       fit: BoxFit.cover,
