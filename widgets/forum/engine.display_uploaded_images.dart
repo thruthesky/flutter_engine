@@ -1,6 +1,6 @@
 import '../../engine.globals.dart';
 
-import '../../engine.firestore.dart';
+import '../../engine.storage.dart';
 import '../engine.image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
@@ -91,7 +91,7 @@ class _DeleteIconState extends State<DeleteIcon> {
           inLoading = true;
         });
         try {
-          await EngineFirestore(widget.doc).delete(widget.url);
+          await EngineStorage(widget.doc).delete(widget.url);
         } catch (e) {
           // print(e);
           alert(e);

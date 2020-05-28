@@ -1,4 +1,4 @@
-import '../engine.firestore.dart';
+import '../engine.storage.dart';
 import '../engine.globals.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
@@ -58,7 +58,7 @@ class EngineUploadIcon extends StatelessWidget {
     _back(context);
     print('from camea');
     try {
-      String url = await EngineFirestore(doc).pickAndUploadImage(
+      String url = await EngineStorage(doc).pickAndUploadImage(
         context,
         source,
         onUploadComplete: onUploadComplete,
@@ -93,7 +93,7 @@ class EngineUploadIcon extends StatelessWidget {
             //    () async {
             //     back();
             //     try {
-            //       await EngineFirestore(doc).pickAndUploadImage(
+            //       await EngineStorage(doc).pickAndUploadImage(
             //         context,
             //         ImageSource.gallery.index,
             //         onUploadComplete: onUpload,

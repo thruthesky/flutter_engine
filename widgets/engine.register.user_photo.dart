@@ -1,7 +1,7 @@
 import './engine.button.dart';
 import './engine.image.dart';
 
-import '../engine.firestore.dart';
+import '../engine.storage.dart';
 import './engine.space.dart';
 import './engine.text.dart';
 // import 'package:flutter_image/network.dart';
@@ -71,7 +71,7 @@ class _EngineRegisterUserPhotoState extends State<EngineRegisterUserPhoto> {
               if (inDelete) return;
               setState(() => inDelete = true);
               try {
-                await EngineFirestore(widget.user).delete(url);
+                await EngineStorage(widget.user).delete(url);
                 await ef.userUpdate({'photoURL': DELETED_PHOTO}); // @see README
                 setState(() {});
               } catch (e) {

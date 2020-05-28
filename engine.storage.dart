@@ -11,16 +11,16 @@ import 'package:permission_handler/permission_handler.dart';
 
 
 
-/// 사진(파일)을 `Firestore`에 올리고, 삭제 등 전반 적인 관리를 한다.
+/// 사진(파일)을 `Storage`에 올리고, 삭제 등 전반 적인 관리를 한다.
 ///
 /// 이 모듈은 `Engine`과 직접적인 연관이 없다.
 ///
 /// * 사진을 업로드하고 삭제하는 루틴은 `Engine`과 완전히 분리되어져 있다.
 ///
-/// * 이 모듈은 주로 사진을 카메라로 찍거나 갤러리에서 가져와서 Firestore 에 업로드하고 URL 업로드된 이미지의 URL 을 리턴한다.
+/// * 이 모듈은 주로 사진을 카메라로 찍거나 갤러리에서 가져와서 Storage 에 업로드하고 URL 업로드된 이미지의 URL 을 리턴한다.
 ///   이 과정에서 `Engine`과 직접적인 연동은 없다.
 ///
-/// * `Firestore`에 업로드한 사진의 URL 들을 입력 변수 [doc.urls] 배열로 보관하고 `Firestore`에서 삭제를 하면 [doc.urls]를 업데이트한다.
+/// * `Storage`에 업로드한 사진의 URL 들을 입력 변수 [doc.urls] 배열로 보관하고 `Storage`에서 삭제를 하면 [doc.urls]를 업데이트한다.
 ///
 /// * 업로드를 할 때, 업로드 Progressbar 를 표시하고, 사진을 보여주는 Helper class 가 연동되어 사용된다.
 ///
@@ -28,7 +28,7 @@ import 'package:permission_handler/permission_handler.dart';
 ///
 /// * image_picker 플러그인을 설치하고 IDE에 설정.
 /// * firebase_firestore 플러그인을 설치하고 설정.
-/// * Firebase 콘솔에서 해당 프로젝트의 Firestore 생성 및 적절한 권한 설정
+/// * Firebase 콘솔에서 해당 프로젝트의 Storage 생성 및 적절한 권한 설정
 ///
 /// 사진 삭제
 ///
@@ -37,10 +37,10 @@ import 'package:permission_handler/permission_handler.dart';
 /// 참고
 /// * 사용자 사진(프로필 사진)을 등록하면 `Firebase Auth`의 `photoUrl` 속성에 등록되어져야 한다.
 ///   그래서 회원 가입, 정보 수정을 할 때, [doc.urls] 의 URL 을 `photoUrl`로 복사해서 백엔드로 전송을 하면 된다.
-class EngineFirestore {
+class EngineStorage {
   StorageUploadTask uploadTask;
   var doc;
-  EngineFirestore(this.doc);
+  EngineStorage(this.doc);
 
   /// 사진을 선택하고 업로드 한다.
   ///
